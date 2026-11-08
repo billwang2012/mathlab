@@ -61,7 +61,7 @@
   <aside class="sidebar" aria-label="教具场景">
     <div class="sidebar-heading"><span>教具收藏</span><span class="count">10</span></div>
     <nav id="scene-list" aria-label="选择几何模型"></nav>
-    <div class="sidebar-note"><span class="note-line"></span><strong>先动手，再发现。</strong><p>拖一拖点，观察长度。<br>猜到规律后，再展开辅助线。</p><small>交互教具 / v1.4.0</small></div>
+    <div class="sidebar-note"><span class="note-line"></span><strong>先动手，再发现。</strong><p>拖一拖点，观察长度。<br>猜到规律后，再展开辅助线。</p><small>交互教具 / v1.4.1</small></div>
   </aside>
   <main class="main">
     <section class="stage-head"><div><p class="eyebrow" id="scene-eyebrow">01 / 反射与最短路径</p><h1 id="stage-title">将军饮马</h1><p id="scene-description"></p></div><span class="model-badge" id="model-badge">反射模型</span></section>
@@ -88,7 +88,7 @@
   </main>
 </div>
 <div id="announcement" class="sr-only" role="status" aria-live="polite"></div>
-<dialog id="help-dialog"><div class="dialog-head"><h2>把教具搬进浏览器</h2><button id="help-close" class="icon-button" aria-label="关闭说明">×</button></div><p>金色点像实体滑轨上的螺母：只能沿轨道滑动。蓝色点可在布置题目时移动，点击求最优时保持固定。木色连杆的长度会被严格锁定。</p><ul><li>拖动点，或使用右侧滑块；点获得焦点后可按方向键微调，Shift 加速。</li><li>操作按钮和讲解步骤竖排在黑板右侧（手机窄屏时移到黑板下方）：“1 动手观察”“2 构造辅助”之后，用“演示最优位置”完成取等与边界检验。初始、切换场景与“动手观察”均不显示辅助虚线；点击“构造辅助”或勾选“辅助线”后才显示。最优演示不再自动打开辅助线，最佳路线仍由独立按钮主动开启。</li><li>“自动探索”连续移动滑点；手动拖动或调参会暂停。最优演示可随时暂停。</li><li>A、B 的活动范围按题设决定：斜岸场景可在画布内自由布置；单岸场景保留同侧、架桥保留两岸外侧、连续反射保留两镜面之间。限制理由显示在黑板下方，不再使用统一的高度截断。</li><li>“辅助线”先作定点的对称点（或平移点），再画与原路线逐段等长的虚线：两岸作 A 关于 ℓ₁、B 关于 ℓ₂ 的对称点，往返作 A 关于两岸的对称点，连续反射作 A、B 关于下岸的对称点，三动点作 M 关于另两边的对称点。两岸、往返和连续反射场景另在黑板右侧用竖直长度尺把各段长度自下而上首尾拼接，固定零点与比例，顶端升降直接表示总长变化；绿色横虚线是最佳长度数值参考，不表示原反射像始终共线。</li><li>颜色规则：相同长度用相同颜色，不同长度用不同颜色。当前路径每段一种暖色，反射或平移得到的等长线段（如 MB′ 与 MB、AA′ 与 MN）用同色虚线；最佳路线用另一组冷色，规则相同。右侧测量与竖直长度尺也用同样的颜色。</li><li>“显示最佳路线”叠加冷色粗虚线和 M*、N* 等参考点，当前滑点不变；打开辅助线时，还会把最佳点与反射/平移像（如 B′）用细绿虚线连成直线，与红色辅助线直接对比。再次点击即可隐藏。改动题目条件时参考路线自动更新。</li><li>“演示最优”区分解析构造与数值参考。有限轨道和定长杆都是真实约束；垂线最短场景在垂线交点超出滑轨时取端点。</li></ul><h3>与照片的对应范围</h3><p>实现了将军饮马、两动点往返、定长段、架桥、斜岸连杆、三动点、加权胡不归等机制。照片部分缩略图只给标题，没有完整题设；本页以明确条件的标准模型补齐十个场景。“连续反射·等角观察”不冒充原商品“一线三等角”的唯一构造。</p><p class="muted">网页不使用外部脚本、字体、图片、账号或数据上传。可直接打开同目录的单文件 HTML。桌面全屏需浏览器支持；未支持时可使用浏览器自带全屏。</p></dialog>
+<dialog id="help-dialog"><div class="dialog-head"><h2>把教具搬进浏览器</h2><button id="help-close" class="icon-button" aria-label="关闭说明">×</button></div><p>金色点像实体滑轨上的螺母：只能沿轨道滑动。蓝色点可在布置题目时移动，点击求最优时保持固定。木色连杆的长度会被严格锁定。</p><ul><li>拖动点，或使用右侧滑块；点获得焦点后可按方向键微调，Shift 加速。</li><li>操作按钮和讲解步骤竖排在黑板右侧（手机窄屏时移到黑板下方）：“1 动手观察”“2 构造辅助”之后，用“演示最优位置”完成取等与边界检验。初始、切换场景与“动手观察”均不显示辅助虚线；点击“构造辅助”或勾选“辅助线”后才显示。最优演示不再自动打开辅助线，最佳路线仍由独立按钮主动开启。</li><li>“自动探索”连续移动滑点；手动拖动或调参会暂停。最优演示可随时暂停。</li><li>A、B 的活动范围按题设决定：斜岸场景可在画布内自由布置；单岸场景保留同侧、架桥保留两岸外侧、连续反射保留两镜面之间。限制理由显示在黑板下方，不再使用统一的高度截断。</li><li>“辅助线”先作定点的对称点（或平移点），再画与原路线逐段等长的虚线：两岸作 A 关于 ℓ₁、B 关于 ℓ₂ 的对称点，往返作 A 关于两岸的对称点，连续反射作 A、B 关于下岸的对称点，三动点作 M 关于另两边的对称点 M′、M″；因为 M′、M″ 随 M 移动，还要第二步：CM′ = CM = CM″（绿色虚线），∠M′CM″ = 2∠C 恒定，所以 M′M″ = 2·CM·sin C，CM 取垂线段 CH 时最短，M 必为垂足（对 N、P 同理），即垂足三角形。两岸、往返和连续反射场景另在黑板右侧用竖直长度尺把各段长度自下而上首尾拼接，固定零点与比例，顶端升降直接表示总长变化；绿色横虚线是最佳长度数值参考，不表示原反射像始终共线。</li><li>颜色规则：相同长度用相同颜色，不同长度用不同颜色。当前路径每段一种暖色，反射或平移得到的等长线段（如 MB′ 与 MB、AA′ 与 MN）用同色虚线；最佳路线用另一组冷色，规则相同。右侧测量与竖直长度尺也用同样的颜色。</li><li>“显示最佳路线”叠加冷色粗虚线和 M*、N* 等参考点，当前滑点不变；打开辅助线时，还会把最佳点与反射/平移像（如 B′）用细绿虚线连成直线，与红色辅助线直接对比。再次点击即可隐藏。改动题目条件时参考路线自动更新。</li><li>“演示最优”区分解析构造与数值参考。有限轨道和定长杆都是真实约束；垂线最短场景在垂线交点超出滑轨时取端点。</li></ul><h3>与照片的对应范围</h3><p>实现了将军饮马、两动点往返、定长段、架桥、斜岸连杆、三动点、加权胡不归等机制。照片部分缩略图只给标题，没有完整题设；本页以明确条件的标准模型补齐十个场景。“连续反射·等角观察”不冒充原商品“一线三等角”的唯一构造。</p><p class="muted">网页不使用外部脚本、字体、图片、账号或数据上传。可直接打开同目录的单文件 HTML。桌面全屏需浏览器支持；未支持时可使用浏览器自带全屏。</p></dialog>
 <script>(function (root, factory) {
   const api = factory();
   if (typeof module === 'object' && module.exports) module.exports = api;
@@ -119,7 +119,7 @@
     {id:'fixed',title:'两动点 · 定长段',subtitle:'两动两定 · 平移再反射',tag:'定长',formula:'AM + MN + NB',goal:'最小值',description:'M、N 在同一直线上，N 在 M 右侧且 MN = d。拖动其中一点，另一点由刚性连杆带动。',steps:['金色木杆 MN 长度锁定为 d，拖动 M 或 N，两个点会同步平移。','将 A 向右平移 d 得 A′，AMNA′ 是平行四边形，所以 AM = A′N（虚线 A′N 与 AM 同色）。目标变为 A′N + NB + d。','再将 A′ 关于河岸反射为 A″，A′N = A″N。A″、N、B 共线时，两段变一段；最后别忘记加回 d。打开“显示最佳路线”可对比 A′N* = AM*。','若直线交点超出有效滑轨，最近端点才是可达最优。d 滑块改变的是题目条件，不是拖动时的杆长。']},
     {id:'bridge',title:'架桥选址',subtitle:'平行两岸 · 平移消去桥宽',tag:'架桥',formula:'AM + MN + NB',goal:'最小值',description:'两岸平行，桥 MN 垂直河岸且长度等于河宽 d。移动桥的位置，让两侧道路与桥的总长最短。',steps:['桥两端始终竖直对齐，MN = d。拖动任一桥头只能让桥整体平移。','将下岸的 B 向上平移 d 得 B′，把下岸道路 NB 平移到上岸，长度不变。','于是 AM + MN + NB = AM + MB′ + d。只需让 A、M、B′ 共线。','桥长 d 是常数，不参与位置优化，但必须计入总路程；有限滑轨仍需检查边界。']},
     {id:'perpendicular',title:'垂线最短',subtitle:'两动一定 · 反射后作垂线',tag:'垂线',formula:'AM + MN',goal:'最小值',description:'A 为定点，M 沿斜岸 ℓ₁、N 沿水平岸 ℓ₂ 各自滑动（对应教具照片中的 B、C）。M、N 在何处时 AM + MN 最短？',steps:['分别拖动 M、N，观察 AM + MN。两点互不牵连；夹角滑块改变两岸的位置关系。','作 A 关于 ℓ₁ 的对称点 A′，则 AM = A′M，红线 A′M + MN 与黄线 AM + MN 等长。终点 N 不固定，所以还不能直接连两点。','A′M + MN ≥ A′N（两点之间线段最短），A′N ≥ A′H（点到直线，垂线段最短），H 是 A′ 到 ℓ₂ 的垂足。A′H 与 ℓ₁ 的交点就是最优 M，H 就是最优 N。','两次取等同时成立需要 A′H 与 ℓ₁ 的交点落在有效滑轨上；否则最小值在滑轨端点处取得。本页按解析公式给出最优位置，并检查端点。']},
-    {id:'triangle',title:'三动点 · 最小周长',subtitle:'锐角三角形 · 垂足三角形',tag:'三动点',formula:'MN + NP + PM',goal:'最小值',description:'M、N、P 分别在锐角三角形 ABC 的三边上移动，寻找内接三角形的最小周长。',steps:['拖动三个滑点，观察内接三角形的周长。外部 ABC 始终保持锐角，避免跨出定理适用范围。','先固定 M：作 M 关于 BC 的对称点 M′、关于 CA 的对称点 M″，则 MN = M′N、PM = PM″，周长 = 虚线 M′N + NP + PM″ ≥ M′M″（同色即等长）。','M 固定时，N、P 取在 M′M″ 与两边的交点最优；再移动 M 让 M′M″ 最短。Fagnano 定理：锐角三角形中，结果就是垂足三角形。点击“显示最佳路线”，冷色虚线即为垂足三角形对照。','点击“演示最优”使 M、N、P 到达垂足。数值和动态画面用于核验与观察，不替代定理证明。']},
+    {id:'triangle',title:'三动点 · 最小周长',subtitle:'锐角三角形 · 垂足三角形',tag:'三动点',formula:'MN + NP + PM',goal:'最小值',description:'M、N、P 分别在锐角三角形 ABC 的三边上移动，寻找内接三角形的最小周长。',steps:['拖动三个滑点，观察内接三角形的周长。外部 ABC 始终保持锐角，避免跨出定理适用范围。','第一步（先固定 M）：作 M 关于 BC 的对称点 M′、关于 CA 的对称点 M″，则 MN = M′N、PM = PM″，周长 = M′N + NP + PM″ ≥ M′M″。但 M′、M″ 会随 M 移动，所以还要第二步：BC、CA 都过 C，反射保持到 C 的距离，CM′ = CM = CM″（绿色虚线同色等长）；∠M′CM = 2∠BCM、∠MCM″ = 2∠MCA，合起来 ∠M′CM″ = 2∠C，与 M 无关。等腰三角形 CM′M″ 的底边 M′M″ = 2·CM·sin∠C，只随 CM 变化。','要让 M′M″ 最短，只需 CM 最短：CM ≥ CH（垂线段最短），H 是 C 到 AB 的垂足，所以最优 M 就是 H；此时 N、P 取 M′M″ 与 BC、CA 的交点。若最小周长三角形的 M 不在 H，把 M 移到 H 并重取 N、P，周长会严格变小，矛盾。对 N（以 A 为顶点、关于 AB 与 CA 反射）、P（以 B 为顶点）同样论证，三个点都必须是垂足：最小周长三角形就是垂足三角形（Fagnano）。','锐角条件保证 2∠C < 180°，且 M′M″ 与 BC、CA 的交点落在边上，取等可达。点击“显示最佳路线”可对照 CM* ⊥ AB；“演示最优位置”让 M、N、P 到达三个垂足。']},
     {id:'bounces',title:'连续反射 · 等角观察',subtitle:'三次接触 · 平行镜面',tag:'等角',formula:'AM + MN + NP + PB',goal:'最小值',description:'路线依次接触下岸、上岸、下岸。用明确的平行镜面模型观察最短路径处的入射角与反射角。',steps:['依次拖动 M、N、P，三次接触顺序保持不变。与照片简写不同，本页明确采用平行镜面标准模型。','作 A、B 关于下岸的对称点 A′、B′，则 AM = A′M、PB = PB′，虚线 A′M + MN + NP + PB′ 与原路线逐段等长（同色即等长）。下方长度尺把四段首尾拼成直线。','A′、M、N 共线且 N、P、B′ 共线时，路程化为 A′N + NB′，变成以上岸为河岸的将军饮马；再作 B′ 关于上岸的对称点 B″，最小值就是 A′B″。最优位于轨道内部时，每次接触都入射角等于反射角。','点击参考位置查看各接触点相对法线的角度。边界最优时，不应强求等角条件。']},
     {id:'weighted',title:'胡不归 · 加权路径',subtitle:'不同代价 · 不能直接拉直',tag:'加权',formula:'k · AM + MB',goal:'最小值',description:'同样长度的两段路，单位代价不同。0 < k < 1，最小化加权路程，而不是普通长度和。',steps:['拖动 M，左段长度按系数 k 计入；金线几何长度与目标数值不再相同。','普通镜像只保持真实长度，不能直接把 k·AM + MB 当成两段等长折线。','本页对完整的双定点加权模型做有界凸优化。它不同于某些带额外条件、可作辅助线化直的胡不归题型。','k 改变时，参考点会移动。最优处满足 k·(Mx−Ax)/AM + (Mx−Bx)/MB = 0，若在边界则检查单侧条件。']}
   ];
@@ -185,7 +185,7 @@
   function setParam(s,key,value){if(!controls(s).some(c=>c.key===key)||!Number.isFinite(value))return;s.params[key]=value;normalize(s);}
   function evaluate(s) {
     const t=tracks(s),p=s.params,id=s.id;
-    const points={A:{...s.anchors.A},B:{...s.anchors.B}}, handles=[], ghosts=[],guides=[],links=[],rightAngles=[],frame=[],twins=[];
+    const points={A:{...s.anchors.A},B:{...s.anchors.B}}, handles=[], ghosts=[],guides=[],links=[],rightAngles=[],frame=[],twins=[],arcs=[];let info=null;
     let path=[],red=[],extra=0,formula=byId(id).formula;
     const slide=(key,track)=>{points[key.toUpperCase()]=mix(track.a,track.b,p[key]);handles.push({id:key.toUpperCase(),type:'slider',param:key});};
     if(id==='triangle'){
@@ -193,6 +193,13 @@
       ['m','n','p'].forEach((key,i)=>slide(key,t[i]));path=[points.M,points.N,points.P,points.M];
       const m1=reflect(points.M,t[1].a,t[1].b),m2=reflect(points.M,t[2].a,t[2].b);
       ghosts.push({id:'M′',p:m1},{id:'M″',p:m2});guides.push([points.M,m1],[points.M,m2]);red=[m1,points.N,points.P,m2];
+      // 第二步：CM′ = CM = CM″，∠M′CM″ = 2∠C 恒定 ⇒ M′M″ = 2·CM·sin C；CM ≥ CH（H 为 C 到 AB 的垂足）。
+      const C=points.C,h=mix(t[0].a,t[0].b,clamp(projection(C,t[0].a,t[0].b),0,1)),u=sub(points.A,C),v=sub(points.B,C);
+      const angleC=Math.acos(clamp(dot(u,v)/(Math.hypot(u.x,u.y)*Math.hypot(v.x,v.y)),-1,1)),ab=sub(t[0].b,t[0].a),abLen=Math.hypot(ab.x,ab.y),hc=sub(C,h),hcLen=Math.hypot(hc.x,hc.y);
+      if(dist(points.M,h)>.08)ghosts.push({id:'H',p:h});guides.push([m1,m2],[C,h]);twins.push({a:C,b:points.M,seg:3},{a:C,b:m1,seg:3},{a:C,b:m2,seg:3});
+      if(hcLen>1e-9)rightAngles.push({at:h,u:mul(hc,1/hcLen),v:mul(ab,-1/abLen)});
+      arcs.push({at:C,from:m1,to:m2,through:points.M,label:'2∠C'});
+      info={cm:dist(C,points.M),ch:hcLen,angleC,base:dist(m1,m2)};
       frame.push(...[t[0].a,t[0].b].flatMap(v=>[reflect(v,t[1].a,t[1].b),reflect(v,t[2].a,t[2].b)]));
     }else if(id==='fixed'){
       points.M=pt(t[0].a.x+p.m*(t[0].b.x-t[0].a.x-p.d),4.8);points.N=add(points.M,pt(p.d,0));
@@ -228,7 +235,7 @@
     const parts=path.slice(1).map((v,i)=>({label:id==='triangle'?['MN','NP','PM'][i]:['AM',path.length===3?'MB':'MN',path.length===4?'NB':'NP','PB'][i],length:dist(path[i],v),weight:id==='weighted'&&i===0?p.weight:1}));
     if(id==='return')parts[2].label='NA';
     if(id==='perpendicular')parts[1].label='MN';
-    return {points,tracks:t,handles,ghosts,guides,links,rightAngles,frame,twins,path,red,parts,formula,value,transformedValue:red.length?length(red)+extra:null,extra};
+    return {points,tracks:t,handles,ghosts,guides,links,rightAngles,frame,twins,arcs,info,path,red,parts,formula,value,transformedValue:red.length?length(red)+extra:null,extra};
   }
   function move(s,id,pos) {
     if(!Number.isFinite(pos.x)||!Number.isFinite(pos.y))return;
@@ -330,7 +337,7 @@
     const scene=meta(),index=G.scenes.indexOf(scene)+1;
     $('stage-title').textContent=scene.title;$('scene-eyebrow').textContent=`${String(index).padStart(2,'0')} / ${scene.subtitle}`;$('scene-description').textContent=scene.description;$('model-badge').textContent=`${scene.tag}模型`;
     $('discovery-index').textContent=`观察 ${String(index).padStart(2,'0')}`;
-    const prompts={classic:['什么时候，两段路变成一段？','先猜一猜最短的位置，再打开辅助线验证。'],difference:['目标变了，方法也要变。','距离差与距离和的取等条件并不相同。'],fixed:['连杆动了，长度没变。','把固定的一段平移掉，再反射，就少了一个动点。'],bridge:['桥有多宽，先平移多远。','桥长是常数，平移连接的是桥两侧的道路。'],perpendicular:['终点不固定时，最短是什么？','先把 A 反射到 A′；剩下的是“点到直线”——垂线段最短。'],triangle:['三个垂足，有什么特殊？','保持外三角形锐角，观察垂足三角形的周长。'],weighted:['短一点，未必更省。','拖动 k 看看：便宜的路与昂贵的路怎么分配？'],bounces:['镜面不同，角度会怎样？','最优在轨道内部时，再比较各接触点的入射与反射角。']};
+    const prompts={classic:['什么时候，两段路变成一段？','先猜一猜最短的位置，再打开辅助线验证。'],difference:['目标变了，方法也要变。','距离差与距离和的取等条件并不相同。'],fixed:['连杆动了，长度没变。','把固定的一段平移掉，再反射，就少了一个动点。'],bridge:['桥有多宽，先平移多远。','桥长是常数，平移连接的是桥两侧的道路。'],perpendicular:['终点不固定时，最短是什么？','先把 A 反射到 A′；剩下的是“点到直线”——垂线段最短。'],triangle:['三个垂足，有什么特殊？','M′、M″ 跟着 M 动——盯住 CM：M′M″ = 2·CM·sin C。'],weighted:['短一点，未必更省。','拖动 k 看看：便宜的路与昂贵的路怎么分配？'],bounces:['镜面不同，角度会怎样？','最优在轨道内部时，再比较各接触点的入射与反射角。']};
     const prompt=prompts[id]||['反射一次不够，试试两次。','红线与黄线等长，直线交点还必须位于有效滑轨内。'];
     $('discovery-title').textContent=prompt[0];$('discovery-text').textContent=prompt[1];
     $('red-legend').textContent=id==='weighted'?'构造辅助线':id==='difference'?'定长 AB 上界':'对称点虚线 · 同色即等长';
@@ -379,7 +386,7 @@
     if(['fixed','bridge'].includes(state.id))status=`定长校验 MN = ${fmt(G.dist(model.points.M,model.points.N))}，d = ${fmt(state.params.d)}`;
     if(state.id==='perpendicular'){const ap=model.ghosts[0].p,h=model.ghosts[1].p;status=`垂线段 A′H = ${fmt(G.dist(ap,h))}（下界）；${reference.note.includes('端点')?'交点超出滑轨，最小值取在端点':'取等点在有效滑轨内'}`;}
     if(state.id==='difference')status=`理论上界 AB = ${fmt(G.dist(model.points.A,model.points.B))}，不保证取到`;
-    if(state.id==='triangle')status='ABC 始终为锐角三角形';
+    if(state.id==='triangle'){const f=model.info;status=`M′M″ = 2·CM·sin∠C = 2 × ${fmt(f.cm)} × sin ${fmt(f.angleC*180/Math.PI,1)}° = ${fmt(f.base)}；CM ≥ CH = ${fmt(f.ch)}（垂线段最短）`;}
     if(state.id==='weighted')status='加权代价，不是金线的几何总长度';
     if(state.id==='bounces'){
       const a=model.path;const pairs=[1,2,3].map(i=>[a[i-1],a[i+1]].map(v=>Math.atan2(Math.abs(v.x-a[i].x),Math.abs(v.y-a[i].y))*180/Math.PI));
@@ -466,6 +473,13 @@
     if(showHelpers)for(const mark of model.rightAngles||[]){
       const k=.28,q=[add(mark.at,{x:mark.u.x*k,y:mark.u.y*k}),add(mark.at,{x:(mark.u.x+mark.v.x)*k,y:(mark.u.y+mark.v.y)*k}),add(mark.at,{x:mark.v.x*k,y:mark.v.y*k})].map(p);
       create('polyline',{class:'right-angle-mark',points:q.map(v=>`${v.x},${v.y}`).join(' '),fill:'none',stroke:'#a4c6b1','stroke-width':1.6});
+    }
+    if(showHelpers)for(const arc of model.arcs||[]){
+      const c=p(arc.at),ang=v=>{const q=p(v);return Math.atan2(q.y-c.y,q.x-c.x);},norm=d=>Math.atan2(Math.sin(d),Math.cos(d));
+      const mid=ang(arc.through),d1=norm(ang(arc.from)-mid),d2=norm(ang(arc.to)-mid),r=46,pts=[];
+      for(let i=0;i<=32;i++){const a=mid+d1+(d2-d1)*i/32;pts.push(`${c.x+r*Math.cos(a)},${c.y+r*Math.sin(a)}`);}
+      create('polyline',{class:'angle-arc',points:pts.join(' '),fill:'none',stroke:'#b9d77a','stroke-width':1.8});
+      const a=mid+d2*.28;create('text',{x:c.x+(r+26)*Math.cos(a),y:c.y+(r+26)*Math.sin(a)+5,fill:'#cfe3a8','font-size':15,'text-anchor':'middle','paint-order':'stroke',stroke:'#1a3e35','stroke-width':4},layer,arc.label);
     }
     let bestModel=null;
     if(showBestRoute){
