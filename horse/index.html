@@ -19,6 +19,26 @@
 .legend-rope.multi{height:3px;background:linear-gradient(90deg,#f1cd6f 0 50%,#f2917c 50% 100%)}
 .legend-rope.multi.dashed{height:2px;background:repeating-linear-gradient(90deg,#f1cd6f 0 4px,transparent 4px 7px,#f2917c 7px 11px,transparent 11px 14px)}
 .legend-rope.best{height:3px;border:0;background:repeating-linear-gradient(90deg,#91e3be 0 5px,transparent 5px 8px,#7cc4f5 8px 13px,transparent 13px 16px)}
+/* v1.4 布局：黑板在左，操作工具栏竖排在右 */
+.canvas-body{display:grid;grid-template-columns:minmax(0,1fr) 176px;align-items:stretch}
+.board-column{min-width:0;display:flex;flex-direction:column;background:#133128}
+.board-column .board-wrap{flex:0 0 auto}
+.board-column .canvas-legend{background:var(--board)}
+.board-column .drag-tip{flex:1 0 auto;padding-top:8px}
+#board{min-height:300px;max-height:620px}
+.board-corner{right:auto;left:20px}
+.transport{flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:8px;padding:18px 14px 16px;border-left:1px solid #2a5143}
+.transport .rail-label{font-size:10px;letter-spacing:1px;color:#8eac97;margin-top:4px}
+.transport #step-tabs{flex-direction:column;flex-wrap:nowrap;gap:6px}
+.transport .step-tab{width:100%;text-align:left;font-size:11px}
+.transport-actions{flex-direction:column;flex-wrap:nowrap;align-items:stretch;gap:8px}
+.transport .primary-button,.transport .secondary-button{width:100%;white-space:nowrap}
+.rail-row{display:flex;gap:8px}
+.rail-row #play-button{flex:1;width:auto}
+.transport .speed-control{display:flex;margin-top:auto;padding-top:10px}
+.transport .speed-control input{flex:1;width:auto;min-width:0}
+@media(max-width:1200px){.canvas-body{grid-template-columns:minmax(0,1fr) 150px}.transport{padding:14px 10px 12px;gap:7px}.transport .primary-button,.transport .secondary-button{padding:8px 8px;font-size:10px}#board{min-height:260px}}
+@media(max-width:680px){.canvas-body{grid-template-columns:minmax(0,1fr)}.transport{flex-direction:row;flex-wrap:wrap;align-items:center;border-left:0;border-top:1px solid #2a5143;padding:12px 11px 10px;gap:7px}.transport .rail-label{display:none}.transport #step-tabs{flex-direction:row}.transport .step-tab{width:auto;font-size:10px}.transport-actions{flex-direction:row;flex-wrap:wrap;align-items:center;gap:7px}.transport .primary-button,.transport .secondary-button{width:auto}.rail-row #play-button{flex:0 0 auto}.transport .speed-control{display:none}#board{min-height:0;max-height:none;aspect-ratio:1000/620}.board-column .drag-tip{padding-top:4px}}
 </style>
 </head>
 <body>
@@ -41,17 +61,21 @@
   <aside class="sidebar" aria-label="教具场景">
     <div class="sidebar-heading"><span>教具收藏</span><span class="count">10</span></div>
     <nav id="scene-list" aria-label="选择几何模型"></nav>
-    <div class="sidebar-note"><span class="note-line"></span><strong>先动手，再发现。</strong><p>拖一拖点，观察长度。<br>猜到规律后，再展开辅助线。</p><small>交互教具 / v1.3.2</small></div>
+    <div class="sidebar-note"><span class="note-line"></span><strong>先动手，再发现。</strong><p>拖一拖点，观察长度。<br>猜到规律后，再展开辅助线。</p><small>交互教具 / v1.4.0</small></div>
   </aside>
   <main class="main">
     <section class="stage-head"><div><p class="eyebrow" id="scene-eyebrow">01 / 反射与最短路径</p><h1 id="stage-title">将军饮马</h1><p id="scene-description"></p></div><span class="model-badge" id="model-badge">反射模型</span></section>
     <div class="lab-grid">
       <section class="canvas-card" aria-label="互动教具">
         <div class="canvas-toolbar"><span class="canvas-label"><span class="live-dot"></span> 动态磁性黑板</span><div class="canvas-options"><label><input id="show-grid" type="checkbox" checked> 网格</label><label><input id="show-helpers" type="checkbox"> 辅助线</label><label><input id="show-labels" type="checkbox" checked> 点名</label></div></div>
-        <div class="board-wrap"><svg id="board" viewBox="0 0 1000 700" role="group" aria-label="几何教具。金色滑点可拖动，方向键可微调；蓝色点用于布置题目。"><defs><pattern id="board-grid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="#a3c2b8" stroke-opacity=".075" stroke-width="1"/></pattern><filter id="rope-shadow" filterUnits="userSpaceOnUse" x="-100" y="-100" width="1200" height="900"><feDropShadow dx="0" dy="2" stdDeviation="1.3" flood-color="#000" flood-opacity=".25"/></filter></defs><rect id="grid-layer" width="1000" height="700" fill="url(#board-grid)"/><g id="drawing-layer"></g></svg><div class="board-corner">DRAG · OBSERVE · DISCOVER</div></div>
-        <div class="canvas-legend"><span><i class="legend-rope multi"></i> 当前路径 · 每段一色</span><span><i class="legend-rope multi dashed"></i><span id="red-legend">对称点虚线 · 同色即等长</span></span><span id="best-route-legend-item" hidden><i class="legend-rope best"></i><span id="best-route-legend">最佳路线 · 冷色粗虚线</span></span><span><i class="legend-pin"></i> 可拖动滑点</span></div>
-        <div class="transport" role="region" aria-label="教具操作与讲解工具栏"><div class="transport-actions"><button id="best-route-button" class="secondary-button route-toggle" type="button" aria-pressed="false" aria-controls="drawing-layer" title="仅显示或隐藏对比路线，不移动当前滑点">显示最佳路线</button><button id="play-button" class="secondary-button"><span aria-hidden="true">▷</span> 自动探索</button><button id="optimal-button" class="primary-button">演示最优位置 <span aria-hidden="true">→</span></button><button id="reset-button" class="icon-button" aria-label="重置当前场景" title="重置当前场景">↺</button></div><div id="step-tabs" class="step-tabs" role="tablist" aria-label="讲解步骤"></div><div class="speed-control"><label for="speed">速度</label><input id="speed" type="range" min="0.3" max="1.5" value="0.7" step="0.1"></div></div>
-        <p class="drag-tip" id="drag-tip">拖动金色 M 沿轨道滑行；蓝色 A、B 可调整题目布局。</p>
+        <div class="canvas-body">
+        <div class="board-column">
+          <div class="board-wrap"><svg id="board" viewBox="0 0 1000 620" role="group" aria-label="几何教具。金色滑点可拖动，方向键可微调；蓝色点用于布置题目。"><defs><pattern id="board-grid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="#a3c2b8" stroke-opacity=".075" stroke-width="1"/></pattern><filter id="rope-shadow" filterUnits="userSpaceOnUse" x="-100" y="-100" width="1200" height="900"><feDropShadow dx="0" dy="2" stdDeviation="1.3" flood-color="#000" flood-opacity=".25"/></filter></defs><rect id="grid-layer" width="1000" height="620" fill="url(#board-grid)"/><g id="drawing-layer"></g></svg><div class="board-corner">DRAG · OBSERVE · DISCOVER</div></div>
+          <div class="canvas-legend"><span><i class="legend-rope multi"></i> 当前路径 · 每段一色</span><span><i class="legend-rope multi dashed"></i><span id="red-legend">对称点虚线 · 同色即等长</span></span><span id="best-route-legend-item" hidden><i class="legend-rope best"></i><span id="best-route-legend">最佳路线 · 冷色粗虚线</span></span><span><i class="legend-pin"></i> 可拖动滑点</span></div>
+          <p class="drag-tip" id="drag-tip">拖动金色 M 沿轨道滑行；蓝色 A、B 可调整题目布局。</p>
+        </div>
+        <div class="transport" role="region" aria-label="教具操作与讲解工具栏"><span class="rail-label">讲解步骤</span><div id="step-tabs" class="step-tabs" role="tablist" aria-label="讲解步骤"></div><div class="transport-actions"><button id="optimal-button" class="primary-button">演示最优位置 <span aria-hidden="true">→</span></button><span class="rail-label">对比与探索</span><button id="best-route-button" class="secondary-button route-toggle" type="button" aria-pressed="false" aria-controls="drawing-layer" title="仅显示或隐藏对比路线，不移动当前滑点">显示最佳路线</button><div class="rail-row"><button id="play-button" class="secondary-button"><span aria-hidden="true">▷</span> 自动探索</button><button id="reset-button" class="icon-button" aria-label="重置当前场景" title="重置当前场景">↺</button></div></div><div class="speed-control"><label for="speed">速度</label><input id="speed" type="range" min="0.3" max="1.5" value="0.7" step="0.1"></div></div>
+        </div>
       </section>
       <aside class="inspector" aria-label="测量与条件">
         <section class="measure-card"><div class="section-label">实时测量 <span class="tiny-live">LIVE</span></div><div id="objective" class="formula">AM + MB</div><div class="big-value"><output id="current-value">0.000</output><span>单位</span></div><div id="parts" class="parts"></div><div class="reference-row"><span id="reference-label">最小值</span><output id="reference-value">—</output></div><p id="reference-note" class="reference-note"></p><div class="gap-row"><span id="gap-label">距离最优</span><output id="gap-value">—</output></div><div class="gap-track"><span id="gap-bar"></span></div><p id="constraint-status" class="constraint-status"></p></section>
@@ -64,7 +88,7 @@
   </main>
 </div>
 <div id="announcement" class="sr-only" role="status" aria-live="polite"></div>
-<dialog id="help-dialog"><div class="dialog-head"><h2>把教具搬进浏览器</h2><button id="help-close" class="icon-button" aria-label="关闭说明">×</button></div><p>金色点像实体滑轨上的螺母：只能沿轨道滑动。蓝色点可在布置题目时移动，点击求最优时保持固定。木色连杆的长度会被严格锁定。</p><ul><li>拖动点，或使用右侧滑块；点获得焦点后可按方向键微调，Shift 加速。</li><li>操作按钮和讲解步骤都在黑板下方：“1 动手观察”“2 构造辅助”之后，用“演示最优位置”完成取等与边界检验。初始、切换场景与“动手观察”均不显示辅助虚线；点击“构造辅助”或勾选“辅助线”后才显示。最优演示不再自动打开辅助线，最佳路线仍由独立按钮主动开启。</li><li>“自动探索”连续移动滑点；手动拖动或调参会暂停。最优演示可随时暂停。</li><li>A、B 的活动范围按题设决定：斜岸场景可在画布内自由布置；单岸场景保留同侧、架桥保留两岸外侧、连续反射保留两镜面之间。限制理由显示在黑板下方，不再使用统一的高度截断。</li><li>“辅助线”先作定点的对称点（或平移点），再画与原路线逐段等长的虚线：两岸作 A 关于 ℓ₁、B 关于 ℓ₂ 的对称点，往返作 A 关于两岸的对称点，连续反射作 A、B 关于下岸的对称点，三动点作 M 关于另两边的对称点。两岸、往返和连续反射场景另在下方把各段长度首尾拼成直线，固定零点与比例，右端伸缩直接表示总长变化；绿色竖线是最佳长度数值参考，不表示原反射像始终共线。</li><li>颜色规则：相同长度用相同颜色，不同长度用不同颜色。当前路径每段一种暖色，反射或平移得到的等长线段（如 MB′ 与 MB、AA′ 与 MN）用同色虚线；最佳路线用另一组冷色，规则相同。右侧测量与下方长度尺也用同样的颜色。</li><li>“显示最佳路线”叠加冷色粗虚线和 M*、N* 等参考点，当前滑点不变；打开辅助线时，还会把最佳点与反射/平移像（如 B′）用细绿虚线连成直线，与红色辅助线直接对比。再次点击即可隐藏。改动题目条件时参考路线自动更新。</li><li>“演示最优”区分解析构造与数值参考。有限轨道和定长杆都是真实约束；垂线最短场景在垂线交点超出滑轨时取端点。</li></ul><h3>与照片的对应范围</h3><p>实现了将军饮马、两动点往返、定长段、架桥、斜岸连杆、三动点、加权胡不归等机制。照片部分缩略图只给标题，没有完整题设；本页以明确条件的标准模型补齐十个场景。“连续反射·等角观察”不冒充原商品“一线三等角”的唯一构造。</p><p class="muted">网页不使用外部脚本、字体、图片、账号或数据上传。可直接打开同目录的单文件 HTML。桌面全屏需浏览器支持；未支持时可使用浏览器自带全屏。</p></dialog>
+<dialog id="help-dialog"><div class="dialog-head"><h2>把教具搬进浏览器</h2><button id="help-close" class="icon-button" aria-label="关闭说明">×</button></div><p>金色点像实体滑轨上的螺母：只能沿轨道滑动。蓝色点可在布置题目时移动，点击求最优时保持固定。木色连杆的长度会被严格锁定。</p><ul><li>拖动点，或使用右侧滑块；点获得焦点后可按方向键微调，Shift 加速。</li><li>操作按钮和讲解步骤竖排在黑板右侧（手机窄屏时移到黑板下方）：“1 动手观察”“2 构造辅助”之后，用“演示最优位置”完成取等与边界检验。初始、切换场景与“动手观察”均不显示辅助虚线；点击“构造辅助”或勾选“辅助线”后才显示。最优演示不再自动打开辅助线，最佳路线仍由独立按钮主动开启。</li><li>“自动探索”连续移动滑点；手动拖动或调参会暂停。最优演示可随时暂停。</li><li>A、B 的活动范围按题设决定：斜岸场景可在画布内自由布置；单岸场景保留同侧、架桥保留两岸外侧、连续反射保留两镜面之间。限制理由显示在黑板下方，不再使用统一的高度截断。</li><li>“辅助线”先作定点的对称点（或平移点），再画与原路线逐段等长的虚线：两岸作 A 关于 ℓ₁、B 关于 ℓ₂ 的对称点，往返作 A 关于两岸的对称点，连续反射作 A、B 关于下岸的对称点，三动点作 M 关于另两边的对称点。两岸、往返和连续反射场景另在黑板右侧用竖直长度尺把各段长度自下而上首尾拼接，固定零点与比例，顶端升降直接表示总长变化；绿色横虚线是最佳长度数值参考，不表示原反射像始终共线。</li><li>颜色规则：相同长度用相同颜色，不同长度用不同颜色。当前路径每段一种暖色，反射或平移得到的等长线段（如 MB′ 与 MB、AA′ 与 MN）用同色虚线；最佳路线用另一组冷色，规则相同。右侧测量与竖直长度尺也用同样的颜色。</li><li>“显示最佳路线”叠加冷色粗虚线和 M*、N* 等参考点，当前滑点不变；打开辅助线时，还会把最佳点与反射/平移像（如 B′）用细绿虚线连成直线，与红色辅助线直接对比。再次点击即可隐藏。改动题目条件时参考路线自动更新。</li><li>“演示最优”区分解析构造与数值参考。有限轨道和定长杆都是真实约束；垂线最短场景在垂线交点超出滑轨时取端点。</li></ul><h3>与照片的对应范围</h3><p>实现了将军饮马、两动点往返、定长段、架桥、斜岸连杆、三动点、加权胡不归等机制。照片部分缩略图只给标题，没有完整题设；本页以明确条件的标准模型补齐十个场景。“连续反射·等角观察”不冒充原商品“一线三等角”的唯一构造。</p><p class="muted">网页不使用外部脚本、字体、图片、账号或数据上传。可直接打开同目录的单文件 HTML。桌面全屏需浏览器支持；未支持时可使用浏览器自带全屏。</p></dialog>
 <script>(function (root, factory) {
   const api = factory();
   if (typeof module === 'object' && module.exports) module.exports = api;
@@ -375,33 +399,37 @@
     const ox=box.x+(box.w-(maxX-minX)*scale)/2-minX*scale,oy=box.y+(box.h-(maxY-minY)*scale)/2-minY*scale;
     return {scale,ox,oy,point:p=>({x:ox+p.x*scale,y:oy+p.y*scale})};
   }
+  // 竖直长度尺：放在黑板右侧条带（x 800–988），自下而上逐段拼接，比例固定。
+  const RULER={x:800,y:16,w:188,h:588,axis:854,top:152,bottom:586};
   function renderLengthRuler(model){
-    const range=state.id==='bounces'?50:40,start=70,width=850,scale=width/range,y=567;
-    const group=create('g',{id:'length-ruler','data-scale':scale,'data-range':range,'pointer-events':'none','aria-label':'共线拼接长度尺，固定比例，红线总长等于黄线总长'});
-    create('rect',{x:30,y:489,width:940,height:177,rx:10,fill:'#102e27','fill-opacity':.9,stroke:'#496854','stroke-width':.7},group);
-    create('text',{x:48,y:511,fill:'#cee0cb','font-size':15},group,'线段拼接 · 固定比例（每段颜色与黑板上同一段相同）');
+    const range=state.id==='bounces'?50:40,{axis,top,bottom}=RULER,scale=(bottom-top)/range,bar=axis+14;
+    const group=create('g',{id:'length-ruler','data-scale':scale,'data-range':range,'pointer-events':'none','aria-label':'竖直拼接长度尺，固定比例，仅拼接长度，不代表反射像已共线'});
+    create('rect',{x:RULER.x,y:RULER.y,width:RULER.w,height:RULER.h,rx:10,fill:'#102e27','fill-opacity':.92,stroke:'#496854','stroke-width':.7},group);
+    create('text',{x:814,y:44,fill:'#cee0cb','font-size':19,'font-weight':500},group,'线段拼接');
+    create('text',{x:814,y:66,fill:'#839e8b','font-size':13},group,'固定比例 · 同色同段');
     const delta=Math.max(0,model.value-reference.value);
-    create('text',{x:48,y:535,fill:'#e9e4d4','font-size':14},group,`${model.formula} = ${fmt(model.value)} · 比参考多 ${fmt(delta)}`);
-    create('text',{x:945,y:535,fill:'#91e3be','font-size':13,'text-anchor':'end'},group,`${reference.kind==='numeric'?'数值参考':'最佳总长'} ${fmt(reference.value)}`);
-    create('line',{x1:start,y1:609,x2:start+width,y2:609,stroke:'#486555','stroke-width':1},group);
+    create('text',{x:814,y:94,fill:'#e9e4d4','font-size':16},group,`当前 ${fmt(model.value)}`);
+    create('text',{x:814,y:116,fill:'#f2917c','font-size':15},group,`多走 ${fmt(delta)}`);
+    create('text',{x:814,y:138,fill:'#91e3be','font-size':15},group,`${reference.kind==='numeric'?'参考':'最佳'} ${fmt(reference.value)}`);
+    create('line',{x1:axis,y1:top,x2:axis,y2:bottom,stroke:'#486555','stroke-width':1},group);
     for(let value=0;value<=range;value+=5){
-      const x=start+value*scale;
-      create('line',{x1:x,y1:604,x2:x,y2:614,stroke:'#71917b','stroke-width':1},group);
-      create('text',{x,y:630,fill:'#96b29c','font-size':13,'text-anchor':'middle'},group,String(value));
+      const y=bottom-value*scale;
+      create('line',{x1:axis-5,y1:y,x2:axis+5,y2:y,stroke:'#71917b','stroke-width':1},group);
+      create('text',{x:axis-9,y:y+5,fill:'#96b29c','font-size':14,'text-anchor':'end'},group,String(value));
     }
-    const bestX=start+reference.value*scale;
-    create('line',{id:'length-ruler-best',x1:bestX,y1:545,x2:bestX,y2:607,stroke:'#91e3be','stroke-width':2,'stroke-dasharray':'4 4'},group);
-    const points=[{x:start,y}];let total=0;
-    for(const part of model.parts){total+=part.length;points.push({x:start+total*scale,y});}
+    const bestY=bottom-reference.value*scale;
+    create('line',{id:'length-ruler-best',x1:axis-2,y1:bestY,x2:bar+26,y2:bestY,stroke:'#91e3be','stroke-width':2,'stroke-dasharray':'4 4'},group);
+    const points=[{x:bar,y:bottom}];let total=0;
+    for(const part of model.parts){total+=part.length;points.push({x:bar,y:bottom-total*scale});}
     create('polyline',{id:'length-ruler-current',points:points.map(p=>`${p.x},${p.y}`).join(' '),fill:'none',stroke:'#4d6b5c','stroke-width':2},group);
-    for(let i=1;i<points.length;i++)create('line',{x1:points[i-1].x,y1:y,x2:points[i].x,y2:y,stroke:CUR[(i-1)%CUR.length],'stroke-width':6,'stroke-linecap':'butt','data-seg':i-1},group);
-    points.forEach((p,i)=>{
-      create('circle',{cx:p.x,cy:p.y,r:i===points.length-1?5:3.5,fill:'#15372d',stroke:'#f1b5a6','stroke-width':2},group);
-    });
+    for(let i=1;i<points.length;i++)create('line',{x1:bar,y1:points[i-1].y,x2:bar,y2:points[i].y,stroke:CUR[(i-1)%CUR.length],'stroke-width':8,'stroke-linecap':'butt','data-seg':i-1},group);
+    points.forEach((p,i)=>create('circle',{cx:p.x,cy:p.y,r:i===points.length-1?5:3.5,fill:'#15372d',stroke:'#f1b5a6','stroke-width':2},group));
+    // 段名标在色条右侧、对齐各段中点；过密时自下而上依次错开，至少间隔 20。
+    let floor=Infinity;
     model.parts.forEach((part,i)=>{
-      create('text',{x:start+i*width/model.parts.length,y:652,fill:CUR[i%CUR.length],'font-size':13},group,`${i+1}. ${part.label} ${fmt(part.length)}`);
+      const mid=(points[i].y+points[i+1].y)/2,y=Math.max(top+10,Math.min(mid+5,floor-20));floor=y;
+      create('text',{x:bar+14,y,fill:CUR[i%CUR.length],'font-size':15},group,`${part.label} ${fmt(part.length,2)}`);
     });
-    create('text',{x:start,y:591,fill:'#839e8b','font-size':11},group,'仅拼接长度，不代表反射像已共线；比例不随滑点位置变化。');
   }
   function renderBoard(model){
     const active=document.activeElement?.dataset?.point;
@@ -409,7 +437,7 @@
     const split=showHelpers&&['wedge','return','bounces'].includes(state.id);
     let pts=[...Object.values(model.points),...model.tracks.flatMap(t=>[t.a,t.b])];
     if(showHelpers)pts.push(...model.ghosts.map(g=>g.p),...model.frame);
-    const map=drag?.map||mapping(pts,{x:72,y:50,w:850,h:split?410:565});lastMap=map;
+    const map=drag?.map||mapping(pts,split?{x:36,y:44,w:744,h:540}:{x:60,y:44,w:880,h:540});lastMap=map;
     const p=v=>map.point(v);
     const line=(a,b,color,width=2,dash='',parent=layer)=>{const u=p(a),v=p(b);return create('line',{x1:u.x,y1:u.y,x2:v.x,y2:v.y,stroke:color,'stroke-width':width,'stroke-linecap':'round',...(dash?{'stroke-dasharray':dash}:{})},parent);};
     const segments=(path,colors,width,dash='',parent=layer,attrs={})=>{const g=create('g',{class:'segments',...attrs},parent);for(let i=1;i<path.length;i++){const u=p(path[i-1]),v=p(path[i]);create('line',{x1:u.x,y1:u.y,x2:v.x,y2:v.y,stroke:colors[i-1],'stroke-width':width,'stroke-linecap':'round',...(dash?{'stroke-dasharray':dash}:{}),filter:'url(#rope-shadow)','data-seg':i-1},g);}return g;};
@@ -419,7 +447,7 @@
     function label(point,text,color='#e4ede0',preferred='above',small=false){
       const q=p(point),w=text.length*(small?7:10)+10,h=small?18:25;
       let options=preferred==='below'?[[12,29],[-w-10,27],[14,-16],[-w-8,-18]]:[[13,-16],[-w-10,-15],[13,30],[-w-10,30]];
-      const candidate=options.map(([dx,dy])=>({x:G.clamp(q.x+dx,12,970-w),y:G.clamp(q.y+dy,25,split?470:657)}));
+      const candidate=options.map(([dx,dy])=>({x:G.clamp(q.x+dx,12,(split?790:970)-w),y:G.clamp(q.y+dy,25,600)}));
       let chosen=candidate.find(c=>!used.some(r=>c.x<r.x+r.w&&c.x+w>r.x&&c.y-h<r.y+r.h&&c.y>r.y))||candidate[0];
       used.push({x:chosen.x,y:chosen.y-h,w,h});create('text',{x:chosen.x,y:chosen.y,fill:color,'font-size':small?13:21,'font-weight':small?400:500,'paint-order':'stroke',stroke:'#1a3e35','stroke-width':4,'stroke-linejoin':'round'},layer,text);
     }
@@ -507,7 +535,7 @@
   $('show-grid').addEventListener('change',event=>{showGrid=event.target.checked;render();});
   $('show-labels').addEventListener('change',event=>{showLabels=event.target.checked;render();});
   $('step-prev').addEventListener('click',()=>setStep(step-1));$('step-next').addEventListener('click',()=>{if(step===LAST_STEP-1)$('optimal-button').click();else setStep(step+1);});
-  $('step-tabs').addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight'].includes(event.key))return;event.preventDefault();setStep(G.clamp(step+(event.key==='ArrowRight'?1:-1),0,LAST_STEP-1));$(`step-tab-${step}`).focus();});
+  $('step-tabs').addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))return;event.preventDefault();setStep(G.clamp(step+(['ArrowRight','ArrowDown'].includes(event.key)?1:-1),0,LAST_STEP-1));$(`step-tab-${step}`).focus();});
   $('help-button').addEventListener('click',()=>{$('help-dialog').showModal();stop();});$('help-close').addEventListener('click',()=>$('help-dialog').close());
   $('help-dialog').addEventListener('click',event=>{if(event.target===$('help-dialog')){const r=event.target.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)event.target.close();}});
   $('fullscreen-button').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else announce('浏览器不支持网页全屏，请使用浏览器自带的全屏功能。');}catch{announce('全屏请求未获允许，请使用浏览器自带的全屏功能。');}});
