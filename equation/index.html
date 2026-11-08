@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light">
+<title>方程平衡实验室 · 一元一次方程</title>
+<link rel="icon" href="data:,"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="balance.css"><link rel="stylesheet" href="beginner.css"><link rel="stylesheet" href="lesson.css">
+<script src="engine.js" defer></script><script src="content.js" defer></script><script src="balance.js" defer></script><script src="lesson-flow.js" defer></script><script src="store.js" defer></script><script src="lesson-view.js" defer></script><script src="balance-view.js" defer></script><script src="beginner.js" defer></script><script src="beginner-view.js" defer></script><script src="app.js" defer></script>
+</head>
+<body class="beginner-active">
+<main id="beginner-root" aria-label="三关入门天平"></main>
+<div id="app" hidden>
+<aside class="sidebar">
+<a class="brand" href="#home" aria-label="学习概览"><span class="brand-symbol">＝</span><span>方程平衡<br><b>实验室</b></span></a>
+<p class="sidebar-caption">人教版第5章 · 配套自编练习</p>
+<button data-action="home" class="overview">学习地图与记录 <span id="total-done">0</span></button>
+<nav id="lesson-nav" aria-label="学习区与题目"></nav>
+<footer>PC 全章互动版 · v1.3.15<br>没有计时排名，每一步都有依据。</footer>
+</aside>
+<div class="page">
+<header class="topbar"><div><button data-intro-open>返回三关入门</button></div><div class="top-actions"><span id="save-status" role="status">仅保存在本机</span><button data-action="download">下载离线网页</button><button data-action="about">说明</button></div></header>
+<main id="workspace" tabindex="-1"></main>
+</div></div>
+<dialog id="about-dialog"><h2>关于这个实验室</h2><p id="source-note"></p><p>只针对PC键盘鼠标设计，建议窗口宽度至少1100px。无需登录，不含广告、支付或网络统计；学习记录仅保存在当前浏览器，可在学习概览删除。请勿把一次完成记录等同于掌握程度。</p><p>方程输入支持数字、x、括号及 + - * /。例如 (x-1)/2，负数直接输入。循环小数用循环节标识，不按有限位近似计算。</p><form method="dialog"><button class="primary">知道了</button></form></dialog>
+<dialog id="clear-dialog"><h2>删除本机学习记录？</h2><p>只清除方程平衡实验室的进度、草稿和提示记录，不影响代数叠叠卡。此操作不可撤销。</p><div class="form-actions"><button data-action="cancel-clear">取消，保留记录</button><button class="danger" data-action="confirm-clear">确认删除</button></div></dialog>
+<noscript>需要开启JavaScript才能运行互动实验。所有题目均可离线运行。</noscript>
+</body></html>

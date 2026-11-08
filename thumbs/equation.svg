@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200" width="320" height="200" role="img" aria-label="方程平衡示意图：天平左边 x 加 2 个单位块，右边 5 个单位块，表示 x + 2 = 5">
+  <defs>
+    <g id="u"><rect width="16" height="16" rx="3" fill="#91e3be" stroke="#3f8a6c" stroke-width="1.2"/></g>
+  </defs>
+  <rect width="320" height="200" fill="#2a2a1f"/>
+  <circle cx="40" cy="30" r="80" fill="#38382a" opacity=".7"/>
+  <g font-family="system-ui,'PingFang SC','Noto Sans CJK SC',sans-serif">
+    <path d="M160 70L132 168h56z" fill="#6c5a3c" stroke="#a88a5a" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="112" y="166" width="96" height="10" rx="5" fill="#8a7350"/>
+    <line x1="52" y1="70" x2="268" y2="70" stroke="#e6c88c" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="160" cy="70" r="8" fill="#f1cd6f" stroke="#6c5a3c" stroke-width="2"/>
+    <path d="M160 52l-6-12h12z" fill="#f1cd6f"/>
+    <path d="M70 70l-26 52M70 70l26 52M250 70l-26 52M250 70l26 52" stroke="#c9b48a" stroke-width="1.6"/>
+    <path d="M36 122h68a34 12 0 0 1-68 0z" fill="#c9b48a" stroke="#8a7350" stroke-width="1.5"/>
+    <path d="M216 122h68a34 12 0 0 1-68 0z" fill="#c9b48a" stroke="#8a7350" stroke-width="1.5"/>
+    <rect x="44" y="94" width="28" height="28" rx="4" fill="#f1cd6f" stroke="#a17b36" stroke-width="1.5"/>
+    <text x="58" y="114" text-anchor="middle" font-size="17" font-style="italic" font-weight="700" fill="#4a3815">x</text>
+    <use href="#u" x="76" y="106"/><use href="#u" x="76" y="89"/>
+    <use href="#u" x="223" y="106"/><use href="#u" x="241" y="106"/><use href="#u" x="259" y="106"/><use href="#u" x="232" y="89"/><use href="#u" x="250" y="89"/>
+    <text x="160" y="196" text-anchor="middle" font-size="16" fill="#efe6cc">x + 2 = 5</text>
+    <text x="70" y="148" text-anchor="middle" font-size="12" fill="#bfb393">左边</text>
+    <text x="250" y="148" text-anchor="middle" font-size="12" fill="#bfb393">右边</text>
+  </g>
+</svg>

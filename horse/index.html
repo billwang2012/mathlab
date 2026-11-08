@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#163c35">
+<meta name="description" content="将军饮马交互教具：反射、平移、定长段、架桥、垂线最短、三动点与胡不归。支持拖动与离线使用。">
+<title>将军饮马实验室 · 把折线拉直</title>
+<style>:root{--paper:#f6f5ef;--panel:#fffefa;--ink:#203c34;--muted:#7b877e;--line:#e4e7de;--green:#254f41;--gold:#f2cf70;--coral:#ed8c80;--board:#183c34;--sans:Inter,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;-webkit-font-smoothing:antialiased}button,input,a{-webkit-tap-highlight-color:transparent}button,a,input{touch-action:manipulation}button{font:inherit;cursor:pointer}button{transition:background .15s,color .15s,box-shadow .15s}button:disabled{opacity:.4;cursor:default}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #4c9480;outline-offset:4px}button:hover:not(:disabled){filter:brightness(.97)}a{color:inherit;text-decoration:none}.masthead{height:87px;padding:0 32px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;background:var(--panel)}.brand{display:flex;align-items:center;gap:13px}.brand-mark{display:flex;width:43px;height:43px;background:var(--green);color:var(--gold);border-radius:12px;padding:6px}.brand strong{font-size:21px;font-weight:650;letter-spacing:1px}.brand-light{font-weight:400;margin-left:5px}.brand small{display:block;font-size:9px;letter-spacing:3px;color:var(--muted);margin-top:4px}.header-actions{display:flex;align-items:center;gap:18px}.offline-indicator{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:7px;margin-right:10px}.offline-indicator i,.live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#73a892}.plain-button{border:0;background:transparent;color:var(--muted);padding:9px 5px;font-size:12px}.plain-button:hover{color:var(--green)}.workspace{display:flex;max-width:1920px;margin:auto;min-height:calc(100vh - 87px)}.sidebar{width:232px;flex-shrink:0;border-right:1px solid var(--line);padding:30px 17px 22px;background:#f2f3ed}.sidebar-heading{display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:11px;letter-spacing:2px;padding:0 12px 20px}.count{background:#e4e9df;border-radius:5px;letter-spacing:0;padding:3px 6px}#scene-list{display:flex;flex-direction:column;gap:5px}.scene-button{border:1px solid transparent;display:flex;align-items:center;gap:12px;text-align:left;background:transparent;padding:13px 11px;border-radius:9px;color:#5c6f61;width:100%}.scene-button.active{background:var(--green);color:white;box-shadow:0 4px 10px #244c4112}.scene-number{font-size:10px;letter-spacing:1px;opacity:.65;font-variant-numeric:tabular-nums}.scene-copy{min-width:0}.scene-name{display:block;font-size:12px;font-weight:550}.scene-meta{display:block;font-size:9px;opacity:.63;margin-top:5px}.scene-button:not(.active):hover{background:#e6ebdf}.sidebar-note{margin:35px 13px 0;color:var(--muted);font-size:11px}.note-line{width:27px;height:2px;background:#afbb9c;display:block;margin-bottom:18px}.sidebar-note strong{font-weight:500;color:#536d59}.sidebar-note p{line-height:1.9;margin:9px 0 24px}.sidebar-note small{font-size:9px;opacity:.8}.main{padding:32px 32px 18px;min-width:0;flex:1}.stage-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:25px}.eyebrow{font-size:10px;letter-spacing:1.7px;color:var(--muted);margin:0 0 9px}.stage-head h1{font-size:29px;font-weight:600;letter-spacing:1px;margin:0 0 11px}.stage-head p:last-child{color:#758174;font-size:12px;line-height:1.9;max-width:670px;margin:0}.model-badge{flex-shrink:0;font-size:10px;color:#648169;border:1px solid #dae3d4;padding:7px 11px;border-radius:20px}.lab-grid{display:grid;grid-template-columns:minmax(0,1fr) 272px;gap:22px;align-items:start}.canvas-card{border:1px solid #254a3d;border-radius:14px;overflow:hidden;background:var(--board);box-shadow:0 8px 26px #274c3c12}.canvas-toolbar{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;background:#16362f;color:#d8e3d8;gap:12px}.canvas-label{font-size:11px;letter-spacing:.5px;display:flex;align-items:center;gap:8px}.canvas-options{display:flex;align-items:center;gap:15px;font-size:10px;color:#b4cbbd}.canvas-options label{display:flex;align-items:center;gap:5px;cursor:pointer;white-space:nowrap}.canvas-options input{accent-color:#e8cc7a;width:12px;height:12px;margin:0}.board-wrap{position:relative;background:radial-gradient(ellipse at 40% 30%,#245044 0%,#193e35 56%,#17372f 100%)}#board{display:block;width:100%;height:auto;min-height:360px;max-height:680px;user-select:none;touch-action:none}#drawing-layer .handle{cursor:grab;outline:none}#drawing-layer .handle:active{cursor:grabbing}#drawing-layer .handle:focus .handle-focus{stroke:#fff;stroke-width:2;stroke-dasharray:4 3}#drawing-layer text{font-family:var(--sans);user-select:none}.board-corner{position:absolute;bottom:13px;right:20px;font-size:8px;letter-spacing:2px;color:#a4c7b260;pointer-events:none}.canvas-legend{display:flex;gap:23px;justify-content:center;flex-wrap:wrap;color:#b3c9b8;font-size:10px;padding:10px 15px 19px}.canvas-legend>span{display:flex;align-items:center;gap:7px}.legend-rope{display:inline-block;width:21px;height:2px}.yellow{background:var(--gold)}.coral{background:var(--coral)}.canvas-legend>span[hidden]{display:none}.legend-rope.mint{height:0;border-top:2px dashed #91e3be}.route-toggle{border-style:dashed;color:#b1ead2;white-space:nowrap}.route-toggle[aria-pressed="true"]{background:#315c4b;border-color:#91e3be;color:#d1f8e6}.legend-pin{width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 3px #f2cf7020}.transport{display:flex;align-items:center;gap:9px;background:#133128;padding:16px 20px 9px;flex-wrap:wrap}.primary-button,.secondary-button,.icon-button{border-radius:7px;min-height:38px;font-size:11px;display:inline-flex;justify-content:center;align-items:center;gap:9px;padding:9px 13px}.primary-button{background:#edd083;color:#263c2c;border:1px solid #edd083;font-weight:600}.secondary-button{background:#244a3c;border:1px solid #426352;color:#e1eadd}.icon-button{background:transparent;border:1px solid #456153;color:#d2ddcc;padding:6px 11px;font-size:20px}.speed-control{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:10px;color:#aac3af}.speed-control input{width:62px;accent-color:#b3c8a9;height:3px}.drag-tip{font-size:10px;line-height:1.7;color:#8eac97;background:#133128;margin:0;padding:2px 20px 15px}.inspector{display:flex;flex-direction:column;gap:17px}.measure-card,.control-card,.lesson-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:21px}.section-label{color:#879180;font-size:10px;letter-spacing:1px;display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.tiny-live{font-size:8px;letter-spacing:1px;color:#8a9e80}.formula{font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:22px;color:#3f5642}.big-value{display:flex;align-items:baseline;gap:7px;margin:9px 0 17px}.big-value output{font-size:39px;letter-spacing:-1.6px;font-weight:450;font-variant-numeric:tabular-nums}.big-value span{color:#939b8b;font-size:10px}.parts{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:20px}.part{display:flex;gap:5px;align-items:center;font-size:9px;background:#f2f3eb;color:#7b896f;border-radius:4px;padding:5px 6px}.part strong{font-variant-numeric:tabular-nums;color:#64715d;font-weight:500}.reference-row{border-top:1px solid var(--line);padding-top:16px;display:flex;justify-content:space-between;font-size:11px;color:#7a8871;gap:12px}.reference-row output{font-variant-numeric:tabular-nums;color:#344f3a;font-weight:600}.reference-note{font-size:9px;line-height:1.7;margin:6px 0 14px;color:#929b89}.gap-row{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:#8a9380;gap:10px}.gap-row output{color:#9a7840;font-variant-numeric:tabular-nums}.gap-track{height:4px;background:#eeeee4;border-radius:3px;margin-top:8px;overflow:hidden}.gap-track span{display:block;height:100%;background:#a2b393;border-radius:3px;transition:width .18s}.constraint-status{margin:12px 0 0;color:#799170;font-size:10px;line-height:1.8}.control-card .section-label{margin-bottom:16px}.slider-row{margin-bottom:17px}.slider-heading{display:flex;align-items:center;justify-content:space-between;color:#69775f;font-size:10px;margin-bottom:10px}.slider-heading output{font-size:10px;color:#425d41;background:#eef1e7;padding:3px 6px;border-radius:4px;font-variant-numeric:tabular-nums}.slider-row input{display:block;width:100%;height:4px;accent-color:#618b66;cursor:pointer}.control-note{font-size:9px;color:#98a08f;line-height:1.9}.discovery-card{background:#ecefe1;border-radius:10px;padding:18px 21px;color:#516544}.discovery-index{font-size:9px;letter-spacing:1px;color:#8a9778}.discovery-card h2{font-size:12px;font-weight:550;line-height:1.8;margin:9px 0 7px}.discovery-card p{font-size:10px;line-height:1.9;margin:0;color:#7e8b6f}.lesson-card{grid-column:1/-1;padding:24px 26px}.lesson-top{display:flex;align-items:center;justify-content:space-between}.lesson-top h2{font-size:17px;font-weight:550;margin:0}.lesson-top>span{font-size:10px;color:#96a189;font-variant-numeric:tabular-nums}.step-tabs{display:flex;gap:8px;margin:22px 0 18px}.step-tab{border:1px solid #e0e5d9;background:#f8f9f3;color:#88947b;font-size:11px;border-radius:6px;padding:9px 14px}.step-tab.active{background:#e8eee0;color:#345840;border-color:#cbd7c1}.step-text{font-size:13px;line-height:2.1;color:#5c7156;min-height:54px;margin:0 0 12px}.lesson-bottom{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #edf0e7;padding-top:12px;gap:15px}.lesson-bottom>span{font-size:10px;color:#99a18e}.lesson-bottom>div{display:flex;gap:16px;white-space:nowrap}.emph{color:#4b734f}.main footer{display:flex;justify-content:space-between;gap:10px;color:#a3aa98;font-size:9px;padding:22px 1px 2px;line-height:1.8}.main footer span{color:#b1b7a5}dialog{border:1px solid var(--line);border-radius:16px;background:var(--paper);max-width:600px;width:calc(100% - 32px);padding:25px;color:var(--ink);box-shadow:0 24px 100px #0004}dialog::backdrop{background:#12372bd0;backdrop-filter:blur(5px)}.dialog-head{display:flex;align-items:center;justify-content:space-between;gap:20px}.dialog-head h2{font-size:21px;margin:0}.dialog-head button{color:var(--green);border-color:var(--line)}dialog p,dialog li{font-size:13px;line-height:1.9;color:#667860}dialog ul{padding-left:20px}dialog h3{font-size:15px}.muted{color:#89977f!important}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.skip{position:fixed;left:15px;top:-100px;background:white;padding:12px;z-index:100}.skip:focus{top:10px}.is-near .gap-row output{color:#507b4a}
+.transport-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap;max-width:100%}
+.transport #step-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0;max-width:100%}
+.transport .step-tab{min-height:38px;padding:8px 10px;background:#1e4035;border-color:#416454;color:#bfd0b8;white-space:nowrap;font-size:10px;flex:0 0 auto}
+.transport .step-tab.active{background:#405d41;border-color:#9eb783;color:#f0f3d9}
+.transport .speed-control{margin-left:0}
+.lesson-card .step-text{margin-top:18px}
+@media(min-width:1600px){.main{padding:38px 42px}.lab-grid{grid-template-columns:minmax(0,1fr) 300px;gap:26px}.sidebar{width:247px}.scene-button{padding:15px 12px}.scene-name{font-size:13px}.canvas-card{align-self:start}}@media(max-width:1200px){.sidebar{width:195px;padding:25px 10px}.main{padding:25px 20px}.lab-grid{grid-template-columns:minmax(0,1fr) 243px;gap:15px}.canvas-toolbar{padding:0 15px}.canvas-options{gap:8px}.canvas-label{font-size:10px}.canvas-legend{gap:14px}.transport{padding:14px 14px 7px}.speed-control{display:none}.measure-card,.control-card{padding:18px}.scene-name{font-size:11px}.scene-meta{font-size:8px}.stage-head h1{font-size:26px}.stage-head p:last-child{font-size:11px}}@media(max-width:980px){.sidebar{width:170px}.main{padding:24px 17px}.lab-grid{grid-template-columns:minmax(0,1fr)}.inspector{display:grid;grid-template-columns:1fr 1fr;align-items:start}.discovery-card{display:none}.lesson-card{grid-column:auto}.header-actions{gap:12px}.offline-indicator{display:none}.stage-head{align-items:flex-start}.scene-button{gap:8px;padding:13px 8px}#board{max-height:none}.speed-control{display:flex}.stage-head p:last-child{max-width:none}.big-value output{font-size:35px}.model-badge{display:none}}@media(max-width:680px){.masthead{height:73px;padding:0 17px}.brand-mark{height:36px;width:36px;border-radius:10px}.brand{gap:9px}.brand strong{font-size:16px}.brand small{font-size:7px;letter-spacing:2px}.brand-light{margin-left:3px}.header-actions{gap:9px}.header-actions button{font-size:10px}#fullscreen-button{display:none}.workspace{display:block;min-height:calc(100vh - 73px)}.sidebar{width:100%;padding:12px 0;border-right:0;border-bottom:1px solid var(--line)}.sidebar-heading,.sidebar-note{display:none}#scene-list{flex-direction:row;overflow-x:auto;padding:0 15px 3px;gap:7px;scrollbar-width:thin}.scene-button{width:auto;flex-shrink:0;padding:9px 12px;gap:7px;border:1px solid #dfe5d6;border-radius:7px}.scene-name{font-size:11px}.scene-meta{display:none}.scene-number{font-size:8px}.main{padding:21px 13px}.stage-head{margin-bottom:17px}.stage-head h1{font-size:23px;margin-bottom:8px}.stage-head p:last-child{font-size:11px}.eyebrow{font-size:9px}.canvas-toolbar{height:46px;padding:0 12px}.canvas-options{gap:10px}.canvas-options label{font-size:9px}.canvas-label{font-size:9px;gap:5px}.canvas-label .live-dot{width:4px;height:4px}#board{min-height:0;aspect-ratio:10/7}.canvas-legend{font-size:8px;gap:13px;padding:8px 8px 12px}.transport{padding:12px 11px 7px;gap:7px}.primary-button,.secondary-button{font-size:10px;padding:9px 10px;min-height:37px}.icon-button{min-height:37px}.speed-control{display:none}.drag-tip{font-size:9px;padding:4px 12px 12px}.board-corner{font-size:6px;letter-spacing:1px;bottom:9px;right:12px}.inspector{gap:12px}.measure-card,.control-card{padding:16px 13px}.section-label{font-size:9px;margin-bottom:14px}.formula{font-size:17px}.big-value{margin-bottom:12px;gap:5px}.big-value output{font-size:29px}.big-value span{font-size:8px}.parts{gap:4px;margin-bottom:13px}.part{font-size:8px;padding:4px}.reference-row,.gap-row{font-size:9px}.reference-note,.control-note{font-size:8px}.slider-heading{font-size:9px}.slider-heading output{font-size:8px}.constraint-status{font-size:9px}.lesson-card{padding:20px 16px}.lesson-top h2{font-size:16px}.step-tabs{gap:5px;margin:17px 0 14px}.step-tab{font-size:10px;padding:8px 9px;flex:1}.step-text{font-size:12px;line-height:2}.lesson-bottom{align-items:flex-start}.lesson-bottom>span{font-size:9px;max-width:50%}.lesson-bottom>div{gap:12px}.lesson-bottom button{font-size:11px;padding:4px}.main footer{display:block;font-size:8px}.main footer span{display:block;margin-top:3px}.board-wrap:fullscreen{height:100vh}dialog{padding:20px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}@media print{.sidebar,.header-actions,.transport,.canvas-options,.control-card,.discovery-card,.lesson-bottom,.drag-tip,footer{display:none}.workspace,.main{display:block;padding:0}.masthead{height:65px}.lab-grid{grid-template-columns:1fr 220px}.board-wrap,.canvas-card{-webkit-print-color-adjust:exact;print-color-adjust:exact}.lesson-card{break-inside:avoid}}
+</style>
+</head>
+<body>
+<a class="skip" href="#stage-title">跳到教具画布</a>
+<header class="masthead">
+  <a class="brand" href="#" aria-label="将军饮马实验室首页"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M5 10L20 30L35 6M5 30H36" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="20" cy="30" r="3.5" fill="currentColor"/></svg></span><span><strong>将军饮马<span class="brand-light">实验室</span></strong><small>GEOMETRY, IN MOTION</small></span></a>
+  <div class="header-actions"><span class="offline-indicator"><i></i> 本地运行 · 无需联网</span><button id="help-button" class="plain-button">使用说明</button><button id="fullscreen-button" class="plain-button">全屏授课</button></div>
+</header>
+<div class="workspace">
+  <aside class="sidebar" aria-label="教具场景">
+    <div class="sidebar-heading"><span>教具收藏</span><span class="count">10</span></div>
+    <nav id="scene-list" aria-label="选择几何模型"></nav>
+    <div class="sidebar-note"><span class="note-line"></span><strong>先动手，再发现。</strong><p>拖一拖点，观察长度。<br>猜到规律后，再展开辅助线。</p><small>交互教具 / v1.0.0</small></div>
+  </aside>
+  <main class="main">
+    <section class="stage-head"><div><p class="eyebrow" id="scene-eyebrow">01 / 反射与最短路径</p><h1 id="stage-title">将军饮马</h1><p id="scene-description"></p></div><span class="model-badge" id="model-badge">反射模型</span></section>
+    <div class="lab-grid">
+      <section class="canvas-card" aria-label="互动教具">
+        <div class="canvas-toolbar"><span class="canvas-label"><span class="live-dot"></span> 动态磁性黑板</span><div class="canvas-options"><label><input id="show-grid" type="checkbox" checked> 网格</label><label><input id="show-helpers" type="checkbox"> 辅助线</label><label><input id="show-labels" type="checkbox" checked> 点名</label></div></div>
+        <div class="board-wrap"><svg id="board" viewBox="0 0 1000 700" role="group" aria-label="几何教具。金色滑点可拖动，方向键可微调；蓝色点用于布置题目。"><defs><pattern id="board-grid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="#a3c2b8" stroke-opacity=".075" stroke-width="1"/></pattern><filter id="rope-shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="1.3" flood-color="#000" flood-opacity=".25"/></filter></defs><rect id="grid-layer" width="1000" height="700" fill="url(#board-grid)"/><g id="drawing-layer"></g></svg><div class="board-corner">DRAG · OBSERVE · DISCOVER</div></div>
+        <div class="canvas-legend"><span><i class="legend-rope yellow"></i> 当前路径</span><span><i class="legend-rope coral"></i><span id="red-legend">反射 / 平移辅助线</span></span><span id="best-route-legend-item" hidden><i class="legend-rope mint"></i><span id="best-route-legend">最佳路线 · 虚线</span></span><span><i class="legend-pin"></i> 可拖动滑点</span></div>
+        <div class="transport" role="region" aria-label="教具操作与讲解工具栏"><div class="transport-actions"><button id="best-route-button" class="secondary-button route-toggle" type="button" aria-pressed="false" aria-controls="drawing-layer" title="仅显示或隐藏对比路线，不移动当前滑点">显示最佳路线</button><button id="play-button" class="secondary-button"><span aria-hidden="true">▷</span> 自动探索</button><button id="optimal-button" class="primary-button">演示最优位置 <span aria-hidden="true">→</span></button><button id="reset-button" class="icon-button" aria-label="重置当前场景" title="重置当前场景">↺</button></div><div id="step-tabs" class="step-tabs" role="tablist" aria-label="讲解步骤"></div><div class="speed-control"><label for="speed">速度</label><input id="speed" type="range" min="0.3" max="1.5" value="0.7" step="0.1"></div></div>
+        <p class="drag-tip" id="drag-tip">拖动金色 M 沿轨道滑行；蓝色 A、B 可调整题目布局。</p>
+      </section>
+      <aside class="inspector" aria-label="测量与条件">
+        <section class="measure-card"><div class="section-label">实时测量 <span class="tiny-live">LIVE</span></div><div id="objective" class="formula">AM + MB</div><div class="big-value"><output id="current-value">0.000</output><span>单位</span></div><div id="parts" class="parts"></div><div class="reference-row"><span id="reference-label">最小值</span><output id="reference-value">—</output></div><p id="reference-note" class="reference-note"></p><div class="gap-row"><span id="gap-label">距离最优</span><output id="gap-value">—</output></div><div class="gap-track"><span id="gap-bar"></span></div><p id="constraint-status" class="constraint-status"></p></section>
+        <section class="control-card"><div class="section-label">教具调节</div><div id="controls"></div><div class="control-note" id="control-note">长度使用统一相对单位。布局调整后，参考解会重新计算。</div></section>
+        <section class="discovery-card"><span class="discovery-index" id="discovery-index">观察 01</span><h2 id="discovery-title">什么时候，两段路变成一段？</h2><p id="discovery-text">先猜一猜最短的位置，再打开辅助线验证。</p></section>
+      </aside>
+      <section class="lesson-card"><div class="lesson-top"><div><p class="eyebrow">从操作到理解</p><h2>把“为什么”也看见</h2></div><span id="step-counter">01 / 04</span></div><p id="step-text" class="step-text" role="tabpanel"></p><div class="lesson-bottom"><span>动态实验帮助发现规律，不替代数学证明。</span><div><button id="step-prev" class="plain-button">上一步</button><button id="step-next" class="plain-button emph">下一步 →</button></div></div></section>
+    </div>
+    <footer>一根滑轨，一次移动，一个新的发现。<span>原创网页实现 · 离线可用 · 鼠标 / 触屏 / 键盘</span></footer>
+  </main>
+</div>
+<div id="announcement" class="sr-only" role="status" aria-live="polite"></div>
+<dialog id="help-dialog"><div class="dialog-head"><h2>把教具搬进浏览器</h2><button id="help-close" class="icon-button" aria-label="关闭说明">×</button></div><p>金色点像实体滑轨上的螺母：只能沿轨道滑动。蓝色点可在布置题目时移动，点击求最优时保持固定。木色连杆的长度会被严格锁定。</p><ul><li>拖动点，或使用右侧滑块；点获得焦点后可按方向键微调，Shift 加速。</li><li>操作按钮和四个讲解步骤都在黑板下方。初始、切换场景与“动手观察”均不显示辅助虚线；点击“构造辅助”或勾选“辅助线”后才显示。最优演示不再自动打开辅助线，最佳路线仍由独立按钮主动开启。</li><li>“自动探索”连续移动滑点；手动拖动或调参会暂停。最优演示可随时暂停。</li><li>A、B 的活动范围按题设决定：斜岸场景可在画布内自由布置；单岸场景保留同侧、架桥保留两岸外侧、连续反射保留两镜面之间。限制理由显示在黑板下方，不再使用统一的高度截断。</li><li>“辅助线”显示反射、平移、垂足或直线长度尺。两岸、往返和连续反射场景将各段长度首尾拼成直线，固定零点与比例，右端伸缩直接表示总长变化；绿色竖线是最佳长度数值参考，不表示原反射像始终共线。</li><li>“显示最佳路线”叠加薄荷绿色虚线和 M*、N* 等参考点，当前滑点不变；再次点击即可隐藏。改动题目条件时参考路线自动更新。</li><li>“演示最优”区分解析构造与数值参考。有限轨道和定长杆都是真实约束；垂线最短场景在垂线交点超出滑轨时取端点。</li></ul><h3>与照片的对应范围</h3><p>实现了将军饮马、两动点往返、定长段、架桥、斜岸连杆、三动点、加权胡不归等机制。照片部分缩略图只给标题，没有完整题设；本页以明确条件的标准模型补齐十个场景。“连续反射·等角观察”不冒充原商品“一线三等角”的唯一构造。</p><p class="muted">网页不使用外部脚本、字体、图片、账号或数据上传。可直接打开同目录的单文件 HTML。桌面全屏需浏览器支持；未支持时可使用浏览器自带全屏。</p></dialog>
+<script>(function (root, factory) {
+  const api = factory();
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else root.HorseGeometry = api;
+})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+  'use strict';
+  const pt = (x,y) => ({x,y});
+  const add = (a,b) => pt(a.x+b.x,a.y+b.y);
+  const sub = (a,b) => pt(a.x-b.x,a.y-b.y);
+  const mul = (a,t) => pt(a.x*t,a.y*t);
+  const dot = (a,b) => a.x*b.x+a.y*b.y;
+  const dist = (a,b) => Math.hypot(a.x-b.x,a.y-b.y);
+  const clamp = (x,a,b) => Math.max(a,Math.min(b,x));
+  const mix = (a,b,t) => add(a,mul(sub(b,a),t));
+  function projection(p,a,b) {
+    const d=sub(b,a),n=dot(d,d);
+    if(n<1e-14) throw new RangeError('轨道两端不能重合');
+    return dot(sub(p,a),d)/n;
+  }
+  function reflect(p,a,b) { return sub(mul(mix(a,b,projection(p,a,b)),2),p); }
+  const length = path => path.slice(1).reduce((v,p,i)=>v+dist(path[i],p),0);
+  const rayTrack = (a,b,label) => ({a,b,label});
+  const scenes = [
+    {id:'classic',title:'将军饮马',subtitle:'一动两定 · 反射化折为直',tag:'反射',formula:'AM + MB',goal:'最小值',description:'A、B 在河岸同侧，M 沿河岸 ℓ 移动。在哪里饮马，整段路程最短？',steps:['拖动金色滑点 M，比较 AM + MB。蓝色定点可在布置时移动；一次求最优时它们保持不变。','将 B 关于河岸反射为 B′，得到 MB = MB′，所以黄线 AM + MB 与红线 AM + MB′ 等长。','两点之间线段最短。当 A、M、B′ 共线，折线拉直；最优点必须落在允许的轨道内。','点击“演示最优”，观察 M 移到 AB′ 与河岸的交点。这里只对图示有限滑轨求最优。']},
+    {id:'difference',title:'两段之差',subtitle:'一动两定 · 三角不等式',tag:'作差',formula:'|AM − MB|',goal:'最大值',maximize:true,description:'M 在有限河岸上移动，比较到 A、B 两点的距离差，而不是距离和。',steps:['拖动 M，观察 |AM − MB|。目标已改为最大值，不能照搬最短路。','连接 AB，由三角不等式得到 |AM − MB| ≤ AB。','只有 A、B、M 共线，且 M 在 AB 线段外，才能达到 AB。','若取等点不在滑轨内，本页比较可行端点；“理论上界”不一定是可达最大值。']},
+    {id:'wedge',title:'两岸两动点',subtitle:'两动两定 · 连续反射',tag:'双反射',formula:'AM + MN + NB',goal:'最小值',description:'M、N 分别在两条相交滑轨上移动。两次反射，把三段路程在展开平面中连接起来。',steps:['拖动 M、N，改变三段折线；夹角滑块用来改变两条河岸的位置关系。','下方将 AM、MN、NB 的长度首尾拼成同一条红色直线。零点和比例固定，因此右端越靠左，总路程越短。这是长度尺，不是反射展开图。','展开直线若按顺序穿过两条有效滑轨，可拉直到最短；否则最优可能在边界。','本页使用凸目标的区间数值优化，给出有限轨道内参考解；反射与线段最短是证明线索。']},
+    {id:'return',title:'一点两岸往返',subtitle:'两动一定 · 闭合路线',tag:'往返',formula:'AM + MN + NA',goal:'最小值',description:'从 A 出发，依次到两岸 M、N，再回到 A。起点与终点相同，展开后却是两个不同的像。',steps:['M、N 在各自滑轨上独立移动，A 是固定出发点。','下方把 AM、MN、NA 首尾共线拼接为红色长度尺。红线长度就是完整往返路程，比例固定；它不是 A 的反射像轨迹。','A 的二次像不等于 A。展开后的两端距离给出下界，但还要检查交点顺序和范围。','参考位置由有限轨道上的凸优化求得；边界也参与比较，不把不可达直线当成答案。']},
+    {id:'fixed',title:'两动点 · 定长段',subtitle:'两动两定 · 平移再反射',tag:'定长',formula:'AM + MN + NB',goal:'最小值',description:'M、N 在同一直线上，N 在 M 右侧且 MN = d。拖动其中一点，另一点由刚性连杆带动。',steps:['金色木杆 MN 长度锁定为 d，拖动 M 或 N，两个点会同步平移。','将 A 向右平移 d 得 A′，则 AM = A′N。目标变为 A′N + NB + d。','再将 A′ 关于河岸反射为 A″。A″、N、B 共线时，两段变一段；最后别忘记加回 d。','若直线交点超出有效滑轨，最近端点才是可达最优。d 滑块改变的是题目条件，不是拖动时的杆长。']},
+    {id:'bridge',title:'架桥选址',subtitle:'平行两岸 · 平移消去桥宽',tag:'架桥',formula:'AM + MN + NB',goal:'最小值',description:'两岸平行，桥 MN 垂直河岸且长度等于河宽 d。移动桥的位置，让两侧道路与桥的总长最短。',steps:['桥两端始终竖直对齐，MN = d。拖动任一桥头只能让桥整体平移。','将下岸的 B 向上平移 d 得 B′，把下岸道路 NB 平移到上岸，长度不变。','于是 AM + MN + NB = AM + MB′ + d。只需让 A、M、B′ 共线。','桥长 d 是常数，不参与位置优化，但必须计入总路程；有限滑轨仍需检查边界。']},
+    {id:'perpendicular',title:'垂线最短',subtitle:'两动一定 · 反射后作垂线',tag:'垂线',formula:'AM + MN',goal:'最小值',description:'A 为定点，M 沿斜岸 ℓ₁、N 沿水平岸 ℓ₂ 各自滑动（对应教具照片中的 B、C）。M、N 在何处时 AM + MN 最短？',steps:['分别拖动 M、N，观察 AM + MN。两点互不牵连；夹角滑块改变两岸的位置关系。','作 A 关于 ℓ₁ 的对称点 A′，则 AM = A′M，红线 A′M + MN 与黄线 AM + MN 等长。终点 N 不固定，所以还不能直接连两点。','A′M + MN ≥ A′N（两点之间线段最短），A′N ≥ A′H（点到直线，垂线段最短），H 是 A′ 到 ℓ₂ 的垂足。A′H 与 ℓ₁ 的交点就是最优 M，H 就是最优 N。','两次取等同时成立需要 A′H 与 ℓ₁ 的交点落在有效滑轨上；否则最小值在滑轨端点处取得。本页按解析公式给出最优位置，并检查端点。']},
+    {id:'triangle',title:'三动点 · 最小周长',subtitle:'锐角三角形 · 垂足三角形',tag:'三动点',formula:'MN + NP + PM',goal:'最小值',description:'M、N、P 分别在锐角三角形 ABC 的三边上移动，寻找内接三角形的最小周长。',steps:['拖动三个滑点，观察内接三角形的周长。外部 ABC 始终保持锐角，避免跨出定理适用范围。','分别从 C、A、B 向对边作垂线，得到三个垂足。虚线是高，不是反射后的等长路线。','Fagnano 定理：锐角三角形中，垂足三角形的周长最小。点击“显示最佳路线”，薄荷绿色虚线即为垂足三角形对照。','点击“演示最优”使 M、N、P 到达垂足。数值和动态画面用于核验与观察，不替代定理证明。']},
+    {id:'bounces',title:'连续反射 · 等角观察',subtitle:'三次接触 · 平行镜面',tag:'等角',formula:'AM + MN + NP + PB',goal:'最小值',description:'路线依次接触下岸、上岸、下岸。用明确的平行镜面模型观察最短路径处的入射角与反射角。',steps:['依次拖动 M、N、P，三次接触顺序保持不变。与照片简写不同，本页明确采用平行镜面标准模型。','下方把 AM、MN、NP、PB 首尾拼成红色直线长度尺。无论各点怎样移动，尺子始终共线；固定比例下，右端的位置直接显示路程变化。','最优位于轨道内部时，每次接触都满足入射角等于反射角；平行镜面使这些锐角一致。','点击参考位置查看各接触点相对法线的角度。边界最优时，不应强求等角条件。']},
+    {id:'weighted',title:'胡不归 · 加权路径',subtitle:'不同代价 · 不能直接拉直',tag:'加权',formula:'k · AM + MB',goal:'最小值',description:'同样长度的两段路，单位代价不同。0 < k < 1，最小化加权路程，而不是普通长度和。',steps:['拖动 M，左段长度按系数 k 计入；金线几何长度与目标数值不再相同。','普通镜像只保持真实长度，不能直接把 k·AM + MB 当成两段等长折线。','本页对完整的双定点加权模型做有界凸优化。它不同于某些带额外条件、可作辅助线化直的胡不归题型。','k 改变时，参考点会移动。最优处满足 k·(Mx−Ax)/AM + (Mx−Bx)/MB = 0，若在边界则检查单侧条件。']}
+  ];
+  const byId = id => scenes.find(s=>s.id===id);
+  function initial(id='classic') {
+    if(!byId(id)) id='classic';
+    const s={id,params:{m:.34,n:.66,p:.42,d:2.5,weight:.6,angle:55,height:6},anchors:{A:pt(2.2,2),B:pt(9.8,1.3)}};
+    if(id==='difference') s.anchors={A:pt(3,2.1),B:pt(7,1.3)};
+    if(['wedge','return'].includes(id)) s.anchors={A:pt(id==='return'?6:4,2.8),B:pt(10,3.5)};
+    if(id==='perpendicular')s.anchors={A:pt(5.8,3)};
+    if(id==='bridge'){s.params.d=1.8;s.anchors={A:pt(2,1.6),B:pt(10,8.3)};}
+    if(id==='bounces')s.anchors={A:pt(1,3.4),B:pt(11,3.5)};
+    normalize(s);return s;
+  }
+  function tracks(s) {
+    const {id,params:p}=s;
+    if(id==='triangle')return [rayTrack(pt(1,7),pt(6,7-p.height),'AB'),rayTrack(pt(6,7-p.height),pt(11,7),'BC'),rayTrack(pt(11,7),pt(1,7),'CA')];
+    if(['wedge','return','perpendicular'].includes(id)){
+      const a=p.angle*Math.PI/180,o=pt(1,7);
+      return [rayTrack(o,add(o,pt(7*Math.cos(a),-7*Math.sin(a))),'ℓ₁'),rayTrack(o,pt(11.2,7),'ℓ₂')];
+    }
+    if(id==='bridge')return [rayTrack(pt(.8,4),pt(11.2,4),'上岸'),rayTrack(pt(.8,4+p.d),pt(11.2,4+p.d),'下岸')];
+    if(id==='bounces')return [rayTrack(pt(.6,5.8),pt(11.4,5.8),'下岸'),rayTrack(pt(.6,2),pt(11.4,2),'上岸')];
+    return [rayTrack(pt(.8,4.8),pt(11.2,4.8),'ℓ')];
+  }
+  function movable(s) {
+    if(s.id==='triangle'||s.id==='bounces')return ['m','n','p'];
+    if(['wedge','return','perpendicular'].includes(s.id))return ['m','n'];
+    return ['m'];
+  }
+  function controls(s) {
+    const result=movable(s).map(key=>({key,label:`滑点 ${key.toUpperCase()}`,min:0,max:1,step:.001,unit:'%'}));
+    if(['fixed','bridge'].includes(s.id))result.push({key:'d',label:s.id==='bridge'?'河宽 / 桥长 d':'连杆长度 d',min:s.id==='bridge'?1:1.5,max:s.id==='bridge'?2.3:4,step:.05,unit:'单位'});
+    if(['wedge','return','perpendicular'].includes(s.id))result.push({key:'angle',label:'两岸夹角',min:s.id==='perpendicular'?35:42,max:s.id==='perpendicular'?65:70,step:1,unit:'°'});
+    if(s.id==='triangle')result.push({key:'height',label:'外三角形高度',min:5.3,max:6.3,step:.05,unit:'单位'});
+    if(s.id==='weighted')result.push({key:'weight',label:'左段代价系数 k',min:.25,max:.95,step:.01,unit:''});
+    return result;
+  }
+  function anchorBounds(s,id) {
+    if(!['A','B'].includes(id)||s.id==='triangle'||(['return','perpendicular'].includes(s.id)&&id==='B'))return null;
+    const bounds={minX:.5,maxX:11.5,minY:.45,maxY:8.5,reason:'定点可在画布内自由布置，仅限制画布边界'};
+    const gap=.05;
+    if(['classic','difference','fixed','weighted'].includes(s.id)){
+      bounds.maxY=tracks(s)[0].a.y-gap;bounds.reason='A、B 保持在河岸同侧，可拖至岸边';
+    }else if(s.id==='bridge'){
+      const shores=tracks(s);
+      if(id==='A')bounds.maxY=shores[0].a.y-gap;
+      else bounds.minY=shores[1].a.y+gap;
+      bounds.reason=id==='A'?'A 留在上河岸外侧，可拖至岸边':'B 留在下河岸外侧，边界随河宽变化';
+    }else if(s.id==='bounces'){
+      const mirrors=tracks(s);bounds.minY=mirrors[1].a.y+gap;bounds.maxY=mirrors[0].a.y-gap;
+      bounds.reason='A、B 保持在两条镜面之间，可拖至镜面附近';
+    }
+    return bounds;
+  }
+  function normalize(s) {
+    for(const c of controls(s))s.params[c.key]=clamp(Number.isFinite(s.params[c.key])?s.params[c.key]:(c.min+c.max)/2,c.min,c.max);
+    for(const id of ['A','B']){
+      const b=anchorBounds(s,id),p=s.anchors[id];
+      if(b&&p)s.anchors[id]=pt(clamp(p.x,b.minX,b.maxX),clamp(p.y,b.minY,b.maxY));
+    }
+  }
+  function setParam(s,key,value){if(!controls(s).some(c=>c.key===key)||!Number.isFinite(value))return;s.params[key]=value;normalize(s);}
+  function unfold(path,mirrors) {
+    const out=[path[0]],applied=[];
+    const transform=p=>{let q=p;for(let j=applied.length-1;j>=0;j--)q=reflect(q,applied[j].a,applied[j].b);return q;};
+    for(let i=1;i<path.length;i++){out.push(transform(path[i]));if(i<path.length-1)applied.push(mirrors[i-1]);}
+    return out;
+  }
+  function evaluate(s) {
+    const t=tracks(s),p=s.params,id=s.id;
+    const points={A:{...s.anchors.A},B:{...s.anchors.B}}, handles=[], ghosts=[],guides=[],links=[],rightAngles=[];
+    let path=[],red=[],extra=0,formula=byId(id).formula;
+    const slide=(key,track)=>{points[key.toUpperCase()]=mix(track.a,track.b,p[key]);handles.push({id:key.toUpperCase(),type:'slider',param:key});};
+    if(id==='triangle'){
+      points.A=t[0].a;points.B=t[0].b;points.C=t[1].b;
+      ['m','n','p'].forEach((key,i)=>slide(key,t[i]));path=[points.M,points.N,points.P,points.M];
+      const feet=[mix(t[0].a,t[0].b,projection(points.C,t[0].a,t[0].b)),mix(t[1].a,t[1].b,projection(points.A,t[1].a,t[1].b)),mix(t[2].a,t[2].b,projection(points.B,t[2].a,t[2].b))];
+      red=[...feet,feet[0]];[points.C,points.A,points.B].forEach((v,i)=>guides.push([v,feet[i]]));
+    }else if(id==='fixed'){
+      points.M=pt(t[0].a.x+p.m*(t[0].b.x-t[0].a.x-p.d),4.8);points.N=add(points.M,pt(p.d,0));
+      handles.push({id:'M',type:'slider',param:'m'},{id:'N',type:'linked',param:'m'});links.push([points.M,points.N]);
+      const ap=add(points.A,pt(p.d,0)),app=reflect(ap,t[0].a,t[0].b);ghosts.push({id:'A′',p:ap},{id:'A″',p:app});guides.push([points.A,ap],[ap,app]);
+      path=[points.A,points.M,points.N,points.B];red=[app,points.N,points.B];extra=p.d;
+    }else if(id==='bridge'){
+      slide('m',t[0]);points.N=add(points.M,pt(0,p.d));handles.push({id:'N',type:'linked',param:'m'});links.push([points.M,points.N]);
+      const bp=sub(points.B,pt(0,p.d));ghosts.push({id:'B′',p:bp});guides.push([points.B,bp]);path=[points.A,points.M,points.N,points.B];red=[points.A,points.M,bp];extra=p.d;
+    }else if(id==='perpendicular'){
+      slide('m',t[0]);slide('n',t[1]);delete points.B;path=[points.A,points.M,points.N];
+      const ap=reflect(points.A,t[0].a,t[0].b),h=pt(ap.x,t[1].a.y);
+      ghosts.push({id:'A′',p:ap},{id:'H',p:h});guides.push([points.A,ap],[ap,h]);red=[ap,points.M,points.N];
+      if(Math.abs(ap.y-h.y)>1e-6)rightAngles.push({at:h,u:pt(0,Math.sign(ap.y-h.y)),v:pt(1,0)});
+    }else if(id==='wedge'||id==='return'){
+      slide('m',t[0]);slide('n',t[1]);if(id==='return')delete points.B;
+      path=[points.A,points.M,points.N,id==='return'?points.A:points.B];red=unfold(path,t);
+      red.slice(2).forEach((v,i)=>ghosts.push({id:i===0?'N′':id==='return'?'A″':'B″',p:v}));guides.push([path[2],red[2]],[path[3],red[3]]);
+    }else if(id==='bounces'){
+      slide('m',t[0]);slide('n',t[1]);slide('p',t[0]);path=[points.A,points.M,points.N,points.P,points.B];red=unfold(path,[t[0],t[1],t[0]]);
+      red.slice(2).forEach((v,i)=>ghosts.push({id:['N′','P″','B‴'][i],p:v}));
+    }else{
+      slide('m',t[0]);path=[points.A,points.M,points.B];
+      if(id==='classic'){const bp=reflect(points.B,t[0].a,t[0].b);red=[points.A,points.M,bp];ghosts.push({id:'B′',p:bp});guides.push([points.B,bp]);}
+      if(id==='difference'){red=[points.A,points.B];}
+    }
+    if(id!=='triangle'){handles.unshift({id:'A',type:'anchor'});if(points.B)handles.unshift({id:'B',type:'anchor'});}
+    let value=length(path);
+    if(id==='weighted')value=p.weight*dist(points.A,points.M)+dist(points.M,points.B);
+    if(id==='difference')value=Math.abs(dist(points.A,points.M)-dist(points.M,points.B));
+    const parts=path.slice(1).map((v,i)=>({label:id==='triangle'?['MN','NP','PM'][i]:['AM',path.length===3?'MB':'MN',path.length===4?'NB':'NP','PB'][i],length:dist(path[i],v),weight:id==='weighted'&&i===0?p.weight:1}));
+    if(id==='return')parts[2].label='NA';
+    if(id==='perpendicular')parts[1].label='MN';
+    return {points,tracks:t,handles,ghosts,guides,links,rightAngles,path,red,parts,formula,value,transformedValue:red.length?length(red)+extra:null,extra};
+  }
+  function move(s,id,pos) {
+    if(!Number.isFinite(pos.x)||!Number.isFinite(pos.y))return;
+    const bounds=anchorBounds(s,id);
+    if(bounds){
+      s.anchors[id]=pt(clamp(pos.x,bounds.minX,bounds.maxX),clamp(pos.y,bounds.minY,bounds.maxY));return;
+    }
+    const t=tracks(s),key=id.toLowerCase();
+    if(s.id==='fixed'&&(id==='M'||id==='N'))s.params.m=(pos.x-(id==='N'?s.params.d:0)-t[0].a.x)/(t[0].b.x-t[0].a.x-s.params.d);
+    else if(s.id==='bridge'&&(id==='M'||id==='N'))s.params.m=projection(pos,t[0].a,t[0].b);
+    else if(movable(s).includes(key)){let i=['m','n','p'].indexOf(key);if(s.id==='bounces'&&i===2)i=0;s.params[key]=projection(pos,t[i].a,t[i].b);}
+    normalize(s);
+  }
+  function golden(fn,a,b) {
+    const ratio=(Math.sqrt(5)-1)/2;let c=b-ratio*(b-a),d=a+ratio*(b-a),fc=fn(c),fd=fn(d);
+    for(let i=0;i<72;i++){if(fc<fd){b=d;d=c;fd=fc;c=b-ratio*(b-a);fc=fn(c);}else{a=c;c=d;fc=fd;d=a+ratio*(b-a);fd=fn(d);}}
+    const x=(a+b)/2;return {x,value:fn(x)};
+  }
+  function global1D(fn,a=0,b=1) {
+    const n=160,values=Array.from({length:n+1},(_,i)=>({x:a+(b-a)*i/n}));values.forEach(v=>v.value=fn(v.x));
+    const choices=[values[0],values[n],golden(fn,values[0].x,values[1].x),golden(fn,values[n-1].x,values[n].x)];
+    for(let i=1;i<n;i++)if(values[i].value<=values[i-1].value&&values[i].value<=values[i+1].value)choices.push(golden(fn,values[i-1].x,values[i+1].x));
+    return choices.reduce((a,b)=>a.value<=b.value?a:b);
+  }
+  function optimal(s) {
+    const c={id:s.id,anchors:structuredClone(s.anchors),params:{...s.params}},m=evaluate(c),t=m.tracks;let kind='analytic',note='解析构造 · 含端点检查';
+    const horizontalHit=(a,b,y)=>Math.abs(a.y-b.y)<1e-12?(a.x+b.x)/2:a.x+(b.x-a.x)*(y-a.y)/(b.y-a.y);
+    if(s.id==='classic'||s.id==='fixed'||s.id==='bridge'){
+      let x;
+      if(s.id==='classic')x=horizontalHit(m.points.A,m.ghosts[0].p,t[0].a.y);
+      if(s.id==='fixed')x=horizontalHit(m.ghosts[1].p,m.points.B,4.8)-s.params.d;
+      if(s.id==='bridge')x=horizontalHit(m.points.A,m.ghosts[0].p,4);
+      const span=t[0].b.x-t[0].a.x-(s.id==='fixed'?s.params.d:0);c.params.m=clamp((x-t[0].a.x)/span,0,1);
+    }else if(s.id==='triangle'){
+      c.params.m=projection(m.points.C,t[0].a,t[0].b);c.params.n=projection(m.points.A,t[1].a,t[1].b);c.params.p=projection(m.points.B,t[2].a,t[2].b);note='解析构造 · 锐角三角形的三个垂足';
+    }else if(s.id==='perpendicular'){
+      // f(r)=|AM(r)|+r·sinα 为凸函数；f′=0 ⇔ r=t−h·tanα，与“反射后作垂线”的交点一致，再截到滑轨上。
+      const a=s.params.angle*Math.PI/180,o=t[0].a,len=dist(t[0].a,t[0].b),u=mul(sub(t[0].b,o),1/len),w=sub(m.points.A,o);
+      const along=dot(w,u),off=Math.abs(w.x*u.y-w.y*u.x),r=clamp(along-off*Math.tan(a),0,len);
+      c.params.m=r/len;const M=mix(t[0].a,t[0].b,c.params.m);c.params.n=clamp(projection(M,t[1].a,t[1].b),0,1);
+      note=r>0&&r<len?'解析构造 · 反射后作垂线':'解析构造 · 垂线交点超出滑轨，取端点';
+    }else if(s.id==='difference'){
+      const x=horizontalHit(m.points.A,m.points.B,4.8),v=clamp((x-t[0].a.x)/(t[0].b.x-t[0].a.x),0,1);
+      let best=-Infinity;for(const q of [0,1,v]){c.params.m=q;const f=evaluate(c).value;if(f>best){best=f;c.best=q;}}c.params.m=c.best;
+    }else{
+      kind='numeric';note='数值参考 · 有界凸优化';
+      const keys=movable(c);
+      if(keys.length===1){const result=global1D(v=>{c.params.m=v;return evaluate(c).value;});c.params.m=result.x;}
+      else{
+        let best={value:Infinity,params:null};
+        for(const seed of [.15,.5,.85]){
+          keys.forEach(k=>c.params[k]=seed);
+          for(let pass=0;pass<140;pass++){
+            const old=evaluate(c).value;
+            for(const key of keys){const fn=v=>{c.params[key]=v;return evaluate(c).value;};const result=golden(fn,0,1);const choices=[result,{x:0,value:fn(0)},{x:1,value:fn(1)}];c.params[key]=choices.reduce((a,b)=>a.value<b.value?a:b).x;}
+            if(Math.abs(old-evaluate(c).value)<1e-11)break;
+          }
+          const value=evaluate(c).value;if(value<best.value)best={value,params:{...c.params}};
+        }
+        Object.assign(c.params,best.params);
+      }
+    }
+    const params=Object.fromEntries(movable(c).map(k=>[k,c.params[k]]));
+    return {params,value:evaluate(c).value,kind,note};
+  }
+  return {scenes,initial,evaluate,optimal,controls,setParam,move,dist,reflect,projection,mix,clamp,tracks,movable,anchorBounds};
+});
+</script>
+<script>(() => {
+  'use strict';
+  const G=window.HorseGeometry,$=id=>document.getElementById(id),svg=$('board'),layer=$('drawing-layer');
+  const NS='http://www.w3.org/2000/svg';
+  let state=G.initial(),reference=G.optimal(state),step=0,frame=0,playing=false,drag=null,lastMap=null;
+  let showHelpers=false,showGrid=true,showLabels=true,showBestRoute=false;
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+  const fmt=(n,d=3)=>Number(n).toFixed(d);
+  const add=(a,b)=>({x:a.x+b.x,y:a.y+b.y});
+  const meta=()=>G.scenes.find(s=>s.id===state.id);
+  const create=(tag,attrs={},parent=layer,text)=>{
+    const el=document.createElementNS(NS,tag);for(const [key,value] of Object.entries(attrs))el.setAttribute(key,String(value));
+    if(text!==undefined)el.textContent=text;if(parent)parent.appendChild(el);return el;
+  };
+  const announce=text=>{$('announcement').textContent=text;};
+  function stop(){cancelAnimationFrame(frame);frame=0;playing=false;$('play-button').textContent='▷ 自动探索';$('optimal-button').textContent='演示最优位置 →';}
+  function updateReference(){reference=G.optimal(state);}
+  function chooseScene(id){
+    stop();drag=null;state=G.initial(id);step=0;showHelpers=false;showBestRoute=false;$('show-helpers').checked=false;updateReference();
+    document.querySelectorAll('.scene-button').forEach(el=>{const active=el.dataset.scene===id;el.classList.toggle('active',active);el.setAttribute('aria-current',active?'page':'false');});
+    const scene=meta(),index=G.scenes.indexOf(scene)+1;
+    $('stage-title').textContent=scene.title;$('scene-eyebrow').textContent=`${String(index).padStart(2,'0')} / ${scene.subtitle}`;$('scene-description').textContent=scene.description;$('model-badge').textContent=`${scene.tag}模型`;
+    $('discovery-index').textContent=`观察 ${String(index).padStart(2,'0')}`;
+    const prompts={classic:['什么时候，两段路变成一段？','先猜一猜最短的位置，再打开辅助线验证。'],difference:['目标变了，方法也要变。','距离差与距离和的取等条件并不相同。'],fixed:['连杆动了，长度没变。','把固定的一段平移掉，再反射，就少了一个动点。'],bridge:['桥有多宽，先平移多远。','桥长是常数，平移连接的是桥两侧的道路。'],perpendicular:['终点不固定时，最短是什么？','先把 A 反射到 A′；剩下的是“点到直线”——垂线段最短。'],triangle:['三个垂足，有什么特殊？','保持外三角形锐角，观察垂足三角形的周长。'],weighted:['短一点，未必更省。','拖动 k 看看：便宜的路与昂贵的路怎么分配？'],bounces:['镜面不同，角度会怎样？','最优在轨道内部时，再比较各接触点的入射与反射角。']};
+    const prompt=prompts[id]||['反射一次不够，试试两次。','红线与黄线等长，直线交点还必须位于有效滑轨内。'];
+    $('discovery-title').textContent=prompt[0];$('discovery-text').textContent=prompt[1];
+    $('red-legend').textContent=['wedge','return','bounces'].includes(id)?'直线长度尺':(['triangle','weighted'].includes(id)?'构造辅助线':id==='difference'?'定长 AB 上界':'等长展开 / 辅助线');
+    buildControls();renderSteps();render();announce(`已切换到${scene.title}`);
+  }
+  function buildControls(){
+    $('controls').replaceChildren();
+    for(const c of G.controls(state)){
+      const row=document.createElement('div');row.className='slider-row';
+      const top=document.createElement('div');top.className='slider-heading';
+      const label=document.createElement('label');label.htmlFor=`slider-${c.key}`;label.textContent=c.label;
+      const out=document.createElement('output');out.id=`output-${c.key}`;out.htmlFor=`slider-${c.key}`;
+      const input=document.createElement('input');Object.assign(input,{id:`slider-${c.key}`,type:'range',min:c.min,max:c.max,step:c.step,value:state.params[c.key]});input.dataset.param=c.key;
+      input.addEventListener('input',()=>{stop();G.setParam(state,c.key,Number(input.value));if(!G.movable(state).includes(c.key))updateReference();render();});
+      top.append(label,out);row.append(top,input);$('controls').append(row);
+    }
+  }
+  function renderSteps(){
+    $('step-tabs').replaceChildren();const names=['动手观察','构造辅助','寻找取等','验证与边界'];
+    names.forEach((name,i)=>{const b=document.createElement('button');b.className=`step-tab${step===i?' active':''}`;b.textContent=`${i+1} ${name}`;b.id=`step-tab-${i}`;b.setAttribute('role','tab');b.setAttribute('aria-selected',String(i===step));b.setAttribute('aria-controls','step-text');b.addEventListener('click',()=>setStep(i));$('step-tabs').append(b);});
+    $('step-counter').textContent=`0${step+1} / 04`;$('step-text').textContent=meta().steps[step];$('step-text').setAttribute('aria-labelledby',`step-tab-${step}`);
+    $('step-prev').disabled=step===0;$('step-next').disabled=step===3;
+  }
+  function setStep(value){
+    step=G.clamp(value,0,3);
+    if(step===0){showHelpers=false;showBestRoute=false;}
+    else if(step===1)showHelpers=true;
+    $('show-helpers').checked=showHelpers;renderSteps();render();
+  }
+  function renderMetrics(model){
+    $('best-route-button').textContent=showBestRoute?'隐藏最佳路线':'显示最佳路线';
+    $('best-route-button').setAttribute('aria-pressed',String(showBestRoute));
+    $('best-route-legend-item').hidden=!showBestRoute;
+    $('best-route-legend').textContent=reference.kind==='numeric'?'最佳路线（数值参考）':'最佳路线 · 虚线';
+    const scene=meta();$('objective').textContent=state.id==='weighted'?`${fmt(state.params.weight,2)} · AM + MB`:model.formula;
+    $('current-value').textContent=fmt(model.value);$('reference-label').textContent=reference.kind==='numeric'?`参考${scene.goal}`:`可达${scene.goal}`;
+    $('reference-value').textContent=fmt(reference.value);$('reference-note').textContent=reference.note;
+    const gap=Math.max(0,scene.maximize?reference.value-model.value:model.value-reference.value);
+    $('gap-value').textContent=gap<.0005?'已到参考位置':`${scene.maximize?'还差':'多走'} ${fmt(gap)}`;
+    $('gap-bar').style.width=`${100/(1+gap/Math.max(reference.value,.1)*4)}%`;
+    document.querySelector('.measure-card').classList.toggle('is-near',gap<.005);
+    $('parts').replaceChildren();model.parts.forEach(p=>{const span=document.createElement('span');span.className='part';const name=document.createElement('span');name.textContent=(p.weight!==1?`${fmt(p.weight,2)}×`:'')+p.label;const strong=document.createElement('strong');strong.textContent=fmt(p.length*p.weight,2);span.append(name,strong);$('parts').append(span);});
+    let status=reference.kind==='numeric'?'数值实验 ≠ 一般证明':'以有效滑轨为范围，已检查边界';
+    if(['fixed','bridge'].includes(state.id))status=`定长校验 MN = ${fmt(G.dist(model.points.M,model.points.N))}，d = ${fmt(state.params.d)}`;
+    if(state.id==='perpendicular'){const ap=model.ghosts[0].p,h=model.ghosts[1].p;status=`垂线段 A′H = ${fmt(G.dist(ap,h))}（下界）；${reference.note.includes('端点')?'交点超出滑轨，最小值取在端点':'取等点在有效滑轨内'}`;}
+    if(state.id==='difference')status=`理论上界 AB = ${fmt(G.dist(model.points.A,model.points.B))}，不保证取到`;
+    if(state.id==='triangle')status='ABC 始终为锐角三角形';
+    if(state.id==='weighted')status='加权代价，不是金线的几何总长度';
+    if(state.id==='bounces'){
+      const a=model.path;const pairs=[1,2,3].map(i=>[a[i-1],a[i+1]].map(v=>Math.atan2(Math.abs(v.x-a[i].x),Math.abs(v.y-a[i].y))*180/Math.PI));
+      status=pairs.map((p,i)=>`${['M','N','P'][i]}：${fmt(p[0],1)}° / ${fmt(p[1],1)}°`).join('；')+'（相对法线）';
+    }
+    $('constraint-status').textContent=status;
+    const anchorNotes=[...new Set(model.handles.filter(h=>h.type==='anchor').map(h=>G.anchorBounds(state,h.id).reason))];
+    $('drag-tip').textContent=state.id==='triangle'?'M、N、P 沿三边移动；外三角形顶点由高度控制，以保持锐角。':`${anchorNotes.join('；')}。方向键微调，Shift 加速。`;
+    for(const c of G.controls(state)){
+      const input=$(`slider-${c.key}`);input.value=state.params[c.key];
+      $(`output-${c.key}`).textContent=c.unit==='%'?`${fmt(state.params[c.key]*100,1)}%`:c.unit==='°'?`${fmt(state.params[c.key],0)}°`:`${fmt(state.params[c.key],2)}${c.unit?' '+c.unit:''}`;
+    }
+  }
+  function mapping(points,box){
+    const xs=points.map(p=>p.x),ys=points.map(p=>p.y),minX=Math.min(0,...xs),maxX=Math.max(12,...xs),minY=Math.min(.1,...ys),maxY=Math.max(8.5,...ys);
+    const scale=Math.min(box.w/(maxX-minX),box.h/(maxY-minY));
+    const ox=box.x+(box.w-(maxX-minX)*scale)/2-minX*scale,oy=box.y+(box.h-(maxY-minY)*scale)/2-minY*scale;
+    return {scale,ox,oy,point:p=>({x:ox+p.x*scale,y:oy+p.y*scale})};
+  }
+  function renderLengthRuler(model){
+    const range=state.id==='bounces'?50:40,start=70,width=850,scale=width/range,y=567;
+    const group=create('g',{id:'length-ruler','data-scale':scale,'data-range':range,'pointer-events':'none','aria-label':'共线拼接长度尺，固定比例，红线总长等于黄线总长'});
+    create('rect',{x:30,y:489,width:940,height:177,rx:10,fill:'#102e27','fill-opacity':.9,stroke:'#496854','stroke-width':.7},group);
+    create('text',{x:48,y:511,fill:'#cee0cb','font-size':15},group,'线段拼接 · 固定比例（红线总长 = 黄线总长）');
+    const delta=Math.max(0,model.value-reference.value);
+    create('text',{x:48,y:535,fill:'#efaa9c','font-size':14},group,`${model.formula} = ${fmt(model.value)} · 比参考多 ${fmt(delta)}`);
+    create('text',{x:945,y:535,fill:'#91e3be','font-size':13,'text-anchor':'end'},group,`${reference.kind==='numeric'?'数值参考':'最佳总长'} ${fmt(reference.value)}`);
+    create('line',{x1:start,y1:609,x2:start+width,y2:609,stroke:'#486555','stroke-width':1},group);
+    for(let value=0;value<=range;value+=5){
+      const x=start+value*scale;
+      create('line',{x1:x,y1:604,x2:x,y2:614,stroke:'#71917b','stroke-width':1},group);
+      create('text',{x,y:630,fill:'#96b29c','font-size':13,'text-anchor':'middle'},group,String(value));
+    }
+    const bestX=start+reference.value*scale;
+    create('line',{id:'length-ruler-best',x1:bestX,y1:545,x2:bestX,y2:607,stroke:'#91e3be','stroke-width':2,'stroke-dasharray':'4 4'},group);
+    const points=[{x:start,y}];let total=0;
+    for(const part of model.parts){total+=part.length;points.push({x:start+total*scale,y});}
+    create('polyline',{id:'length-ruler-current',points:points.map(p=>`${p.x},${p.y}`).join(' '),fill:'none',stroke:'#ed998b','stroke-width':6,'stroke-linecap':'round','stroke-linejoin':'round'},group);
+    points.forEach((p,i)=>{
+      create('circle',{cx:p.x,cy:p.y,r:i===points.length-1?5:3.5,fill:'#15372d',stroke:'#f1b5a6','stroke-width':2},group);
+    });
+    model.parts.forEach((part,i)=>{
+      create('text',{x:start+i*width/model.parts.length,y:652,fill:'#d7b5a6','font-size':13},group,`${i+1}. ${part.label} ${fmt(part.length)}`);
+    });
+    create('text',{x:start,y:591,fill:'#839e8b','font-size':11},group,'仅拼接长度，不代表反射像已共线；比例不随滑点位置变化。');
+  }
+  function renderBoard(model){
+    const active=document.activeElement?.dataset?.point;
+    layer.replaceChildren();$('grid-layer').style.display=showGrid?'':'none';
+    const split=showHelpers&&['wedge','return','bounces'].includes(state.id);
+    let pts=[...Object.values(model.points),...model.tracks.flatMap(t=>[t.a,t.b])];
+    if(showHelpers&&!split)pts.push(...model.ghosts.map(g=>g.p));
+    const map=drag?.map||mapping(pts,{x:72,y:50,w:850,h:split?410:565});lastMap=map;
+    const p=v=>map.point(v);
+    const line=(a,b,color,width=2,dash='',parent=layer)=>{const u=p(a),v=p(b);return create('line',{x1:u.x,y1:u.y,x2:v.x,y2:v.y,stroke:color,'stroke-width':width,'stroke-linecap':'round',...(dash?{'stroke-dasharray':dash}:{})},parent);};
+    const rope=(path,color,width=3.5,dash='')=>create('polyline',{points:path.map(v=>`${p(v).x},${p(v).y}`).join(' '),fill:'none',stroke:color,'stroke-width':width,'stroke-linejoin':'round','stroke-linecap':'round','stroke-dasharray':dash,filter:'url(#rope-shadow)'});
+    const used=[];
+    function label(point,text,color='#e4ede0',preferred='above',small=false){
+      const q=p(point),w=text.length*(small?7:10)+10,h=small?18:25;
+      let options=preferred==='below'?[[12,29],[-w-10,27],[14,-16],[-w-8,-18]]:[[13,-16],[-w-10,-15],[13,30],[-w-10,30]];
+      const candidate=options.map(([dx,dy])=>({x:G.clamp(q.x+dx,12,970-w),y:G.clamp(q.y+dy,25,split?470:657)}));
+      let chosen=candidate.find(c=>!used.some(r=>c.x<r.x+r.w&&c.x+w>r.x&&c.y-h<r.y+r.h&&c.y>r.y))||candidate[0];
+      used.push({x:chosen.x,y:chosen.y-h,w,h});create('text',{x:chosen.x,y:chosen.y,fill:color,'font-size':small?13:21,'font-weight':small?400:500,'paint-order':'stroke',stroke:'#1a3e35','stroke-width':4,'stroke-linejoin':'round'},layer,text);
+    }
+    if(state.id==='bridge'){
+      const a=p(model.tracks[0].a),b=p(model.tracks[1].b);create('rect',{x:a.x,y:a.y,width:b.x-a.x,height:b.y-a.y,fill:'#7cb9b6','fill-opacity':.075});
+      for(let x=a.x+20;x<b.x-15;x+=65)create('path',{d:`M${x} ${(a.y+b.y)/2}q10 -5 20 0t20 0`,stroke:'#91c4be','stroke-opacity':.25,fill:'none','stroke-width':1.3});
+    }
+    for(const t of model.tracks){
+      line(add(t.a,{x:0,y:.04}),add(t.b,{x:0,y:.04}),'#0e2923',21);
+      line(t.a,t.b,'#d0dad0',16);line(t.a,t.b,'#f0f1df',11);line(t.a,t.b,'#365147',4.2);line(t.a,t.b,'#112f28',1.3);
+      for(const v of [t.a,t.b]){const q=p(v);create('circle',{cx:q.x,cy:q.y,r:9,fill:'#dce0d1',stroke:'#a2b3a1','stroke-width':1.4});create('circle',{cx:q.x,cy:q.y,r:3,fill:'#5f7664'});}
+      label(t.b,t.label,'#9db6a2','below',true);
+    }
+    for(const [a,b] of model.links){line(a,b,'#734e2d',19);line(a,b,'#ca9a61',14);line(a,b,'#e6bd7f',9);line(a,b,'#ac7d4a',1.1);}
+    if(showHelpers&&!split)for(const [a,b] of model.guides)line(a,b,'#a4c6b1',1.7,'6 7');
+    if(showHelpers&&!split)for(const mark of model.rightAngles||[]){
+      const k=.28,q=[add(mark.at,{x:mark.u.x*k,y:mark.u.y*k}),add(mark.at,{x:(mark.u.x+mark.v.x)*k,y:(mark.u.y+mark.v.y)*k}),add(mark.at,{x:mark.v.x*k,y:mark.v.y*k})].map(p);
+      create('polyline',{class:'right-angle-mark',points:q.map(v=>`${v.x},${v.y}`).join(' '),fill:'none',stroke:'#a4c6b1','stroke-width':1.6});
+    }
+    let bestModel=null;
+    if(showBestRoute){
+      bestModel=G.evaluate({...state,params:{...state.params,...reference.params}});
+      const overlay=create('g',{id:'best-route-overlay','pointer-events':'none','data-value':bestModel.value,'aria-label':reference.kind==='numeric'?'最佳路线，数值参考':'最佳路线'});
+      const route=rope(bestModel.path,'#91e3be',7,'10 9');overlay.appendChild(route);
+      for(const h of bestModel.handles.filter(h=>h.type!=='anchor')){
+        const q=p(bestModel.points[h.id]);create('circle',{cx:q.x,cy:q.y,r:15,fill:'none',stroke:'#91e3be','stroke-width':2,'stroke-dasharray':'4 3','data-best-point':h.id},overlay);
+      }
+    }
+    rope(model.path,'#f1cd6f',4.2);
+    if(showHelpers){
+      if(!split&&model.red.length&&state.id!=='triangle')rope(model.red,'#ec9185',3,'8 6');
+      if(!split)for(const ghost of model.ghosts){const q=p(ghost.p);create('circle',{cx:q.x,cy:q.y,r:7,fill:'#29483d',stroke:'#efa699','stroke-width':2,'stroke-dasharray':'3 2'});if(showLabels)label(ghost.p,ghost.id,'#efa699','below');}
+      if(state.id==='bounces')for(const id of ['M','N','P'])line(add(model.points[id],{x:0,y:-.6}),add(model.points[id],{x:0,y:.6}),'#a3c3b4',1.6,'4 5');
+    }
+    const handles=new Map(model.handles.map(h=>[h.id,h]));
+    for(const [id,v] of Object.entries(model.points)){
+      const h=handles.get(id),q=p(v),anchor=h?.type==='anchor',color=anchor?'#98c1c0':h?'#f3d483':'#c9d7c5';
+      const group=create('g',{...(h?{class:'handle',tabindex:0,role:'button','aria-label':`${id} ${anchor?'布置定点':'沿轨道拖动'}，方向键微调`,'data-point':id}:{}),transform:`translate(${q.x} ${q.y})`});
+      if(anchor)create('title',{},group,`${id}：${G.anchorBounds(state,id).reason}`);
+      if(h){create('circle',{r:26,fill:'transparent'},group);create('circle',{r:19,fill:'none',stroke:'transparent',class:'handle-focus'},group);}
+      create('circle',{cy:2,r:12,fill:'#0d2920','fill-opacity':.5},group);create('circle',{r:11,fill:'#263d32',stroke:color,'stroke-width':2.5},group);create('circle',{r:7.5,fill:color},group);create('line',{x1:-3,y1:2,x2:3,y2:-2,stroke:anchor?'#436a66':'#a17b36','stroke-width':1.8},group);
+      if(showLabels)label(v,id,color,v.y>4.5?'below':'above');
+    }
+    if(showLabels){
+      if(bestModel)for(const h of bestModel.handles.filter(h=>h.type!=='anchor'))label(bestModel.points[h.id],h.id+'*','#91e3be','above',true);
+      const text=state.id==='weighted'?`k = ${fmt(state.params.weight,2)} · 左段加权`:model.links.length?`MN = d = ${fmt(state.params.d,2)}`:'';
+      if(text)create('text',{x:32,y:32,fill:'#cfb982','font-size':15},layer,text);
+    }
+    if(split)renderLengthRuler(model);
+    if(active&&!drag)layer.querySelector(`[data-point="${active}"]`)?.focus({preventScroll:true});
+  }
+  function render(){const model=G.evaluate(state);renderBoard(model);renderMetrics(model);}
+  function screenPoint(event){const matrix=svg.getScreenCTM();if(!matrix)return null;const point=new DOMPoint(event.clientX,event.clientY).matrixTransform(matrix.inverse());const map=drag?.map||lastMap;return {x:(point.x-map.ox)/map.scale,y:(point.y-map.oy)/map.scale};}
+  svg.addEventListener('pointerdown',event=>{
+    const h=event.target.closest('[data-point]');if(drag||!h||event.button!==0)return;event.preventDefault();stop();drag={id:h.dataset.point,map:lastMap,pointer:event.pointerId};svg.setPointerCapture(event.pointerId);
+  });
+  svg.addEventListener('pointermove',event=>{if(!drag||event.pointerId!==drag.pointer)return;const p=screenPoint(event);if(!p)return;G.move(state,drag.id,p);if(G.anchorBounds(state,drag.id))updateReference();render();});
+  const endDrag=event=>{if(!drag||event.pointerId!==drag.pointer)return;const id=drag.id;drag=null;if(svg.hasPointerCapture(event.pointerId))svg.releasePointerCapture(event.pointerId);render();announce(`${id} 已移动，当前目标值 ${fmt(G.evaluate(state).value)}`);};
+  svg.addEventListener('pointerup',endDrag);svg.addEventListener('pointercancel',endDrag);svg.addEventListener('lostpointercapture',event=>{if(drag?.pointer===event.pointerId)drag=null;});
+  svg.addEventListener('keydown',event=>{
+    const h=event.target.closest('[data-point]');if(!h||!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))return;
+    event.preventDefault();stop();const id=h.dataset.point,model=G.evaluate(state),handle=model.handles.find(v=>v.id===id),delta=(event.shiftKey?.1:.02);
+    if(handle.type==='anchor'){const p=model.points[id];G.move(state,id,{x:p.x+(event.key==='ArrowRight'?delta:event.key==='ArrowLeft'?-delta:0),y:p.y+(event.key==='ArrowDown'?delta:event.key==='ArrowUp'?-delta:0)});updateReference();}
+    else G.setParam(state,handle.param,state.params[handle.param]+(['ArrowRight','ArrowUp'].includes(event.key)?delta:-delta));render();
+  });
+  $('play-button').addEventListener('click',()=>{
+    if(playing){stop();return;}stop();playing=true;$('play-button').textContent='Ⅱ 暂停探索';const start=performance.now(),keys=G.movable(state);
+    const tick=now=>{if(!playing)return;const t=(now-start)/1000*Number($('speed').value);keys.forEach((key,i)=>G.setParam(state,key,.5+.46*Math.sin(t*(1+i*.19)+i*1.7)));render();frame=requestAnimationFrame(tick);};frame=requestAnimationFrame(tick);
+  });
+  $('optimal-button').addEventListener('click',()=>{
+    if(playing&&$('optimal-button').textContent.includes('暂停')){stop();return;}stop();updateReference();const initial={...state.params},target={...reference.params};
+    const finish=()=>{Object.assign(state.params,target);stop();render();announce(`已到${reference.kind==='numeric'?'数值参考':'解析最优'}位置，目标值 ${fmt(reference.value)}`);};
+    if(reduced.matches){finish();return;}
+    playing=true;$('optimal-button').textContent='Ⅱ 暂停演示';const start=performance.now();
+    const tick=now=>{if(!playing)return;const t=G.clamp((now-start)/1100,0,1),ease=t*t*(3-2*t);for(const key of Object.keys(target))state.params[key]=initial[key]+(target[key]-initial[key])*ease;render();if(t<1)frame=requestAnimationFrame(tick);else finish();};frame=requestAnimationFrame(tick);
+  });
+  $('best-route-button').addEventListener('click',()=>{
+    showBestRoute=!showBestRoute;render();announce(showBestRoute?'已显示最佳路线对比，当前滑点位置不变。':'已隐藏最佳路线对比。');
+  });
+  $('reset-button').addEventListener('click',()=>{showHelpers=false;showBestRoute=false;$('show-helpers').checked=false;chooseScene(state.id);});
+  $('show-helpers').addEventListener('change',event=>{showHelpers=event.target.checked;render();});
+  $('show-grid').addEventListener('change',event=>{showGrid=event.target.checked;render();});
+  $('show-labels').addEventListener('change',event=>{showLabels=event.target.checked;render();});
+  $('step-prev').addEventListener('click',()=>setStep(step-1));$('step-next').addEventListener('click',()=>setStep(step+1));
+  $('step-tabs').addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight'].includes(event.key))return;event.preventDefault();setStep(G.clamp(step+(event.key==='ArrowRight'?1:-1),0,3));$(`step-tab-${step}`).focus();});
+  $('help-button').addEventListener('click',()=>{$('help-dialog').showModal();stop();});$('help-close').addEventListener('click',()=>$('help-dialog').close());
+  $('help-dialog').addEventListener('click',event=>{if(event.target===$('help-dialog')){const r=event.target.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)event.target.close();}});
+  $('fullscreen-button').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else announce('浏览器不支持网页全屏，请使用浏览器自带的全屏功能。');}catch{announce('全屏请求未获允许，请使用浏览器自带的全屏功能。');}});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape')stop();});
+  G.scenes.forEach((scene,i)=>{
+    const button=document.createElement('button');button.className='scene-button';button.dataset.scene=scene.id;
+    const number=document.createElement('span');number.className='scene-number';number.textContent=String(i+1).padStart(2,'0');
+    const copy=document.createElement('span');copy.className='scene-copy';const title=document.createElement('span');title.className='scene-name';title.textContent=scene.title;const small=document.createElement('span');small.className='scene-meta';small.textContent=scene.subtitle;
+    copy.append(title,small);button.append(number,copy);button.addEventListener('click',()=>chooseScene(scene.id));$('scene-list').append(button);
+  });
+  window.horseLab=Object.freeze({getState:()=>structuredClone(state),getModel:()=>G.evaluate(state),getReference:()=>structuredClone(reference),isPlaying:()=>playing});
+  chooseScene('classic');
+})();
+</script>
+</body>
+</html>

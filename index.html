@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>数学实验站</title>
+<meta name="description" content="动手拖一拖、翻一翻、称一称，把数学看明白。">
+<link rel="icon" href="data:,">
+<style>
+  :root{color-scheme:dark;--bg:#0f241e;--panel:#173a31;--line:#2f574a;--ink:#eef3e8;--muted:#a9c1b0;--gold:#f1cd6f;--mint:#91e3be}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:radial-gradient(1200px 600px at 15% -10%,#24524466,transparent),var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif}
+  header{max-width:1180px;margin:0 auto;padding:56px 24px 24px}
+  .eyebrow{color:var(--mint);letter-spacing:.2em;font-size:13px;margin:0 0 10px}
+  h1{margin:0;font-size:clamp(32px,5vw,48px);letter-spacing:.04em}
+  header p.tagline{margin:10px 0 0;color:var(--muted);font-size:17px}
+  main{max-width:1180px;margin:0 auto;padding:16px 24px 48px}
+  ul.grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
+  .card a{display:flex;flex-direction:column;height:100%;color:inherit;text-decoration:none;background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+  .card a:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:0 14px 34px #0007}
+  .card a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+  .thumb{margin:0;aspect-ratio:16/10;background:#102e27;border-bottom:1px solid var(--line)}
+  .thumb img{display:block;width:100%;height:100%;object-fit:cover}
+  .body{display:flex;flex-direction:column;flex:1;padding:18px 20px 20px}
+  .index{color:var(--mint);font-size:13px;letter-spacing:.12em}
+  h2{margin:2px 0 6px;font-size:22px}
+  .body p{margin:0 0 16px;color:var(--muted);font-size:15px;flex:1}
+  .foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .tags span{display:inline-block;margin-right:6px;padding:2px 10px;border:1px solid var(--line);border-radius:99px;font-size:12px;color:var(--muted)}
+  .go{color:var(--gold);font-weight:600;white-space:nowrap}
+  footer{max-width:1180px;margin:0 auto;padding:0 24px 32px;color:#6f8e7b;font-size:13px}
+  @media (prefers-reduced-motion:reduce){.card a{transition:none}.card a:hover{transform:none}}
+  @media (max-width:520px){header{padding-top:36px}ul.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <p class="eyebrow">MATH LAB</p>
+  <h1>数学实验站</h1>
+  <p class="tagline">动手拖一拖、翻一翻、称一称，把数学看明白。</p>
+</header>
+<main>
+  <ul class="grid" aria-label="实验列表">
+      <li class="card">
+        <a href="horse/" aria-label="进入将军饮马实验室">
+          <figure class="thumb"><img src="thumbs/horse.svg" alt="" width="320" height="200" ></figure>
+          <div class="body">
+            <span class="index">01</span>
+            <h2>将军饮马实验室</h2>
+            <p>反射、平移、架桥、垂线最短、三动点与胡不归。拖动滑点，看折线怎样被拉直。</p>
+            <div class="foot"><span class="tags"><span>几何</span><span>最短路径</span></span><span class="go">进入实验 →</span></div>
+          </div>
+        </a>
+      </li>
+      <li class="card">
+        <a href="algebra-cards/" aria-label="进入代数叠叠卡">
+          <figure class="thumb"><img src="thumbs/algebra-cards.svg" alt="" width="320" height="200" ></figure>
+          <div class="body">
+            <span class="index">02</span>
+            <h2>代数叠叠卡</h2>
+            <p>翻面、叠合、抵消。用红黑卡片理解合并同类项与整体代换。</p>
+            <div class="foot"><span class="tags"><span>代数</span><span>整体思想</span></span><span class="go">进入实验 →</span></div>
+          </div>
+        </a>
+      </li>
+      <li class="card">
+        <a href="equation/" aria-label="进入方程平衡实验室">
+          <figure class="thumb"><img src="thumbs/equation.svg" alt="" width="320" height="200" ></figure>
+          <div class="body">
+            <span class="index">03</span>
+            <h2>方程平衡实验室</h2>
+            <p>把等式放上天平：两边同加、同减、同乘、同除，一步步解一元一次方程。</p>
+            <div class="foot"><span class="tags"><span>方程</span><span>等式性质</span></span><span class="go">进入实验 →</span></div>
+          </div>
+        </a>
+      </li>
+  </ul>
+</main>
+<footer>共 3 个实验 · 全部离线运行，不收集个人数据 · v1.0.0</footer>
+</body>
+</html>

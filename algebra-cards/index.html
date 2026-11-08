@@ -1,0 +1,1417 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="翻面、叠合、抵消。用可以动手操作的红黑卡片，理解代数的整体变形。单文件离线教学游戏。">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; font-src 'none'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23226358'/%3E%3Ctext x='20' y='29' text-anchor='middle' font-size='30' fill='white'%3Ea%3C/text%3E%3C/svg%3E">
+<title>代数叠叠卡 · 把整体思维玩出来</title>
+<style>
+:root{--paper:#f5f4ef;--ink:#253d36;--muted:#74817b;--green:#256657;--green-dark:#164b3f;--mint:#e4eee7;--line:#dfe4dc;--red:#cf4d47;--red-bg:#fff0ec;--black:#303b43;--shadow:0 12px 30px #233d3410;--card-width:224px;--token-size:44px;font-family:Inter,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",system-ui,sans-serif;color:var(--ink);background:var(--paper);font-synthesis:none}
+*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.42}button,input,select,summary{outline-offset:4px}button:focus-visible,input:focus-visible,select:focus-visible,[role=button]:focus-visible{outline:3px solid #e6a546}button{transition:background .15s,box-shadow .15s,transform .15s}button:not(:disabled):active{transform:translateY(1px)}h1,h2,h3,p{margin:0}button svg{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.app{max-width:1536px;margin:auto;padding:28px 40px 22px}.header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:30px}.brand{display:flex;align-items:center;gap:16px}.brand-mark{position:relative;width:46px;height:50px;flex-shrink:0}.brand-mark:before,.brand-mark:after{content:'a';position:absolute;display:grid;place-items:center;width:32px;height:40px;border-radius:8px;border:2px solid var(--paper);font-family:Georgia,serif;font-size:25px;font-style:italic}.brand-mark:before{background:var(--red);color:#fff;transform:rotate(-15deg);left:0;top:2px}.brand-mark:after{background:var(--green);color:#fff;transform:rotate(12deg);left:14px;top:8px}.brand h1{font-size:25px;letter-spacing:1px;font-weight:760}.brand p{font-size:11px;letter-spacing:2.5px;color:var(--muted);margin-top:5px}.header-actions{display:flex;gap:10px;align-items:center}.offline{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;margin-right:10px}.offline:before{content:'';width:6px;height:6px;border-radius:50%;background:#6b9a72}
+.btn{border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);padding:10px 14px;font-size:13px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px}.btn:hover:not(:disabled){background:#eff4ef;border-color:#bccfc2}.btn.primary{background:var(--green);border-color:var(--green);color:#fff}.btn.primary:hover:not(:disabled){background:var(--green-dark)}.btn.ghost{background:transparent}.btn.small{padding:7px 10px;min-height:34px;font-size:12px}.btn.icon-only{padding:9px 11px}.lesson-nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:18px}.lesson-tab{display:flex;align-items:center;gap:8px;border:1px solid transparent;background:transparent;color:var(--muted);font-size:13px;border-radius:9px;padding:9px 12px}.lesson-tab .number{font-size:10px;background:#e7e9e2;border-radius:5px;display:grid;place-items:center;width:22px;height:22px}.lesson-tab[aria-pressed=true]{background:var(--green);color:#fff}.lesson-tab[aria-pressed=true] .number{background:#ffffff20}.lesson-tab:hover{background:#e7ece5}.lesson-tab[aria-pressed=true]:hover{background:var(--green-dark)}.free-tab{margin-left:auto;border-color:var(--line)}
+.challenge{display:flex;align-items:center;justify-content:space-between;gap:20px;background:#e6eee7;border:1px solid #d7e2d6;border-radius:16px;padding:23px 26px;margin-bottom:20px;position:relative;overflow:hidden}.challenge:after{content:'+';font:170px Georgia,serif;position:absolute;right:23px;top:-40px;color:#d4e0d354;pointer-events:none}.challenge-text{position:relative;z-index:1}.eyebrow{display:block;color:#708273;font-size:10px;letter-spacing:2px;font-weight:700;margin-bottom:8px}.challenge h2{font-size:18px;font-weight:600;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}.target-expression{font-family:Georgia,"Times New Roman",serif;font-size:30px;font-weight:600;letter-spacing:1px;color:var(--green-dark)}.challenge p{font-size:12px;color:#687b6d;margin-top:9px;line-height:1.7}.target-status{max-width:280px;min-width:180px;font-size:12px;color:#526b58;text-align:right;position:relative;z-index:1;line-height:1.8}.target-status strong{font-size:16px;display:block;color:var(--green-dark)}.challenge.solved{border-color:#97b9a0;background:#e0efdf}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:22px;align-items:start}.workshop{border:1px solid var(--line);border-radius:18px;background:#fcfcf8;overflow:hidden;box-shadow:0 4px 18px #31453705}.worktop{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:#fffefb}.worktop-left{display:flex;align-items:center;gap:9px}.worktop h2{font-size:14px;font-weight:700}.count{background:#f0f2ec;color:#78816f;font-size:11px;border-radius:5px;padding:3px 6px}.worktools{display:flex;align-items:center;gap:7px}.board-scroll{max-height:740px;overflow:auto;overscroll-behavior:contain}.board{position:relative;min-height:505px;background-image:radial-gradient(#ced7cc 1px,transparent 1px);background-size:22px 22px;isolation:isolate}.board-note{position:absolute;bottom:28px;left:20px;right:20px;display:flex;justify-content:center;gap:15px;pointer-events:none;color:#96a28f;font-size:11px;letter-spacing:.5px}.empty-board{position:absolute;top:130px;left:20px;right:20px;text-align:center;pointer-events:none}.empty-board .empty-symbol{font:55px Georgia,serif;color:#b1c0af}.empty-board h3{font-size:16px;margin:12px 0;color:#69816a}.empty-board p{font-size:13px;line-height:1.9;color:#85957f}.desk-footer{padding:13px 18px;background:#fffefb;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted);font-size:11px}.history-buttons{display:flex;gap:7px}.keyboard-hint{font-size:11px}
+.card{position:absolute;width:var(--card-width);border-radius:17px;border:1px solid #dfe5da;background:#fffefc;box-shadow:0 3px 0 #eaede5,0 11px 24px #31433712;user-select:none;z-index:2;transition:box-shadow .2s,border-color .2s;overflow:visible}.card:hover{box-shadow:0 3px 0 #e1e9dd,0 16px 30px #3143371c;border-color:#bccdba}.card.selected{border:2px solid var(--green);box-shadow:0 0 0 4px #25665712,0 14px 28px #31433718}.card.drop-target{outline:3px dashed #40836b;outline-offset:7px;background:#eff7ed}.card.dragging{z-index:50!important;box-shadow:0 24px 40px #233c342e;cursor:grabbing;opacity:.96}.card-face{padding:15px 17px 13px;cursor:grab;touch-action:none;border-radius:16px 16px 0 0;min-height:209px;overflow:hidden;transform-origin:center;backface-visibility:hidden}.card-face:active{cursor:grabbing}.card-top{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--muted);font-size:11px}.card-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:125px}.side-label{font-size:9px;letter-spacing:1px;color:#7c8a81;background:#eef2ec;padding:3px 5px;border-radius:4px;white-space:nowrap}.card.back .side-label{background:#e9edf0;color:#526576}.card-tokens{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:9px;min-height:112px;padding:20px 0;touch-action:none}.token{display:inline-flex;align-items:center;justify-content:center;width:var(--token-size);height:var(--token-size);border-radius:9px;position:relative;font-family:Georgia,"Times New Roman",serif;font-size:29px;font-weight:700;border:1px solid transparent;flex:none}.token.positive{color:var(--red);background:var(--red-bg);border-color:#f0cac0}.token.negative{color:#fff;background:var(--black);border-color:var(--black);box-shadow:inset 0 0 0 2px #ffffff0d}.token-sign{position:absolute;top:2px;left:4px;font-family:system-ui,sans-serif;font-size:10px;line-height:1}.token-multiple{position:absolute;right:-5px;bottom:-6px;border-radius:5px;font:700 10px system-ui,sans-serif;padding:2px 4px;background:#fff;border:1px solid #dce2da;color:#465649}.zero-symbol{font-family:Georgia,serif;color:#94a38f;font-size:38px}.card-expression{font:19px Georgia,"Times New Roman",serif;text-align:center;color:#4a5b50;letter-spacing:.4px;overflow-wrap:anywhere;margin-bottom:14px}.card-score{border-top:1px dashed #e0e5db;padding-top:12px;display:flex;align-items:center;justify-content:space-between}.score-caption{color:#8b9588;font-size:10px;letter-spacing:1px}.score-value{font-variant-numeric:tabular-nums;font-size:25px;font-weight:740;line-height:1.1;color:#294e40}.score-unit{font-size:10px;color:#8c988a;margin-left:4px;font-weight:400}.card-actions{display:flex;gap:0;border-top:1px solid #ecefe7;border-radius:0 0 16px 16px;overflow:hidden;background:#f9faf6}.card-actions button{background:none;border:0;flex:1;padding:10px 3px;font-size:11px;color:#7a8777;min-height:38px}.card-actions button+button{border-left:1px solid #e9ede3}.card-actions button:hover{background:#eef3e9;color:var(--green)}.card-actions button[aria-pressed=true]{background:#e3eee1;color:var(--green);font-weight:700}.card .assembled{position:absolute;left:50%;top:-13px;transform:translateX(-50%);white-space:nowrap;font-size:9px;letter-spacing:1px;color:#597961;background:#f2f7ed;border:1px solid #d6e4cd;border-radius:20px;padding:4px 10px}
+.sidebar{display:flex;flex-direction:column;gap:16px}.panel{background:#fffefb;border:1px solid var(--line);border-radius:16px;overflow:hidden}.panel-head{padding:18px 19px 13px;display:flex;justify-content:space-between;align-items:center}.panel-head h2{font-size:14px}.micro-tag{font-size:9px;color:#8c9988;letter-spacing:1.5px}.legend{display:flex;gap:18px;padding:0 19px 16px;font-size:11px;color:#68796b}.legend-piece{display:inline-flex;align-items:center;gap:7px}.mini-square{display:inline-grid;place-items:center;border-radius:4px;width:18px;height:18px;font-size:13px;font-weight:700}.mini-square.red{color:var(--red);background:var(--red-bg);border:1px solid #efcbbf}.mini-square.dark{color:#fff;background:var(--black)}.rule-note{background:#f7f8f2;padding:12px 19px;font-size:11px;color:#81907a;line-height:1.8;border-top:1px solid #e9ecdf}.steps{list-style:none;padding:0 19px 18px;margin:0;display:flex;flex-direction:column;gap:15px}.steps li{display:flex;gap:11px;align-items:flex-start}.step-no{font:italic 16px Georgia,serif;color:#90a28b;padding-top:1px}.steps strong{display:block;font-size:12px;font-weight:650;margin-bottom:4px}.steps p{font-size:11px;line-height:1.7;color:#849080}.record{padding:0 19px 18px;min-height:143px}.record-title{font-size:12px;color:#62755e;line-height:1.7}.equation{font-family:Georgia,"Times New Roman",serif;letter-spacing:.5px;overflow-wrap:anywhere;line-height:1.65}.record .equation{font-size:20px;margin-top:8px;color:#315d49}.record small{font-size:11px;color:#85917e;line-height:1.8;display:block;margin-top:8px}.record-empty{display:grid;place-items:center;text-align:center;padding:16px 5px;color:#9ba795;font-size:12px;line-height:2}.record-empty span{font:36px Georgia,serif;letter-spacing:6px;color:#c2cdbb;margin-bottom:9px}.cancel-row{margin-top:12px;border-radius:9px;background:#f6f8f1;padding:10px;display:flex;flex-direction:column;gap:9px}.cancel-pair{display:flex;align-items:center;justify-content:center;gap:14px}.cancel-pair .token{--token-size:30px;font-size:20px;border-radius:6px}.cancel-text{font-size:11px;color:#77876e}.cancel-row.animate .positive{animation:cancel-red .9s .25s both}.cancel-row.animate .negative{animation:cancel-black .9s .25s both}@keyframes cancel-red{0%{transform:none;opacity:1}60%{transform:translateX(22px);opacity:.75}100%{transform:translateX(22px) scale(.5);opacity:0}}@keyframes cancel-black{0%{transform:none;opacity:1}60%{transform:translateX(-22px);opacity:.75}100%{transform:translateX(-22px) scale(.5);opacity:0}}.trace-toggle{display:flex;align-items:center;gap:7px;font-size:11px;color:#7e8f78;padding:0 19px 16px}.trace-toggle input{accent-color:var(--green)}.activity{list-style:none;padding:0 19px 18px;margin:0;max-height:210px;overflow:auto}.activity li{padding:9px 0;border-bottom:1px solid #eef0e7;font-size:11px;line-height:1.7;color:#7e8d76}.activity li:first-child{padding-top:0}.activity .log-no{font:italic 12px Georgia,serif;color:#9fb095;margin-right:8px}.activity .log-result{color:#406245}.fact-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}.fact-chip{border:1px solid #d0ddcb;background:#f6faf280;border-radius:6px;padding:4px 8px;font-family:Georgia,"Times New Roman",serif;font-size:14px;color:#5e7458}
+.footer{display:flex;justify-content:space-between;gap:20px;color:#8a9881;font-size:10px;line-height:1.7;margin-top:19px;letter-spacing:.2px}.footer strong{font-weight:500;color:#657b5e}.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,15px);background:#253d36;color:#fff;padding:12px 20px;border-radius:12px;box-shadow:0 10px 30px #203a3030;opacity:0;pointer-events:none;z-index:200;max-width:calc(100vw - 32px);font-size:13px;transition:opacity .2s,transform .2s;line-height:1.6}.toast.visible{opacity:1;transform:translate(-50%,0)}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+dialog{border:1px solid var(--line);border-radius:20px;width:min(500px,calc(100% - 32px));padding:28px;background:#fffefb;color:var(--ink);box-shadow:0 30px 100px #1d3a3340;max-height:90vh;overflow:auto}dialog::backdrop{background:#233d3455;backdrop-filter:blur(3px)}.dialog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px}.dialog-top h2{font-size:20px}.dialog-description{color:#7b8973;font-size:12px;line-height:1.9;margin-bottom:20px}.field{display:flex;flex-direction:column;gap:9px;margin-bottom:17px}.field label{font-size:13px;font-weight:600}.field input{background:#f9faf5;border:1px solid #dce3d5;color:var(--ink);border-radius:10px;padding:13px 14px;width:100%;font-size:17px}.field small{font-size:11px;color:#8d9985}.form-preview{border:1px dashed #d1ddc8;border-radius:12px;min-height:88px;background:#fafbf6;padding:16px;margin:16px 0;display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap}.form-error{font-size:12px;line-height:1.8;color:#b13f36;margin:12px 0;min-height:22px}.dialog-buttons{display:flex;gap:10px;justify-content:flex-end}.help-list{padding-left:20px;font-size:13px;line-height:2;color:#617558}.help-list li{padding:5px 0}.help-warning{font-size:12px;background:#f2f5eb;padding:14px;border-radius:10px;line-height:1.9;color:#718368;margin-top:12px}
+@media(min-width:1400px){.layout{grid-template-columns:minmax(0,1fr) 322px}.board{min-height:545px}.app{padding-top:32px}.challenge{padding:26px 28px}}@media(max-width:1050px){.app{padding:22px}.layout{grid-template-columns:minmax(0,1fr) 263px;gap:15px}.worktools{gap:5px}.worktop{padding:14px}.btn{padding:9px 11px}.lesson-tab{padding:8px 9px}.lesson-tab .number{display:none}.offline{display:none}}@media(max-width:800px){.app{padding:18px}.header{margin-bottom:20px}.brand h1{font-size:22px}.layout{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr;gap:12px}.sidebar .howto{display:none}.board{min-height:450px}.challenge{padding:20px}.free-tab{margin-left:0}.target-status{min-width:135px}.footer{flex-direction:column;gap:3px}.board-note{font-size:10px}}@media(max-width:520px){.app{padding:16px 12px}.header{gap:8px;align-items:flex-start}.brand{gap:10px}.brand h1{font-size:20px;letter-spacing:.5px}.brand p{font-size:8px;letter-spacing:1.5px}.brand-mark{transform:scale(.83);transform-origin:left center;width:40px}.header-actions{gap:6px}.header-actions .btn{padding:8px;font-size:11px;min-height:36px}.header-actions svg{display:none}.lesson-nav{gap:4px;margin-bottom:12px}.lesson-tab{font-size:11px;padding:8px}.challenge{padding:16px;gap:10px;align-items:flex-start}.challenge h2{font-size:14px;gap:7px}.target-expression{font-size:25px}.challenge p{font-size:11px}.target-status{min-width:83px;max-width:100px;font-size:10px;padding-top:18px}.target-status strong{font-size:13px}.fact-chip{font-size:12px}.layout{gap:14px}.worktop{padding:12px;gap:10px}.worktop h2{font-size:12px}.worktools .btn{padding:7px;font-size:11px;min-height:32px}.worktools svg{width:14px}.card-face{padding:12px 11px 11px;min-height:203px}.card-name{font-size:10px;max-width:84px}.side-label{font-size:8px;padding:2px 3px}.card-tokens{gap:7px;--token-size:36px;min-height:103px}.token{font-size:24px}.card-expression{font-size:17px}.card-score{padding-top:11px}.score-value{font-size:24px}.score-caption{font-size:9px}.card-actions button{font-size:10px;padding:10px 1px}.desk-footer{padding:11px;gap:8px}.keyboard-hint{display:none}.sidebar{grid-template-columns:1fr}.activity-panel{display:none}.panel-head{padding:16px 17px 12px}.board-note{gap:8px;bottom:22px;flex-wrap:wrap}.footer{font-size:10px}.trace-toggle{padding-bottom:13px}dialog{padding:22px}.record{min-height:120px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+.challenge h2,.worktop h2{color:var(--ink)}
+.target-expression,.challenge-proof{overflow-wrap:anywhere}
+.challenge-proof{font-family:Georgia,"Times New Roman",serif}
+.card-tokens{--token-size:52px;gap:18px 12px}
+.token{line-height:1;font-weight:600}
+.token-symbol{display:inline-block;flex:none;white-space:nowrap;font-family:Georgia,"Times New Roman",serif;font-size:calc(var(--token-size) * .55);font-weight:600;line-height:1;letter-spacing:0;margin-top:7px}
+.token.compound .token-symbol{font-size:calc(var(--token-size) * .47)}
+.token-symbol sup{display:inline;font-size:.62em;line-height:0;vertical-align:super;position:static;margin:0 0 0 1px;padding:0}
+.token-sign{top:3px;left:4px;font-size:calc(var(--token-size) * .18);font-weight:500;line-height:1}
+.token-multiple{right:-5px;bottom:-14px;font-size:10px;line-height:1.2;padding:2px 4px;z-index:1}
+.cancel-pair .token{--token-size:34px}
+.card-face{display:flex;flex-direction:column}.card-face .card-tokens{flex:1}.card-score{margin-top:auto}
+.inline-cancellation{position:fixed;z-index:100;left:50%;bottom:12px;transform:translateX(-50%);width:min(760px,calc(100% - 24px));max-height:50dvh;overflow:auto;background:#fffefbf5;border:1px solid #a7c4b5;border-radius:15px;padding:13px 18px;box-shadow:0 8px 40px #193c3426;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;backdrop-filter:blur(8px)}
+.cancel-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;grid-column:1/-1}.cancel-heading h2{font-size:15px;color:var(--ink)}.cancel-counter{font-size:11px;color:var(--green);font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.cancel-current{font-size:12px;color:#637967;line-height:1.7;grid-column:1/-1}.cancel-score{font:15px Georgia,"Times New Roman",serif;color:var(--green);overflow-wrap:anywhere;line-height:1.8;align-self:center}
+.cancel-controls{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap}.cancel-controls .btn{white-space:nowrap}
+.board.is-cancelling .card:not(.joining-card){opacity:.35}.board.is-cancelling .card-face{cursor:default;touch-action:pan-y}.board.is-cancelling .card-tokens{touch-action:pan-y}.board.is-cancelling .board-note{visibility:hidden}
+.joining-card{border-color:#79ac92;box-shadow:0 3px 0 #d4e4d6,0 8px 22px #264d3d18}.joining-card .card-expression{opacity:.45}.joining-card.supplying{border-color:#22a397;box-shadow:0 0 0 3px #65ccb834,0 8px 26px #23a19124}
+.joining-card .token.active-pair{outline:2px solid #29b8a8;outline-offset:4px;box-shadow:0 0 16px #43d4bc66}.joining-card .token[data-remaining="0"]{visibility:hidden}
+.board-arc{position:absolute;left:0;top:0;pointer-events:none;z-index:80;opacity:0;overflow:hidden;filter:drop-shadow(0 0 4px #37caba)}.board-arc path{fill:none;stroke:#21aaa3;stroke-width:3.4;stroke-linejoin:round;stroke-linecap:round}.board-arc path+path{stroke:#d9fff4;stroke-width:1.3}
+@media(max-width:800px){.header-actions{flex-wrap:wrap;justify-content:flex-end}.header{align-items:center}}
+@media(max-width:520px){.card-tokens{--token-size:42px;gap:18px 12px}.challenge{flex-wrap:wrap}.target-expression{font-size:23px}.challenge-proof{font-size:12px!important}.target-status{padding-top:0;text-align:left;max-width:none}.header-actions{max-width:176px;gap:5px}.header-actions .btn{font-size:10px;min-height:30px;padding:6px 7px}.inline-cancellation{padding:11px 12px;gap:5px;bottom:8px;grid-template-columns:minmax(0,1fr)}.cancel-heading{gap:6px}.cancel-heading h2{font-size:12px}.cancel-counter{font-size:10px}.cancel-current{font-size:11px}.cancel-score{font-size:13px}.cancel-controls{justify-content:space-between}.cancel-controls .btn{font-size:11px;padding:6px 8px}}
+@media(max-height:600px){.inline-cancellation{padding:8px 12px;gap:4px}.cancel-heading h2{font-size:12px}.cancel-current{font-size:11px}.cancel-score{display:none}.cancel-controls{grid-column:1/-1}.cancel-heading{position:sticky;top:0;background:#fffefb}.cancel-controls{position:sticky;bottom:0;background:#fffefb}}
+@media(prefers-reduced-motion:reduce){.board-arc{opacity:1;filter:none}}
+.worktop{flex-wrap:nowrap;align-items:flex-start}.worktop-left{flex-wrap:wrap;min-width:0;padding-top:7px}.worktop-left h2,.worktop-left .count{white-space:nowrap}.desk-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-shrink:0;margin-left:auto}.desk-actions .btn{white-space:nowrap}
+@media(max-width:1050px){.desk-actions{flex-direction:column;align-items:flex-end;gap:7px}}
+.example-nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}.example-nav[hidden]{display:none}.example-nav .btn[aria-pressed=true]{background:var(--mint);border-color:#93b4a3;color:var(--green-dark)}.example-equation{font:19px Georgia,"Times New Roman",serif!important;color:var(--green-dark)!important;overflow-wrap:anywhere}.score-unspecified{font-size:11px;color:var(--muted)}
+.victory-banner{position:fixed;z-index:150;top:max(18px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);width:min(360px,calc(100vw - 32px));pointer-events:none}.victory-banner[hidden]{display:none}.victory-message{display:flex;align-items:center;justify-content:center;gap:18px;padding:20px 24px;border:1px solid #ccdbab;border-radius:20px;background:linear-gradient(120deg,#fffbe5,#ecf7ed);box-shadow:0 12px 40px #315b3e29;animation:victory-arrive .6s ease-out both}.victory-party{font-size:46px;line-height:1.1}.victory-title{font:800 34px/1.1 system-ui,sans-serif;letter-spacing:1px;color:var(--green-dark)}.victory-detail{font-size:12px;color:#637a58;line-height:1.6;margin-top:6px}.target-status .victory-label{font-size:21px;letter-spacing:.5px;margin-bottom:3px;color:var(--green)}@keyframes victory-arrive{0%{opacity:0;transform:translateY(-12px) scale(.93)}65%{opacity:1;transform:translateY(0) scale(1.02)}100%{opacity:1;transform:none}}
+.fill-work{padding:24px;min-height:320px}.fill-work[hidden],.fill-work [hidden]{display:none!important}.is-fill-mode .worktools,.is-fill-mode .howto,.is-fill-mode .keyboard-hint,.is-fill-mode .trace-toggle{display:none}.fill-instructions{font-size:13px;line-height:1.8;color:var(--muted)}.fill-source{font-size:11px;line-height:1.7;color:var(--muted);margin-top:18px;padding-top:12px;border-top:1px solid var(--line)}.fill-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px 6px;padding:20px 0;border-bottom:1px dashed var(--line);font:23px/1.8 Georgia,"Times New Roman",serif}.fill-target{flex-basis:100%;overflow-wrap:anywhere;font-weight:bold;color:var(--green-dark)}.fill-factor{display:inline-flex;align-items:center;gap:4px;max-width:100%}.fill-input{width:62px;min-width:0;padding:8px 3px;text-align:center;border:2px solid #a4baa8;border-radius:9px;background:#f6faf5;color:var(--green-dark);font:600 20px/1.3 system-ui,sans-serif}.fill-input:focus{border-color:var(--green);outline:2px solid #badbb3;outline-offset:2px}.fill-times{font-size:22px;color:var(--green-dark);padding:0 2px}.fill-bank-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 12px;font-size:13px;color:var(--muted)}.fill-bank-bar[hidden]{display:none}.fill-bank-bar select{max-width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--green-dark);font:inherit}.fill-warning{padding:12px 14px;background:#fff3dd;border:1px solid #e5caa2;border-radius:10px;font-size:13px;line-height:1.8;color:#855922;margin:14px 0}.fill-row.step-row{font:18px/1.9 var(--font);gap:8px}.step-row .fill-target{font-weight:500}.step-row .fill-input{width:100px;font-size:19px}.step-after{max-width:100%;overflow-wrap:anywhere}.fill-actions{display:flex;gap:12px;align-items:center;margin-top:22px}.fill-feedback{font-size:14px;line-height:1.8;margin-top:16px;color:#9c452c;overflow-wrap:anywhere}.fill-feedback[data-status=correct]{color:var(--green)}.fill-proof{padding:16px;margin-top:15px;background:var(--mint);border-radius:12px;font-size:15px;line-height:2;overflow-wrap:anywhere}.fill-proof p+p{margin-top:10px}@media(max-width:520px){.fill-work{padding:16px 12px}.fill-row{font-size:20px;gap:10px 4px}.fill-input{width:50px;font-size:18px}.fill-factor{gap:3px}}
+.challenge .fill-question{white-space:pre-line;font:600 17px/1.9 Georgia,"Times New Roman",serif;color:var(--green-dark);overflow-wrap:anywhere;margin-top:14px}.fill-question[hidden]{display:none}.fill-chain{padding:20px 0;border-bottom:1px dashed var(--line);font:23px/1.8 Georgia,"Times New Roman",serif}.chain-target{margin-bottom:8px}.fill-row.chain-line{display:grid;grid-template-columns:18px minmax(0,1fr);gap:8px;padding:8px 0;border:0;font:inherit}.chain-content{display:flex;flex-wrap:wrap;align-items:center;gap:10px 6px;min-width:0}.chain-equals{color:var(--green-dark)}.fill-number,.fill-product{display:inline-flex;align-items:center;gap:3px;max-width:100%}.chain-constant{white-space:nowrap}.chain-structure .fill-factor>span:last-child{min-width:0;overflow-wrap:anywhere}.chain-result .fill-input,.chain-final-result .fill-input{width:86px;background:#edf6eb}.chain-structure .fill-input{flex-shrink:0}.final-chain{background:#f5f8f1;border-radius:12px;padding:16px;margin-top:16px}@media(max-width:520px){.fill-chain{font-size:20px}.fill-row.chain-line{grid-template-columns:14px minmax(0,1fr);gap:4px}.chain-content{gap:10px 4px}.fill-product{gap:2px}.fill-number{gap:1px}.final-chain{padding:12px 8px}.challenge .fill-question{font-size:15px}}
+.fill-question-row{display:flex;align-items:flex-start;gap:18px;flex-wrap:wrap}.fill-question-row .fill-question{flex:1 1 360px;min-width:0}.fill-question-row .btn{margin-top:18px;flex-shrink:0;min-height:42px}.challenge.fill-challenge{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}.fill-challenge .challenge-text{min-width:0}.fill-challenge h2,.fill-challenge .target-expression{font:600 14px/1.6 system-ui,sans-serif;letter-spacing:0;color:#526b58}.fill-challenge .fill-question{font-size:28px;line-height:1.8;font-weight:700;margin-top:14px;color:var(--green-dark)}.fill-challenge #challenge-description,.fill-challenge .target-status,.fill-challenge .target-status strong{font-size:12px;line-height:1.7}.fill-challenge .target-status{display:flex;flex-wrap:wrap;gap:4px 12px;text-align:left;max-width:none;min-width:0}.is-fill-mode .fill-instructions,.is-fill-mode .fill-feedback{font-size:12px}.is-fill-mode .fill-proof{font-size:13px}.bridge-panel{padding:14px 18px;background:#f1f6ee;border:1px solid var(--line);border-radius:12px;margin-bottom:18px;font-size:12px;line-height:1.8;color:#526b58}.bridge-heading{display:flex;gap:14px;justify-content:space-between;align-items:center;flex-wrap:wrap}.bridge-heading .btn{min-height:42px}#bridge-steps{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}#bridge-steps .btn[aria-pressed=true]{background:var(--mint);border-color:#93b4a3}#bridge-result{margin-top:10px;overflow-wrap:anywhere}#open-card-game[hidden],.bridge-panel[hidden],#bridge-result[hidden],#bridge-steps[hidden]{display:none}@media(max-width:520px){.fill-challenge .fill-question{font-size:22px;line-height:1.85}.fill-question-row{gap:8px}.fill-question-row .fill-question{flex-basis:100%}.fill-question-row .btn{margin-top:0}.fill-challenge h2,.fill-challenge .target-expression{font-size:13px}.bridge-panel{padding:12px}.bridge-panel .btn{white-space:normal}.fill-challenge #challenge-description{font-size:11px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="brand"><div class="brand-mark" aria-hidden="true"></div><div><h1>代数叠叠卡</h1><p>FLIP · STACK · DISCOVER</p></div></div>
+    <div class="header-actions"><span class="offline">离线也能玩</span><button class="btn ghost" id="sound-btn" type="button" data-sound-toggle aria-pressed="true" title="关闭音效">音效：开</button><button class="btn ghost" id="help-btn" type="button">玩法说明</button><button class="btn" id="custom-btn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>自定义卡片</button></div>
+  </header>
+  <nav class="lesson-nav" aria-label="选择练习关卡" id="lesson-nav"></nav>
+  <div class="fill-bank-bar" id="fill-bank-bar" hidden><label for="fill-bank">第7关题目分组</label><select id="fill-bank"><option value="review">原有结构练习 · 6题</option><option value="whole">整体加减与倍数 · 8题</option><option value="parameter">倍乘组合与消项 · 9题</option><option value="simplify">展开后的整体重组 · 4题</option></select><span>结构提炼21题 + 原有6题 = 27题</span></div>
+  <div class="fill-bank-bar" id="card-bank-bar" hidden><label for="card-bank">本关卡片练习</label><select id="card-bank"><option value="original">原有练习 · 5题</option><option value="linked">第7关对应卡片游戏</option></select></div>
+  <nav class="example-nav" id="example-nav" aria-label="选择本关题目" hidden><button class="btn small" type="button" data-example="0">第1题</button><button class="btn small" type="button" data-example="1">第2题</button><button class="btn small" type="button" data-example="2">第3题</button><button class="btn small" type="button" data-example="3">第4题</button><button class="btn small" type="button" data-example="4">第5题</button></nav>
+  <section class="challenge" id="challenge" aria-labelledby="challenge-title">
+    <div class="challenge-text"><span class="eyebrow" id="challenge-eyebrow">今日的小挑战</span><h2 id="challenge-title"><span id="target-label">合成一张</span><span class="target-expression" id="target-expression">a + c</span><span id="target-suffix">卡片</span></h2><p class="example-equation" id="example-equation" hidden></p><p id="challenge-description"></p><div class="fill-question-row"><p class="fill-question" id="fill-question" hidden></p><button class="btn" id="open-card-game" type="button" hidden>卡片游戏</button></div><div class="fact-list" id="facts" aria-label="原始卡片条件"></div></div>
+    <div class="target-status" id="target-status" aria-live="polite"></div>
+  </section>
+  <section class="bridge-panel" id="bridge-panel" hidden aria-label="对应卡片练习"><div class="bridge-heading"><span id="bridge-origin"></span><button class="btn" id="return-fill-btn" type="button">返回原题</button></div><nav id="bridge-steps" aria-label="卡片子目标"></nav><p id="bridge-result" hidden></p></section>
+  <main class="layout">
+    <section class="workshop" aria-label="卡片实验桌面">
+      <div class="worktop"><div class="worktop-left"><h2>实验桌面</h2><span class="count" id="card-count">2 张卡</span></div><div class="desk-actions"><div class="worktools"><button class="btn small ghost" id="arrange-btn" type="button" title="将卡片整齐排开">整理桌面</button><button class="btn small primary" id="merge-btn" type="button" disabled>拼接所选 <span id="selected-count">0</span></button></div><div class="history-buttons"><button class="btn small" id="reset-btn" type="button">重新开始</button><button class="btn small" id="undo-btn" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 4 10l5 5M4 10h10a6 6 0 0 1 0 12"/></svg>撤销</button></div></div></div>
+      <section class="fill-work" id="fill-work" aria-label="系数填空答题区" hidden><p class="fill-instructions" id="fill-instructions">从上往下完成连等式：先填整体系数，再抄写系数并把每个整体替换成题干中的数值，最后计算结果。负数的负号直接输入，数值替换处的括号用于保留负号。结构提炼题支持分数（如 -1/2）或小数；原有加减号和括号外常数都不能丢。</p><p class="fill-warning" id="fill-warning" hidden></p><form id="fill-form" novalidate><div id="fill-rows"></div><div class="fill-actions"><button class="btn primary" id="fill-submit" type="submit">检查答案</button></div></form><p class="fill-feedback" id="fill-feedback" role="status" aria-live="polite"></p><div class="fill-proof" id="fill-proof" hidden></div><p class="fill-source" id="fill-source"></p></section>
+      <div class="board-scroll" id="board-scroll"><div class="board" id="board" aria-label="点击卡面翻转；拖到其他卡片上叠合"></div></div>
+      <div class="desk-footer"><span id="step-count">0 次操作</span><span class="keyboard-hint">也可以选中多张卡，再叠合</span></div>
+    </section>
+    <aside class="sidebar" aria-label="操作说明与观察记录">
+      <section class="panel howto"><div class="panel-head"><h2>三个小动作</h2><span class="micro-tag">HOW TO PLAY</span></div><ol class="steps"><li><span class="step-no">01</span><div><strong>轻点卡面，整体翻转</strong><p>每个图案红黑互换，整张卡积分取相反数。</p></div></li><li><span class="step-no">02</span><div><strong>相邻拼接，逐对抵消</strong><p>红黑同类方块产生电流并消失，最后合体。积分相加。</p></div></li><li><span class="step-no">03</span><div><strong>需要几份，就复制几份</strong><p>两份相同卡叠合，就是整个式子的 2 倍。</p></div></li></ol><div class="legend"><span class="legend-piece"><span class="mini-square red">+</span>加上这个量</span><span class="legend-piece"><span class="mini-square dark">−</span>减去这个量</span></div><p class="rule-note">红色不一定是正分，黑色也不一定是负分。字母代表的数可以为负。</p></section>
+      <section class="panel"><div class="panel-head"><h2>刚刚发生了什么</h2><span class="micro-tag">OBSERVE</span></div><div class="record" id="record"></div><label class="trace-toggle"><input type="checkbox" id="show-math" checked> 显示对应的代数算式</label></section>
+      <section class="panel activity-panel"><div class="panel-head"><h2>探索足迹</h2><span class="micro-tag" id="log-count">0 STEPS</span></div><ol class="activity" id="activity"></ol></section>
+    </aside>
+  </main>
+  <footer class="footer"><span><strong>先想一想：</strong>需要留下什么？怎样让不需要的图案消失？</span><span>不计时 · 可以试错 · 每一步都能撤销　/　仅保留在当前页面 · v1.3.4</span></footer>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="victory-banner" id="victory-banner" role="status" aria-live="polite" aria-atomic="true" hidden><div class="victory-message"><span class="victory-party" aria-hidden="true">🎉</span><div><div class="victory-title" lang="en">Victory</div><p class="victory-detail" id="victory-detail"></p></div></div></div>
+<div class="sr-only" id="announce" aria-live="polite"></div>
+<dialog id="help-dialog" aria-labelledby="help-title"><div class="dialog-top"><h2 id="help-title">把式子，当作一整张卡</h2><button class="btn small" type="button" data-close="help-dialog" aria-label="关闭玩法说明">关闭</button></div><ol class="help-list"><li><strong>红色 +a</strong> 表示加上 a；<strong>黑色 −a</strong> 表示减去 a。字母的具体值不必先求出来。</li><li>点击卡面翻转：所有图案都换色，积分也取相反数。不能只翻卡内某一个图案。</li><li>按住卡面拖到另一张卡上，出现虚线框后松手。也可按卡下方的“选中”，再点“拼接所选”。</li><li>叠合后，同字母红黑两两抵消，其他图案保留，积分相加。图案旁的 ×n 表示 n 个相同图案。</li><li>“复制”会在原卡旁增加一张完全相同的卡，行尾放不下时一起换行；组合卡也可以继续翻面、复制和叠合。完全抵消后保留一张零卡。</li><li>键盘：Tab 定位卡面，Enter 或空格翻面；用卡片按钮选择和叠合。Ctrl / ⌘ + Z 撤销。</li></ol><div class="help-warning">前六关保留原30道练习，并增加与第七关27题一一对应的卡片游戏，共57个题目入口。各关可切换“原有练习”和“第7关对应卡片游戏”。第七关每道题旁有“卡片游戏”按钮，不会做时可跳转操作，再点“返回原题”继续；往返保留已填答案、卡片进度和各自的撤销记录，但不会自动填写答案。含三个中间整体的题目有三个卡片子目标。半倍题先合成不含常数部分的2倍，再把卡片值除以2；常数在最后加回，不改变原卡积分。第七关作答区直接填写数字；输入框后的 × 是乘号，负号直接输入，括号前的加减号保留。第七关27题全部采用完整求值连等式：题干给出已知整体值；第一行填系数组合整体；第二行抄写系数并把每个整体替换成已知数值；最后一行算出结果。若有多个中间整体，分别完成后再代入最终目标。结构提炼题的系数支持分数（如 -1/2），数值替换和结果均支持分数或小数。结构、系数抄写、数值替换和最终答案必须全部正确才能Victory，不能只猜最终值。题源页码用于追溯结构，另标注数值条件的来源；新增条件已核验存在实数解。“自由实验”支持整数系数多项式，例如 a^2+ab、x^3+x^2+y。不同单项式视为独立图案，只有相同图案才能抵消；多项式只检查游戏积分的线性组合是否冲突，不验证同一组字母的实数解。每次组合保留原卡顺序，电流直接连接原卡上的同类红黑方块，逐对原位消失，最后合体；支持暂停和跳过。原卡淡化的算式保留作来源记录。点击、翻面和电流音效由浏览器本地合成，首次操作后才发声，可随时静音。页面不联网、不记录身份信息，刷新后不保留进度。合成目标不代表已经掌握，请再试一道新题。</div></dialog>
+<dialog id="custom-dialog" aria-labelledby="custom-title"><div class="dialog-top"><h2 id="custom-title">制作一张新卡</h2><button class="btn small" type="button" data-close="custom-dialog" aria-label="关闭自定义卡片">关闭</button></div><p class="dialog-description">写出图案组合与整卡积分，添加后进入自由实验并保留现有卡片。多项式积分按独立图案计分；仅检查线性组合冲突，不验证同一组字母的实数解。</p><form id="custom-form"><div class="field"><label for="expression-input">图案组合</label><input id="expression-input" name="expression" type="text" placeholder="例如 a^2+ab 或 x^3+x^2+y" maxlength="160" autocomplete="off" autocapitalize="none" spellcheck="false" required><small>支持小写 a—z、整数系数、加减、ab（或 a*b）、a^2（或 a²）。每个字母的指数1—99；不支持括号、除法和常数项。</small></div><div class="field"><label for="score-input">整张卡的积分</label><input id="score-input" name="score" type="text" inputmode="text" placeholder="例如 3 或 -2" maxlength="8" autocomplete="off" required><small>支持 −999999 到 999999 的整数。红黑颜色并不决定积分正负。</small></div><div class="form-preview" id="form-preview" aria-label="卡片图案预览">图案会出现在这里</div><p class="form-error" id="form-error" role="alert"></p><div class="dialog-buttons"><button class="btn" type="button" data-close="custom-dialog">取消</button><button class="btn primary" type="submit">放到桌面</button></div></form></dialog>
+<noscript><p style="padding:24px">这个教学游戏需要启用浏览器 JavaScript，所有计算都在本地进行。</p></noscript>
+<script id="algebra-engine">
+'use strict';
+(() => {
+  const TERM_LIMIT = 999;
+  const SCORE_LIMIT = 999999;
+  const superscripts = '⁰¹²³⁴⁵⁶⁷⁸⁹';
+  const label = term => term.replace(/\^(\d+)/g, (_, n) => [...n].map(d => superscripts[Number(d)]).join(''));
+  const monomial = text => {
+    if (!text || text.length > 160 || !/^[a-z](?:\^[1-9]\d?)?(?:\*?[a-z](?:\^[1-9]\d?)?)*$/.test(text)) throw new Error('图案请写成 a、ab、a^2 或 x^3；每个字母的指数须为1到99的整数，不支持括号、除法和常数项。');
+    const powers = {};
+    for (const [, letter, exponent] of text.matchAll(/([a-z])(?:\^(\d+))?/g)) {
+      powers[letter] = (powers[letter] || 0) + Number(exponent || 1);
+      if (powers[letter] > 99) throw new Error('同一图案中，每个字母合并后的指数不能超过99。');
+    }
+    return Object.keys(powers).sort().map(k => k + (powers[k] === 1 ? '' : '^' + powers[k])).join('');
+  };
+  const normalize = terms => {
+    const out = {};
+    for (const [key, n] of Object.entries(terms)) {
+      if (!Number.isSafeInteger(n) || Math.abs(n) > TERM_LIMIT) throw new Error('每个图案的系数须为 −999 到 999 的整数。');
+      const term = monomial(key); out[term] = (out[term] || 0) + n;
+    }
+    for (const n of Object.values(out)) if (!Number.isSafeInteger(n) || Math.abs(n) > TERM_LIMIT) throw new Error('合并同类图案后的系数不能超过999。');
+    return Object.fromEntries(Object.entries(out).filter(([, n]) => n).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0));
+  };
+  const validScore = score => {
+    if (!Number.isSafeInteger(score) || Math.abs(score) > SCORE_LIMIT) throw new Error('积分超出范围，请减少卡片数量或数值。');
+    return score || 0;
+  };
+  const weights = w => {
+    const out = {};
+    for (const [key, n] of Object.entries(w || {}).sort(([a], [b]) => a.localeCompare(b))) {
+      if (!/^k\d+$/.test(key) || !Number.isSafeInteger(n)) throw new Error('原始卡片的组合份数超出安全整数范围。');
+      if (n) out[key] = n;
+    }
+    return out;
+  };
+  function parse(text) {
+    const raw = String(text);
+    if (raw.length > 160) throw new Error('表达式最多160个字符。');
+    const value = raw.replace(/\s/g, '').replace(/[−–]/g, '-').replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]+/g, n => '^' + [...n].map(d => superscripts.indexOf(d)).join(''));
+    if (value === '0') return {};
+    const tokens = value.match(/[+-]?[^+-]+/g);
+    if (!value || !tokens || tokens.join('') !== value) throw new Error('请使用 a^2+ab 或 x^3+x^2+y 这样的形式。');
+    const out = {};
+    for (const token of tokens) {
+      const match = /^([+-]?)(\d*)([a-z].*)$/.exec(token);
+      if (!match) throw new Error('每项请写成整数系数与图案的乘积，例如 2ab、-x^3；暂不支持常数项。');
+      const n = (match[1] === '-' ? -1 : 1) * Number(match[2] || 1), term = monomial(match[3]);
+      if (!Number.isSafeInteger(n) || Math.abs(n) > TERM_LIMIT) throw new Error('单个系数不能超过 999。');
+      out[term] = (out[term] || 0) + n;
+    }
+    return normalize(out);
+  }
+  function parseScore(text) {
+    const value = String(text).trim().replace(/−/g, '-');
+    if (!/^[+-]?\d+$/.test(value)) throw new Error('积分请填写一个整数，例如 3、0 或 -2。');
+    return validScore(Number(value));
+  }
+  function format(terms) {
+    const entries = Object.entries(normalize(terms));
+    if (!entries.length) return '0';
+    return entries.map(([k, v], i) => (v < 0 ? (i ? ' − ' : '−') : (i ? ' + ' : '')) + (Math.abs(v) === 1 ? '' : Math.abs(v)) + label(k)).join('');
+  }
+  function planCancellation(cards) {
+    const counts = {};
+    for (const card of cards) {
+      for (const [term, n] of Object.entries(normalize(card.terms))) {
+        counts[term] ||= { positive: 0, negative: 0 };
+        counts[term][n > 0 ? 'positive' : 'negative'] += Math.abs(n);
+      }
+    }
+    const groups = Object.keys(counts).sort().map(term => {
+      const { positive, negative } = counts[term];
+      return { term, positive, negative, pairs: Math.min(positive, negative), leftover: positive - negative };
+    });
+    return { groups, totalPairs: groups.reduce((sum, group) => sum + group.pairs, 0) };
+  }
+  function flip(card) {
+    return { terms: normalize(Object.fromEntries(Object.entries(card.terms).map(([k, v]) => [k, -v]))), score: card.score === null ? null : validScore(-card.score), weights: weights(Object.fromEntries(Object.entries(card.weights || {}).map(([k, v]) => [k, -v]))) };
+  }
+  function merge(cards) {
+    if (!Array.isArray(cards) || cards.length < 2) throw new Error('至少选择两张卡片才能叠合。');
+    const terms = {}, provenance = {}, positive = {}, negative = {}, cancelled = {};
+    let score = 0;
+    for (const card of cards) {
+      const checked = normalize(card.terms);
+      if (card.score === null) score = null;
+      else { const value = validScore(card.score); if (score !== null) score += value; }
+      for (const [k, v] of Object.entries(checked)) {
+        terms[k] = (terms[k] || 0) + v;
+        const signs = v > 0 ? positive : negative;
+        signs[k] = (signs[k] || 0) + Math.abs(v);
+      }
+      for (const [k, v] of Object.entries(weights(card.weights))) provenance[k] = (provenance[k] || 0) + v;
+    }
+    for (const k of Object.keys(positive).sort()) {
+      const count = Math.min(positive[k], negative[k] || 0);
+      if (count) cancelled[k] = count;
+    }
+    return { card: { terms: normalize(terms), score: score === null ? null : validScore(score), weights: weights(provenance) }, cancelled };
+  }
+  const same = (a, b) => JSON.stringify(normalize(a)) === JSON.stringify(normalize(b));
+  function consistent(cards) {
+    if (cards.some(c => Object.keys(c.terms).some(key => !/^[a-z]$/.test(key)))) throw new Error('一次式实数解检查不适用于多项式；多项式仅检查图案游戏积分的线性组合。');
+    return consistentScores(cards);
+  }
+  function consistentScores(cards) {
+    const checked = cards.map(c => ({ terms: normalize(c.terms), score: validScore(c.score) }));
+    const letters = [...new Set(checked.flatMap(c => Object.keys(c.terms)))].sort();
+    const gcd = (a, b) => { a = a < 0n ? -a : a; b = b < 0n ? -b : b; while (b) [a, b] = [b, a % b]; return a || 1n; };
+    const q = (a, b = 1n) => { if (!b) throw new Error('无效的除法。'); if (b < 0n) { a = -a; b = -b; } const g = gcd(a, b); return [a / g, b / g]; };
+    const sub = (a, b) => q(a[0] * b[1] - b[0] * a[1], a[1] * b[1]);
+    const mul = (a, b) => q(a[0] * b[0], a[1] * b[1]);
+    const div = (a, b) => q(a[0] * b[1], a[1] * b[0]);
+    const rows = checked.map(c => [...letters.map(k => q(BigInt(c.terms[k] || 0))), q(BigInt(c.score))]);
+    let pivot = 0;
+    for (let col = 0; col < letters.length && pivot < rows.length; col++) {
+      const found = rows.findIndex((r, i) => i >= pivot && r[col][0] !== 0n);
+      if (found < 0) continue;
+      [rows[pivot], rows[found]] = [rows[found], rows[pivot]];
+      const scale = rows[pivot][col];
+      rows[pivot] = rows[pivot].map(v => div(v, scale));
+      for (let r = pivot + 1; r < rows.length; r++) {
+        const factor = rows[r][col];
+        if (factor[0]) rows[r] = rows[r].map((v, i) => sub(v, mul(factor, rows[pivot][i])));
+      }
+      pivot++;
+    }
+    return !rows.some(r => r.slice(0, -1).every(v => v[0] === 0n) && r[r.length - 1][0] !== 0n);
+  }
+  const LEVELS = [
+    { name: '翻一张', caption: '两张卡，找到一个整体相减的办法。', cards: [{ terms: { a: 1, b: 1 }, score: 2 }, { terms: { b: 1, c: -1 }, score: 3 }], target: { a: 1, c: 1 }, solution: [1, -1], answer: -1 },
+    { name: '系数成组', caption: '两个 a 也是一个整体，不必拆开求值。', cards: [{ terms: { a: 2, b: 1 }, score: 5 }, { terms: { b: 1, c: -1 }, score: 1 }], target: { a: 2, c: 1 }, solution: [1, -1], answer: 4 },
+    { name: '再来一份', caption: '数量不够时，可以复制整张卡。', cards: [{ terms: { a: 1, b: 1 }, score: 3 }, { terms: { b: 2, c: -1 }, score: 4 }], target: { a: 2, c: 1 }, solution: [2, -1], answer: 2 },
+    { name: '三张接力', caption: '不必求出中间字母，只要消掉不需要的图案。', cards: [{ terms: { a: 1, b: 1 }, score: 4 }, { terms: { b: 1, c: -1 }, score: 1 }, { terms: { c: 1, d: -1 }, score: 2 }], target: { a: 1, d: 1 }, solution: [1, -1, -1], answer: 1 },
+    { name: '整组翻转', caption: '组合卡也能翻面：每个图案和总积分都要改变。', cards: [{ terms: { a: 2, b: -1 }, score: 4 }, { terms: { b: 1, c: 3 }, score: 2 }], target: { a: -2, c: -3 }, solution: [-1, -1], answer: -6 },
+    { name: '整式进阶', caption: '方块升级为 a²、ab、b²。复制的是整个式子，只有完全相同的单项式才能抵消。', cards: [{ terms: { 'a^2': 3, ab: 1 }, score: 5 }, { terms: { ab: 1, 'b^2': -1 }, score: -2 }], target: { 'a^2': 9, ab: -1, 'b^2': 4 }, targetDisplay: '4b² + 9a² − ab', solution: [3, -4], answer: 23, witness: { a: 1, b: 2 } }
+  ];
+  LEVELS[5].examples = [{
+    name: '结构填空', structureOnly: true,
+    caption: '先匹配两端的 a²、b²，最后检查中间的 ab。两张原卡分别为3分、2分；本例为游戏积分，随复制、翻面和拼接变化，不代表式子在同一组实数 a、b 下的值。',
+    cards: [{ terms: { 'a^2': 2, ab: 1 }, score: 3 }, { terms: { ab: 1, 'b^2': -1 }, score: 2 }],
+    target: { 'a^2': 8, ab: 1, 'b^2': 3 }, solution: [4, -3], answer: 6,
+    verification: '展开核验：8a² + 4ab − 3ab + 3b² = 8a² + ab + 3b²；中间 ab 的系数：4 − 3 = 1。'
+  }];
+  const practice = spec => ({ ...spec, cards: spec.cards.map(([terms, score]) => ({ terms: parse(terms), score })), target: parse(spec.target) });
+  LEVELS[0].examples = [
+    { name: '换一组字母', caption: '字母换了，留下目标、消去多余图案的规则没有变。先观察，再决定翻哪张。',
+      cards: [['x+y', 7], ['y-z', 2]], target: 'x+z', solution: [1, -1], answer: 5 },
+    { name: '共同黑方块', caption: '两张卡都有黑色 q。怎样改变一整张卡，让不需要的图案抵消？',
+      cards: [['p-q', -2], ['r-q', 4]], target: 'p-r', solution: [1, -1], answer: -6 },
+    { name: '反向找目标', caption: '这次目标里的图案都是黑色。不要固定翻第二张，先对照目标的颜色。',
+      cards: [['m+n', 1], ['m-p', -3]], target: '-n-p', solution: [-1, 1], answer: -4 },
+    { name: '零分不是零卡', caption: '两张原卡积分相同。完成目标后观察：零分是否一定表示没有图案？',
+      cards: [['a-b', 5], ['c-b', 5]], target: 'a-c', solution: [1, -1], answer: 0 }
+  ].map(practice);
+  LEVELS[1].examples = [
+    { name: '两对一起看', caption: '共同的 y 有两份。每一份都要配对，剩下的整组图案全部保留。',
+      cards: [['3x+2y', 8], ['2y-z', 3]], target: '3x+z', solution: [1, -1], answer: 5 },
+    { name: '负项成组', caption: '三份黑色 q 也能逐份配对。看清翻面后，另一组图案会变成什么颜色。',
+      cards: [['2p-3q', 1], ['4r-3q', -5]], target: '2p-4r', solution: [1, -1], answer: 6 },
+    { name: '负分也能拼', caption: '图案的红黑和整卡积分正负是两回事。按目标配图案，再计算总积分。',
+      cards: [['2m+3n', -4], ['3n-2p', 2]], target: '2m+2p', solution: [1, -1], answer: -6 },
+    { name: '整组换方向', caption: '目标保留四份黑色 a 和两份红色 c。翻面必须让整张卡一起换色。',
+      cards: [['4a-b', 7], ['2c-b', 1]], target: '-4a+2c', solution: [-1, 1], answer: -6 }
+  ].map(practice);
+  LEVELS[2].examples = [
+    { name: '多复制一份', caption: '一边只有一份 y，另一边有三份。先规划需要的份数，不要只改变卡内一个图案。',
+      cards: [['x+y', 4], ['3y-z', 5]], target: '3x+z', solution: [3, -1], answer: 7 },
+    { name: '复制另一张', caption: '观察两边黑色 q 的数量。哪张卡需要多一份？复制时其他图案和积分也一起增加。',
+      cards: [['p-2q', 1], ['3r-q', 2]], target: 'p-6r', solution: [1, -2], answer: -3 },
+    { name: '复制负分卡', caption: '负积分的卡也可以复制。先凑出目标图案，再核对整卡积分怎样变化。',
+      cards: [['2m+n', -2], ['2n-p', 3]], target: '4m+p', solution: [2, -1], answer: -7 },
+    { name: '两边都要复制', caption: '两边的 b 分别有两份和三份。让需要消去的数量相等，同时留下目标。',
+      cards: [['a+2b', 3], ['3b-c', 1]], target: '3a+2c', solution: [3, -2], answer: 7 }
+  ].map(practice);
+  LEVELS[3].examples = [
+    { name: '换字母接力', caption: '三张卡形成一条接力链。找出连接两端的中间图案，再安排每张卡的方向。',
+      cards: [['x+y', 5], ['y-z', 2], ['z-w', -1]], target: 'x+w', solution: [1, -1, -1], answer: 4 },
+    { name: '有加也有减', caption: '不要默认两张卡都要翻面。逐一检查 q 和 r 是否能配成红黑两对。',
+      cards: [['p-q', 1], ['r-q', 4], ['r-s', 2]], target: 'p-s', solution: [1, -1, 1], answer: -1 },
+    { name: '带系数接力', caption: '中间的 c 有两份，接力规则仍然相同。配对后保留目标中的整组图案。',
+      cards: [['2a+b', 6], ['b-2c', 1], ['2c-d', -2]], target: '2a+d', solution: [1, -1, -1], answer: 7 },
+    { name: '反向接力', caption: '目标中的 m 是黑色、q 是红色。从两端颜色倒过来检查中间怎样衔接。',
+      cards: [['m+n', 2], ['n+p', -1], ['p-q', 4]], target: '-m+q', solution: [-1, 1, -1], answer: -7 }
+  ].map(practice);
+  LEVELS[4].examples = [
+    { name: '换字母整翻', caption: '先把两张原卡叠合，再看剩余图案与目标的关系。组合卡也能整张翻面。',
+      cards: [['3x-y', 5], ['y+2z', 1]], target: '-3x-2z', solution: [-1, -1], answer: -6 },
+    { name: '两份中间项', caption: '先让两份 q 配对消失，再把得到的组合与目标对照。翻面不只改变一个负号。',
+      cards: [['p+2q', -3], ['-2q+4r', 7]], target: '-p-4r', solution: [-1, -1], answer: -4 },
+    { name: '目标有红有黑', caption: '目标不一定全是黑色。先叠合，再让剩余每一组图案和总积分一起取反。',
+      cards: [['2m-3n', -4], ['3n-p', -2]], target: '-2m+p', solution: [-1, -1], answer: 6 },
+    { name: '零分照样翻面', caption: '先合成一张卡再整体翻转。观察：即使积分是零，图案的颜色还会改变吗？',
+      cards: [['a-2b', 5], ['2b+3c', -5]], target: '-a-3c', solution: [-1, -1], answer: 0 }
+  ].map(practice);
+  LEVELS[5].examples.push(...[
+    { name: '中间项全消', caption: '目标里没有 ab。先匹配 a²、b² 的份数，再检查中间项是否全部抵消。',
+      cards: [['a^2+ab', 3], ['ab-b^2', -2]], target: '2a^2+2b^2', solution: [2, -2], answer: 10, witness: { a: 1, b: 2 } },
+    { name: '换字母凑整体', caption: '图案换成 x²、xy、y²。先匹配两端，再检查中间还需要留下多少个 xy。',
+      cards: [['2x^2+xy', 6], ['xy-y^2', -3]], target: '6x^2+xy+2y^2', solution: [3, -2], answer: 24, witness: { x: 2, y: -1 } },
+    { name: '留下黑色中项', caption: '两张原卡都是负积分，目标里保留黑色 mn。份数和颜色要分别核对。',
+      cards: [['m^2+mn', -1], ['mn-n^2', -6]], target: '2m^2-mn+3n^2', solution: [2, -3], answer: 16, witness: { m: 1, n: -2 } }
+  ].map(practice));
+  const fillRow = (target, groups, signs, offset = 0, targetDisplay = '') => ({ target: parse(target), groups: groups.map(parse), signs, offset, targetDisplay });
+  const fillQuestions = [
+    { name: '加号与负系数', caption: '直接填两个系数，使等式恒成立。括号之间是加号，负号需要写在空格里面。',
+      source: '本次指定题；据《等式与结构》第40题改为加号填写带符号系数。', sourceRef: 'workbook:40; user:2026-11-02',
+      rows: [fillRow('4b^2+9a^2-ab', ['3a^2+ab', 'ab-b^2'], [1, 1], 0, '4b² + 9a² − ab')], solution: [3, -4] },
+    { name: '原图结构填空', caption: '保留原图中的减号。两空各填一个数，匹配两端之后，还要检查中间的 ab。',
+      source: '此前上传的结构填空截图；《等式与结构》第37题。', sourceRef: 'image.c15cb0ee88.png; workbook:37',
+      rows: [fillRow('8a^2+ab+3b^2', ['2a^2+ab', 'ab-b^2'], [1, -1])], solution: [4, 3] },
+    { name: '换系数练习', caption: '观察目标的 a² 和 b²，再用中间的 ab 检验两空是否同时合适。',
+      source: '《等式与结构》第38题，相关结构练习；未标注为洋葱原错题。', sourceRef: 'workbook:38',
+      rows: [fillRow('15a^2+2ab+3b^2', ['3a^2+ab', 'ab-b^2'], [1, -1])], solution: [5, 3] },
+    { name: '中间项一起算', caption: '这次两个括号之间是加号。两个括号都含 ab，检查时不能漏掉其中一份。',
+      source: '《等式与结构》第39题，相关结构练习；未标注为洋葱原错题。', sourceRef: 'workbook:39',
+      rows: [fillRow('6a^2+7ab-b^2', ['3a^2+2ab', '3ab-b^2'], [1, 1])], solution: [2, 1] },
+    { name: '原题回访·整体代入', caption: '已知 2a² + ab = 1，ab − b² = −1。先填系数凑出已知整体，再求目标式的值。不要漏掉常数项 −15。',
+      source: '《等式与结构》第60题标为“原题回访”；按整体组合路线改成填空，洋葱原始截图待核对。', sourceRef: 'workbook:60',
+      rows: [fillRow('12a^2+ab+5b^2', ['2a^2+ab', 'ab-b^2'], [1, 1], -15)], solution: [6, -5, -4],
+      final: { label: '12a² + ab + 5b² − 15 的值', answer: -4, explanation: '代入已知整体：6 × 1 + (−5) × (−1) − 15 = −4。' } },
+    { name: '原题回访·三个整体', caption: '已知 a + b = 1，b + c = 2，c − d = 3，求 (a − c)(a − c) + (d − c)/(b + d)。先填出三个所需整体，再算结果。',
+      source: '《等式与结构》第59题标为“原题回访”；改成分步填系数及结果，洋葱原始截图待核对。', sourceRef: 'workbook:59',
+      rows: [fillRow('a-c', ['a+b', 'b+c'], [1, 1]), fillRow('d-c', ['c-d'], [1]), fillRow('b+d', ['b+c', 'c-d'], [1, 1])], solution: [1, -1, -1, 1, -1, 4],
+      final: { label: '(a − c)(a − c) + (d − c)/(b + d) 的值', answer: 4, explanation: 'a − c = 1 − 2 = −1；d − c = −3；b + d = 2 − 3 = −1，分母不为0。原式 = (−1) × (−1) + (−3)/(−1) = 4。' } }
+  ].map(q => ({ ...q, mode: 'fill', cards: [] }));
+  const pdfQuestions = [
+    { pdfNumber: 8, name: '相同中项抵消',
+      rows: [fillRow('a^2-b^2', ['a^2-2ab', 'b^2-2ab'], [1, 1])], solution: [1, -1],
+      extraction: '提取两个整体相减、共同项抵消的结构，再用原题的两个整体值求值。',
+      explanation: '第一份保留，第二份取反：−2ab + 2ab = 0，留下 a² − b²。' },
+    { pdfNumber: 9, name: '正负中项抵消',
+      rows: [fillRow('a^2-3b^2', ['a^2-ab', 'ab-3b^2'], [1, 1])], solution: [1, 1],
+      extraction: '提取两个整体相加的结构，再把已知整体替换成数值。',
+      explanation: '两份整体相加，−ab 与 ab 抵消，留下 a² − 3b²。' },
+    { pdfNumber: 10, name: '加号里填负数',
+      rows: [fillRow('a^2-b^2', ['a^2+ab', 'ab+b^2'], [1, 1])], solution: [1, -1],
+      extraction: '提取相减消去中间项的结构，把相减写成加上负倍数。',
+      explanation: '第二个整体乘 −1 时，ab 和 b² 都变号；不能只把 b² 变号。' },
+    { pdfNumber: 13, name: '半份整体',
+      rows: [fillRow('3y-4x^2', ['8x^2-6y'], [1], 10)], solution: ['-1/2'],
+      extraction: '提取负半倍整体关系，将原目标与对应整体同时放大2倍，使式内系数为整数。',
+      explanation: '−1/2 同时乘8和−6，得到 −4x² + 3y；常数10在等号两边保留。' },
+    { pdfNumber: 14, name: '整体换方向',
+      rows: [fillRow('12b-4a', ['2a-6b'], [1], 11)], solution: [-2],
+      extraction: '提取原式在 x = 1 后的两个整体之间的倍数关系，再代入整体值并保留常数。',
+      explanation: '−2 × 2a = −4a，−2 × (−6b) = 12b；常数11不参加倍乘。' },
+    { pdfNumber: 15, name: '换序再取反',
+      rows: [fillRow('4y-3x^2', ['3x^2-4y'], [1], -7)], solution: [-1],
+      extraction: '将原括号内的分数整体放大4倍，提取换序与整体取反结构。',
+      explanation: '3x² − 4y 的相反数是 −3x² + 4y，即4y − 3x²；两边都保留 −7。' },
+    { pdfNumber: 16, name: '整份放大',
+      rows: [fillRow('6x^2-9y', ['2x^2-3y'], [1], 3)], solution: [3],
+      extraction: '将原目标与分数整体同时放大3倍，保留整份放大的结构。',
+      explanation: '同一个3同时乘括号内两项，得到6x² − 9y；两边常数3保持不变。' },
+    { pdfNumber: 17, name: '小数留在外面',
+      rows: [fillRow('3n-m^2', ['2m^2-6n'], [1], 6.5)], solution: ['-1/2'],
+      extraction: '提取负半倍整体加常数的结构，代入整体值时把常数留在括号外。',
+      explanation: '−1/2 × (2m² − 6n) = −m² + 3n；6.5在括号外，不被乘 −1/2。' },
+    { pdfNumber: 18, name: '平方展开后重组',
+      rows: [fillRow('a^2-2ab+b^2', ['a^2-ab', 'b^2-ab'], [1, 1])], solution: [1, 1],
+      extraction: '从原题的平方整体提炼展开后重组的变式，不保留选择题或最简结果问答。',
+      explanation: '把 (a − b)² 展开的 a² − 2ab + b² 分到两个整体中；两份 −ab 合成 −2ab。' },
+    { pdfNumber: 19, name: '两整体倍乘相加',
+      rows: [fillRow('7x^2+2x', ['5x^2-x', '-3x^2+4x'], [1, 1], -2)], solution: [2, 1],
+      extraction: '提取原题2A + B的组合结构，重选固定系数并将常数收在括号外，不再求参数。',
+      explanation: 'x²：2 × 5 − 3 = 7；x：2 × (−1) + 4 = 2。两种项必须同时匹配。' },
+    { pdfNumber: 20, name: '两整体倍乘相减',
+      rows: [fillRow('-3x^2-8x', ['3x^2+2x', '3x^2+4x'], [1, 1], 5)], solution: [2, -3],
+      extraction: '提取原题2A − 3B的组合结构，固定式内系数，负倍数由空格填写。',
+      explanation: 'x²：2 × 3 − 3 × 3 = −3；x：2 × 2 − 3 × 4 = −8。括号间加号不变，第二空填负数。' },
+    { pdfNumber: 21, name: '只留下平方项',
+      rows: [fillRow('3x^2', ['4x^2-5x', '5x^2-10x'], [1, 1], -5)], solution: [2, -1],
+      extraction: '提取原题2A − B与同类项消去结构，重选固定系数，只让一次项消失。',
+      explanation: 'x²：2 × 4 − 5 = 3；x：2 × (−5) − (−10) = 0。目标没写x，表示它的系数必须为0。' },
+    { pdfNumber: 22, name: '正负份数组合',
+      rows: [fillRow('4x^2-7x', ['8x^2+7x', '2x^2+7x'], [1, 1], 9)], solution: [1, -2],
+      extraction: '提取原题A − 2B的整体结构，重选固定系数，去掉参数条件。',
+      explanation: 'x²：8 − 2 × 2 = 4；x：7 − 2 × 7 = −7。取负倍数时整个括号一起变号。' },
+    { pdfNumber: 23, name: '负项也按份数乘',
+      rows: [fillRow('3x^2+16x', ['-6x^2-4x', '5x^2+8x'], [1, 1], -5)], solution: [2, 3],
+      extraction: '提取原题2A + 3B的组合结构，重选固定系数，保留正负项混合。',
+      explanation: 'x²：2 × (−6) + 3 × 5 = 3；x：2 × (−4) + 3 × 8 = 16。' },
+    { pdfNumber: 24, name: '三个整体消去y',
+      rows: [fillRow('3x^2-x', ['x^2+6y^2', '2x^2-x+10y', '3y^2+5y'], [1, 1, 1])], solution: [1, 1, -2],
+      extraction: '从原题y²、y同时消去的要求提炼三整体变式，重选整式，不保留参数与原求值条件。',
+      explanation: 'y²：6 − 2 × 3 = 0；y：10 − 2 × 5 = 0。剩余x²为1 + 2 = 3，x为−1。' },
+    { pdfNumber: 25, name: '不同倍数同时消项',
+      rows: [fillRow('2x^2+4x', ['x^2+14y^2', '4x-21y', '4y^2-3y'], [1, 1, 1])], solution: [2, 1, -7],
+      extraction: '从原题y²、y分别匹配零系数的结构提炼三整体变式，重选系数，保留其他项。',
+      explanation: 'y²：2 × 14 − 7 × 4 = 0；y：−21 + (−7) × (−3) = 0。留下2x² + 4x。' },
+    { pdfNumber: 26, name: '消去x留下y',
+      rows: [fillRow('y^2-7y', ['9x^2+5x+y^2', '3x^2+2x', 'x-7y'], [1, 1, 1])], solution: [1, -3, 1],
+      extraction: '从原题x²、x消去而y项保留的结构提炼三整体变式，不再填写参数。',
+      explanation: 'x²：9 − 3 × 3 = 0；x：5 − 3 × 2 + 1 = 0。y²和−7y分别从第一、第三个整体保留下来。' },
+    { pdfNumber: 27, name: '消去高次与一次项',
+      rows: [fillRow('x^2', ['x^3+x^2+2x', '2x^3+4x'], [1, 1])], solution: [1, '-1/2'],
+      extraction: '从原题不含x³和x、保留x²的结构提炼两整体变式，不保留参数题。',
+      explanation: 'x³：1 − (1/2) × 2 = 0；x：2 − (1/2) × 4 = 0；x²只在第一个整体中，保留一份。' },
+    { pdfNumber: 28, name: '重组后抵消中项',
+      rows: [fillRow('-11x^2y', ['2x^2y-3xy', '5x^2y+9xy'], [1, 1], -4)], solution: [-3, -1],
+      extraction: '把原题的散项9xy并入第二个整体，将化简过程倒过来作为系数填空，再用重组后的整体值求值。',
+      explanation: 'x²y：−3 × 2 − 5 = −11；xy：−3 × (−3) − 9 = 0。常数−4留在括号外。' },
+    { pdfNumber: 29, name: '高次整体同样组合',
+      rows: [fillRow('-a^2b^2-5ab', ['4a^2b^2+5ab', 'a^2b^2+2ab'], [1, 1])], solution: [1, -5],
+      extraction: '将原题的化简结果放左边，原有两个整体放右边，字母取值换算为整体值后继续求值。',
+      explanation: 'a²b²：4 − 5 = −1；ab：5 − 5 × 2 = −5。高次项也按完整同类项比较。' },
+    { pdfNumber: 30, name: '散项先收成整体',
+      rows: [fillRow('a^2b+ab', ['5a^2b-7ab', '2a^2b-4ab'], [1, 1])], solution: [1, -2],
+      extraction: '把原题括号外的同类散项收成一个整体，再把化简过程倒过来填倍数，最后替换整体并求值。',
+      explanation: 'a²b：5 − 2 × 2 = 1；ab：−7 − 2 × (−4) = 1。两个目标项都保留一份。' }
+  ].map(q => {
+    const no = q.pdfNumber, page = no <= 20 ? 2 : 3;
+    return { ...q, mode: 'fill', cards: [], allowFractions: true, pdfPage: page,
+      caption: '只填括号前的乘法系数，使等式恒成立。不要给字母赋值；目标中没出现的项也必须抵消。',
+      bank: no <= 17 ? 'whole' : no >= 19 && no <= 27 ? 'parameter' : 'simplify',
+      source: '《洋葱学园错题本_数学_20261010214706》第' + page + '页第' + no + '题的结构提炼变式（非原题复刻）。',
+      sourceRef: '洋葱学园错题本_数学_20261010214706.pdf#page=' + page + '&question=' + no };
+  });
+  for (const q of fillQuestions) q.bank = 'review';
+  fillQuestions.push(...pdfQuestions);
+  const smallA = Math.sqrt((3 - Math.sqrt(3)) / 6);
+  const diffA = Math.sqrt((-1 + 2 * Math.sqrt(7)) / 3);
+  const reviewValues = [
+    { groups: [[5, -2]], rowAnswers: [23], answer: 23, witness: { a: 1, b: 2 }, origin: '已知整体值按本次截图：5和−2。' },
+    { groups: [[4, -2]], rowAnswers: [22], answer: 22, witness: { a: 1, b: 2 } },
+    { groups: [[14, 1]], rowAnswers: [67], answer: 67, witness: { a: 2, b: 1 } },
+    { groups: [[7, 2]], rowAnswers: [16], answer: 16, witness: { a: 1, b: 2 } },
+    { groups: [[1, -1]], rowAnswers: [-4], answer: -4, witness: { a: smallA, b: (1 - 2 * smallA * smallA) / smallA }, origin: '沿用原有练习的整体值。' },
+    { groups: [[1, 2], [3], [2, 3]], rowAnswers: [-1, -3, -1], answer: 4, witness: { a: 1, b: 0, c: 2, d: -1 }, finalRefs: [0, 0, 1, 2], origin: '沿用原有练习的整体值；先算三个中间整体，再完成乘法和除法。' }
+  ];
+  const pdfValues = {
+    8: { groups: [[3, 2]], rowAnswers: [1], answer: 1, witness: { a: diffA, b: (-5 + Math.sqrt(7)) / (3 * diffA) } },
+    9: { groups: [[1, -2]], rowAnswers: [-1], answer: -1, witness: { a: -1 / Math.sqrt(2), b: 1 / Math.sqrt(2) } },
+    10: { groups: [[4, -1]], rowAnswers: [5], answer: 5, witness: { a: 4 / Math.sqrt(3), b: -1 / Math.sqrt(3) } },
+    13: { groups: [[12]], rowAnswers: [4], answer: 4, witness: { x: 0, y: -2 } },
+    14: { groups: [[1]], rowAnswers: [9], answer: 9, witness: { a: 0.5, b: 0 } },
+    15: { groups: [[8]], rowAnswers: [-15], answer: -15, witness: { x: 0, y: -2 } },
+    16: { groups: [[3]], rowAnswers: [12], answer: 12, witness: { x: 0, y: -1 } },
+    17: { groups: [[-1]], rowAnswers: [7], answer: 7, witness: { m: 1, n: 0.5 } },
+    18: { groups: [[6, -2]], rowAnswers: [4], answer: 4, witness: { a: 3, b: 1 } },
+    19: { groups: [[18, -4]], rowAnswers: [30], answer: 30, witness: { x: 2 } },
+    20: { groups: [[1, -1]], rowAnswers: [10], answer: 10, witness: { x: -1 } },
+    21: { groups: [[21, 15]], rowAnswers: [22], answer: 22, witness: { x: 3 } },
+    22: { groups: [[46, 22]], rowAnswers: [11], answer: 11, witness: { x: 2 } },
+    23: { groups: [[-2, -3]], rowAnswers: [-18], answer: -18, witness: { x: -1 } },
+    24: { groups: [[10, 16, 8]], rowAnswers: [10], answer: 10, witness: { x: 2, y: 1 } },
+    25: { groups: [[15, 25, 7]], rowAnswers: [6], answer: 6, witness: { x: 1, y: -1 } },
+    26: { groups: [[18, 5, -13]], rowAnswers: [-10], answer: -10, witness: { x: 1, y: 2 } },
+    27: { groups: [[16, 24]], rowAnswers: [4], answer: 4, witness: { x: 2 } },
+    28: { groups: [[20, -16]], rowAnswers: [-48], answer: -48, witness: { x: -1, y: 4 } },
+    29: { groups: [[114, 24]], rowAnswers: [-6], answer: -6, witness: { a: 3, b: -2 } },
+    30: { groups: [[170, 80]], rowAnswers: [10], answer: 10, witness: { a: -2, b: 5 } }
+  };
+  fillQuestions.forEach((q, i) => {
+    q.valuation = q.pdfNumber ? pdfValues[q.pdfNumber] : reviewValues[i];
+    if (!q.valuation.origin) q.valuation.origin = q.pdfNumber && (q.pdfNumber <= 17 || q.pdfNumber >= 28)
+      ? '已知值由原题条件按当前整体的缩放或重组换算；求值对象以本页连等式为准。'
+      : '当前整体的数值条件为求值练习补充，已核验能被同一组实数满足，并非原PDF数值。';
+    const givens = new Map();
+    q.rows.forEach((row, r) => row.groups.forEach((g, j) => givens.set(format(g), q.valuation.groups[r][j])));
+    const target = q.final ? q.final.label.replace(/ 的值$/, '') : (q.rows[0].targetDisplay || format(q.rows[0].target)) + (q.rows[0].offset ? (q.rows[0].offset < 0 ? ' − ' : ' + ') + Math.abs(q.rows[0].offset) : '');
+    q.questionText = '已知：' + [...givens].map(([g, v]) => g + ' = ' + String(v).replace('-', '−')).join('；') + '。\n求：' + target + ' 的值。';
+    q.caption = '先填系数凑出整体，再将每个整体替换成题干中的数值，最后算出结果。每一行都要完成。';
+    q.chainSolution = fillFields(q).map(field => field.expected);
+  });
+  const bridgeGroups = [5, 5, 5, 2, 5, 3];
+  const pdfBridgeGroups = { 8: 0, 9: 1, 10: 0, 13: 1, 14: 4, 15: 4, 16: 2, 17: 1, 18: 1, 19: 2, 20: 2, 21: 2, 22: 2, 23: 2, 24: 3, 25: 3, 26: 3, 27: 5, 28: 4, 29: 5, 30: 5 };
+  fillQuestions.forEach((q, i) => {
+    q.id = 'fill-' + (i + 1);
+    const level = q.pdfNumber ? pdfBridgeGroups[q.pdfNumber] : bridgeGroups[i];
+    let cursor = 0;
+    const stages = q.rows.map((row, r) => {
+      const factors = row.groups.map((_, j) => { const [n, d] = fillFraction(q.solution[cursor++]); return Number(n) / Number(d) * row.signs[j]; });
+      const scale = factors.some(n => !Number.isInteger(n)) ? 2 : 1;
+      const target = normalize(Object.fromEntries(Object.entries(row.target).map(([k, n]) => [k, n * scale])));
+      const caption = '与第7关第' + (i + 1) + '题使用相同的整体和已知值。'
+        + (scale === 2 ? '卡片只能整份操作：先合成原目标中不含常数部分的2倍，完成后把积分除以2。' : '用翻面、复制和叠合，合成原题中不含常数的部分。')
+        + (row.offset ? '括号外常数 ' + String(row.offset).replace('-', '−') + ' 留到最后计算，不混进卡片积分。' : '')
+        + (q.rows.length > 1 ? '本题有3个中间整体，分别完成后返回原题继续乘除求值。' : '完成后返回原题继续填写连等式。');
+      return { name: '原题第' + (i + 1) + '题 · ' + q.name, caption,
+        cards: row.groups.map((terms, j) => ({ terms: { ...terms }, score: q.valuation.groups[r][j] })),
+        target, targetDisplay: scale === 1 ? row.targetDisplay : undefined,
+        solution: factors.map(n => n * scale), answer: (q.valuation.rowAnswers[r] - row.offset) * scale,
+        witness: { ...q.valuation.witness },
+        bridge: { fillId: q.id, fillExample: i, row: r, scale, offset: row.offset } };
+    });
+    const entry = { ...stages[0], stages };
+    LEVELS[level].examples.push(entry);
+    q.cardLink = { level, example: LEVELS[level].examples.length };
+  });
+  LEVELS.push({ ...fillQuestions[0], name: '整体系数与求值', examples: fillQuestions.slice(1) });
+  function fillFields(question) {
+    const fields = []; let cursor = 0;
+    question.rows.forEach((row, r) => {
+      const start = fields.length, coefficients = question.solution.slice(cursor, cursor + row.groups.length); cursor += row.groups.length;
+      coefficients.forEach((c, j) => fields.push({ role: 'coefficient', row: r, group: j, expected: c }));
+      coefficients.forEach((c, j) => {
+        fields.push({ role: 'multiplier', row: r, group: j, ref: start + j, expected: c });
+        fields.push({ role: 'value', row: r, group: j, expected: question.valuation.groups[r][j] });
+      });
+      fields.push({ role: 'result', row: r, expected: question.valuation.rowAnswers[r] });
+    });
+    if (question.valuation.finalRefs) {
+      question.valuation.finalRefs.forEach((r, i) => fields.push({ role: 'final-value', row: r, nonzero: i === 3, expected: question.valuation.rowAnswers[r] }));
+      fields.push({ role: 'final-result', expected: question.valuation.answer });
+    }
+    return fields;
+  }
+  function fillFraction(text) {
+    const value = String(text).trim().replace(/[−－]/g, '-');
+    let n, d;
+    if (/^[+-]?\d{1,6}\/[+-]?\d{1,6}$/.test(value)) [n, d] = value.split('/').map(BigInt);
+    else if (/^[+-]?\d{1,6}(?:\.\d{1,4})?$/.test(value)) {
+      const [integer, fraction = ''] = value.split('.'); d = 10n ** BigInt(fraction.length); n = BigInt(integer + fraction);
+    } else return null;
+    if (d === 0n) return null;
+    if (d < 0n) { n = -n; d = -d; }
+    if (n > 999n * d || n < -999n * d) return null;
+    return [n, d];
+  }
+  function checkStructure(question, inputs) {
+    const count = question.rows.reduce((n, row) => n + row.groups.length, 0) + (question.final ? 1 : 0);
+    if (!Array.isArray(inputs) || inputs.length !== count) return { status: 'invalid', message: '请填完本题所有空格。' };
+    const values = [], fractions = [];
+    for (let i = 0; i < inputs.length; i++) {
+      const raw = String(inputs[i]).trim().replace(/[−－]/g, '-');
+      if (!question.allowFractions && (!/^[+-]?\d+$/.test(raw) || !Number.isSafeInteger(Number(raw)) || Math.abs(Number(raw)) > 999)) return { status: 'invalid', message: '第' + (i + 1) + '空请填写−999到999之间的整数，可以是负数。', index: i };
+      const fraction = question.allowFractions ? fillFraction(raw) : [BigInt(raw), 1n];
+      if (!fraction) return { status: 'invalid', index: i, message: '第' + (i + 1) + '空请填写系数（−999到999），支持负数、分数如-1/2或最多四位小数；分母不能是0。' };
+      fractions.push(fraction); values.push(Number(fraction[0]) / Number(fraction[1]));
+    }
+    let cursor = 0;
+    const rows = question.rows.map(row => {
+      const exact = {}, factors = row.groups.map((group, j) => {
+        const [numerator, denominator] = fractions[cursor];
+        const factor = values[cursor++] * row.signs[j], signed = numerator * BigInt(row.signs[j]);
+        for (const [key, n] of Object.entries(group)) {
+          const [a, b] = exact[key] || [0n, 1n];
+          exact[key] = [a * denominator + signed * BigInt(n) * b, b * denominator];
+        }
+        return factor;
+      });
+      const keys = [...new Set([...Object.keys(row.target), ...Object.keys(exact)])];
+      const mismatch = keys.filter(key => { const [n, d] = exact[key] || [0n, 1n]; return n !== BigInt(row.target[key] || 0) * d; });
+      const actual = Object.fromEntries(Object.entries(exact).map(([key, [n, d]]) => [key, Number(n) / Number(d)]));
+      return { actual, factors, mismatch, matches: !mismatch.length };
+    });
+    const wrong = rows.findIndex(row => !row.matches);
+    if (wrong !== -1) {
+      const key = rows[wrong].mismatch[0];
+      return { status: 'wrong', values, rows, message: '第' + (wrong + 1) + '行展开后，' + label(key) + ' 的系数为 ' + (rows[wrong].actual[key] || 0) + '，目标是 ' + (question.rows[wrong].target[key] || 0) + '。请检查倍数和正负号。' };
+    }
+    if (question.final && values[cursor] !== question.final.answer) return { status: 'wrong', values, rows, message: '各行系数已匹配，但最后的数值不对。请代入已知条件，检查负号、常数项和分母。' };
+    return { status: 'correct', values, rows, message: '全部正确！每一项的系数都已匹配' + (question.final ? '，代入求值也正确。' : '。') };
+  }
+  function checkFill(question, inputs) {
+    if (!question.valuation) return checkStructure(question, inputs);
+    const fields = fillFields(question);
+    if (!Array.isArray(inputs) || inputs.length !== fields.length) return { status: 'invalid', message: '请填完系数、数值替换和结果的所有空格。' };
+    const parsed = inputs.map(fillFraction), invalid = parsed.findIndex(value => !value);
+    if (invalid !== -1) return { status: 'invalid', index: invalid, message: '第' + (invalid + 1) + '空请填写数字（−999到999），可用负数、分数或最多四位小数；分母不能为0。' };
+    const coefficientIndices = fields.flatMap((f, i) => f.role === 'coefficient' ? [i] : []);
+    const structural = checkStructure({ ...question, final: undefined }, coefficientIndices.map(i => inputs[i]));
+    if (structural.status !== 'correct') return { ...structural, index: structural.index === undefined ? undefined : coefficientIndices[structural.index] };
+    for (let i = 0; i < fields.length; i++) {
+      const field = fields[i]; if (field.role === 'coefficient') continue;
+      const [n, d] = parsed[i];
+      if (field.nonzero && n === 0n) return { status: 'wrong', index: i, message: '分母不能为0。请检查前面算出的整体值。' };
+      const [a, b] = field.role === 'multiplier' ? parsed[field.ref] : fillFraction(field.expected);
+      if (n * b !== a * d) {
+        const reason = field.role === 'multiplier' ? '代入行的乘法系数必须与上面的系数一致。'
+          : field.role === 'value' ? '整体替换的数值不对，请对照题干；负号不能丢。'
+          : field.role === 'final-value' ? '这里应替换成前面已经算出的整体值。'
+          : '计算结果不对，请检查乘法、原有加减号、括号外常数和分母。';
+        return { status: 'wrong', index: i, message: '第' + (i + 1) + '空：' + reason };
+      }
+    }
+    return { status: 'correct', rows: structural.rows, values: parsed.map(([n, d]) => Number(n) / Number(d)), message: '全部正确！整体系数、数值替换和最终答案都已核验。' };
+  }
+  globalThis.Algebra = Object.freeze({ parse, parseScore, format, label, flip, merge, planCancellation, consistent, consistentScores, same, LEVELS, checkStructure, fillFields, checkFill });
+})();
+</script>
+<script id="game-audio">
+'use strict';
+(() => {
+  let context = null, enabled = true, generation = 0;
+  const active = new Set();
+  function synthesize(ctx, type, output) {
+    const sources = [], nodes = [], start = ctx.currentTime + .005;
+    const tone = (frequency, endFrequency, offset, duration, volume, waveform = 'sine') => {
+      const oscillator = ctx.createOscillator(), gain = ctx.createGain(), at = start + offset;
+      oscillator.type = waveform; oscillator.frequency.setValueAtTime(frequency, at);
+      oscillator.frequency.exponentialRampToValueAtTime(endFrequency, at + duration);
+      gain.gain.setValueAtTime(0, at); gain.gain.linearRampToValueAtTime(volume, at + .009);
+      gain.gain.exponentialRampToValueAtTime(.0001, at + duration); gain.gain.setValueAtTime(0, at + duration + .005);
+      oscillator.connect(gain); gain.connect(output); oscillator.start(at); oscillator.stop(at + duration + .008);
+      sources.push(oscillator); nodes.push(gain);
+    };
+    const noise = (duration, volume, filterType, frequency) => {
+      const buffer = ctx.createBuffer(1, Math.ceil(ctx.sampleRate * duration), ctx.sampleRate), data = buffer.getChannelData(0);
+      let seed = 823;
+      for (let i = 0; i < data.length; i++) { seed = (1664525 * seed + 1013904223) >>> 0; data[i] = ((seed / 4294967296) * 2 - 1) * (type === 'zap' ? .5 + .5 * Math.sin(i / ctx.sampleRate * 260) ** 2 : 1); }
+      const source = ctx.createBufferSource(), filter = ctx.createBiquadFilter(), gain = ctx.createGain();
+      source.buffer = buffer; filter.type = filterType; filter.frequency.value = frequency; filter.Q.value = .8;
+      gain.gain.setValueAtTime(0, start); gain.gain.linearRampToValueAtTime(volume, start + .018);
+      gain.gain.exponentialRampToValueAtTime(.0001, start + duration); gain.gain.setValueAtTime(0, start + duration + .004);
+      source.connect(filter); filter.connect(gain); gain.connect(output); source.start(start); source.stop(start + duration + .006);
+      sources.push(source); nodes.push(filter, gain);
+    };
+    if (type === 'flip') { noise(.19, .075, 'highpass', 1300); tone(520, 260, 0, .12, .025); }
+    else if (type === 'zap') { noise(.32, .09, 'bandpass', 2000); tone(190, 110, 0, .26, .025, 'triangle'); }
+    else if (type === 'fuse') { [440, 554, 660].forEach((f, i) => tone(f, f, i * .055, .18, .035)); }
+    else tone(760, 470, 0, .045, .055);
+    let remaining = sources.length, stopped = false;
+    const cleanup = () => { if (stopped) return; stopped = true; for (const n of [...sources, ...nodes]) n.disconnect(); };
+    const stop = () => { for (const source of sources) { try { source.stop(); } catch (_) {} } cleanup(); };
+    const done = new Promise(resolve => { for (const source of sources) source.onended = () => { if (!--remaining) { cleanup(); resolve(); } }; });
+    return { stop, done };
+  }
+  function stop() { generation++; for (const voice of active) voice.stop(); active.clear(); }
+  async function play(type) {
+    if (!enabled) return;
+    const stamp = generation;
+    try {
+      const Audio = globalThis.AudioContext || globalThis.webkitAudioContext;
+      if (!Audio) return;
+      context ||= new Audio();
+      if (context.state === 'suspended') await context.resume();
+      if (!enabled || stamp !== generation || context.state !== 'running') return;
+      if (active.size >= 6) return;
+      const voice = synthesize(context, type, context.destination); active.add(voice);
+      voice.done.finally(() => active.delete(voice));
+    } catch (_) {}
+  }
+  function setEnabled(value) {
+    enabled = Boolean(value); if (!enabled) stop();
+    for (const b of document.querySelectorAll('[data-sound-toggle]')) {
+      b.textContent = enabled ? '音效：开' : '音效：关'; b.setAttribute('aria-pressed', String(enabled));
+      b.title = enabled ? '关闭音效' : '开启音效';
+    }
+  }
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); });
+  globalThis.GameAudio = { synthesize, play, stop, setEnabled, get enabled() { return enabled; } };
+})();
+</script>
+<script>
+'use strict';
+(() => {
+  const E = globalThis.Algebra;
+  const $ = id => document.getElementById(id);
+  const clone = value => JSON.parse(JSON.stringify(value));
+  const board = $('board');
+  const selected = new Set();
+  const undoStack = [];
+  const MAX_CARDS = 24, MAX_FACTS = 16;
+  let state, busy = false, drag = null, toastTimer, suppressedClick = null, zIndex = 3;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const make = (tag, className, text) => { const n = document.createElement(tag); if (className) n.className = className; if (text !== undefined) n.textContent = text; return n; };
+  const scoreText = n => n < 0 ? '−' + Math.abs(n) : String(n);
+  const bracket = n => n < 0 ? '(' + scoreText(n) + ')' : scoreText(n);
+  const scoreSuffix = card => card.score === null ? '，未设积分' : '，积分' + scoreText(card.score);
+  const currentEntry = () => state.level === 'free' ? null : (E.LEVELS[state.level].examples?.[state.example - 1] || E.LEVELS[state.level]);
+  const currentLevel = () => currentEntry()?.stages?.[state.bridgeStep || 0] || currentEntry();
+  const practiceSessions = new Map();
+  const sessionKey = (level, example, step = 0) => level + ':' + example + ':' + step;
+  function savePractice() {
+    if (state && (currentEntry()?.bridge || currentEntry()?.mode === 'fill')) practiceSessions.set(sessionKey(state.level, state.example, state.bridgeStep), { state: clone(state), undo: clone(undoStack) });
+  }
+  const usesGameScores = () => Boolean(currentLevel()?.structureOnly || (state.level === 'free' && state.facts.some(f => Object.keys(f.terms).some(k => k.length > 1))));
+  const isFill = () => currentLevel()?.mode === 'fill';
+  const targetCard = () => { const level = currentLevel(); return level && !isFill() && state.cards.find(c => E.same(c.terms, level.target)); };
+  const isSolved = () => isFill() ? state.fillResult?.status === 'correct' : Boolean(targetCard());
+  let victoryTimer;
+  function clearVictory() { clearTimeout(victoryTimer); $('victory-banner').hidden = true; }
+  function celebrateVictory(wasSolved) {
+    const winner = targetCard();
+    if (wasSolved || !isSolved()) return;
+    clearVictory();
+    $('victory-detail').textContent = isFill() ? '直接填系数 · 全部核验通过' : '目标卡片合成成功' + (winner.score === null ? '' : ' · ' + scoreText(winner.score) + ' 分');
+    $('victory-banner').hidden = false;
+    victoryTimer = setTimeout(clearVictory, 3600);
+  }
+  function notify(text) { $('toast').textContent = text; $('toast').classList.add('visible'); clearTimeout(toastTimer); toastTimer = setTimeout(() => $('toast').classList.remove('visible'), 3300); }
+  function announce(text) { $('announce').textContent = text; }
+  function snapshot() { undoStack.push(clone(state)); if (undoStack.length > 60) undoStack.shift(); }
+  function token(letter, signedCount, count = Math.abs(signedCount)) {
+    const positive = signedCount > 0;
+    const el = make('span', 'token ' + (positive ? 'positive' : 'negative'));
+    const display = E.label(letter);
+    el.dataset.term = letter; el.dataset.remaining = String(count);
+    el.classList.toggle('compound', display.length > 1);
+    el.setAttribute('aria-label', (positive ? '红色加' : '黑色减') + display + (count > 1 ? '，' + count + '个' : ''));
+    const symbol = make('span', 'token-symbol');
+    let units = 0;
+    for (const [, variable, exponent] of letter.matchAll(/([a-z])(?:\^(\d+))?/g)) {
+      symbol.append(document.createTextNode(variable)); units++;
+      if (exponent) { symbol.append(make('sup', '', exponent)); units += .7 * exponent.length; }
+    }
+    if (units > 2.3) symbol.style.fontSize = 'calc(var(--token-size) * ' + Math.min(.47, 1.1 / units) + ')';
+    symbol.title = display;
+    el.append(make('span', 'token-sign', positive ? '+' : '−'), symbol);
+    if (count > 1) el.append(make('span', 'token-multiple', '×' + count));
+    return el;
+  }
+  function fillTokens(parent, terms) {
+    parent.replaceChildren();
+    const entries = Object.entries(terms).sort(([a], [b]) => a.localeCompare(b));
+    if (!entries.length) { parent.append(make('span', 'zero-symbol', '0')); return; }
+    const total = entries.reduce((s, [, n]) => s + Math.abs(n), 0);
+    for (const [k, n] of entries) {
+      if (total <= 8) { for (let i = 0; i < Math.abs(n); i++) parent.append(token(k, n, 1)); }
+      else parent.append(token(k, n));
+    }
+  }
+  function cardNode(card) {
+    const root = make('article', 'card' + (card.back ? ' back' : '') + (selected.has(card.id) ? ' selected' : ''));
+    root.dataset.id = card.id;
+    root.style.left = card.x + 'px'; root.style.top = card.y + 'px';
+    root.setAttribute('aria-label', card.title + '，' + E.format(card.terms) + scoreSuffix(card));
+    if (card.merged) root.append(make('span', 'assembled', '叠合后的整体'));
+    const face = make('div', 'card-face'); face.tabIndex = 0; face.setAttribute('role', 'button'); face.dataset.action = 'flip';
+    face.setAttribute('aria-label', '翻面 ' + card.title + '：' + E.format(card.terms) + scoreSuffix(card));
+    face.title = '轻点翻面；按住拖到另一张卡上叠合';
+    const top = make('div', 'card-top');
+    top.append(make('span', 'card-name', card.title), make('span', 'side-label', card.back ? '已翻面' : '初始朝向'));
+    const tokens = make('div', 'card-tokens'); fillTokens(tokens, card.terms);
+    const expr = make('div', 'card-expression', E.format(card.terms)); expr.hidden = !$('show-math').checked;
+    const score = make('div', 'card-score');
+    if (card.score === null) score.append(make('span', 'score-unspecified', '结构练习 · 未设积分'));
+    else {
+      const value = make('span', 'score-value', scoreText(card.score)); value.dataset.score = String(card.score); value.append(make('span', 'score-unit', '分'));
+      score.append(make('span', 'score-caption', usesGameScores() ? '游戏积分' : '整卡积分'), value);
+    }
+    face.append(top, tokens, expr, score);
+    const actions = make('div', 'card-actions');
+    for (const [action, label] of [['select', selected.has(card.id) ? '已选中' : '选中'], ['copy', '复制'], ['remove', '移除']]) {
+      const b = make('button', '', label); b.type = 'button'; b.dataset.action = action;
+      b.setAttribute('aria-label', (action === 'select' ? '选中' : label) + ' ' + card.title);
+      if (action === 'select') b.setAttribute('aria-pressed', String(selected.has(card.id)));
+      b.disabled = busy;
+      actions.append(b);
+    }
+    root.append(face, actions);
+    return root;
+  }
+  function dimensions() {
+    const w = board.clientWidth;
+    const cw = w >= 520 ? 224 : w >= 340 ? Math.floor((w - 48) / 2) : Math.min(224, w - 38);
+    board.style.setProperty('--card-width', cw + 'px');
+    return { w, cw, cols: Math.max(1, Math.floor(w / (cw + 24))) };
+  }
+  function equalizeCards() {
+    const faces = [...board.querySelectorAll('.card-face')];
+    for (const face of faces) face.style.minHeight = '';
+    const height = Math.max(0, ...faces.map(face => face.offsetHeight));
+    for (const face of faces) face.style.minHeight = height + 'px';
+  }
+  function fitBoard() {
+    const { w, cw } = dimensions();
+    equalizeCards();
+    let bottom = window.innerWidth > 1399 ? 545 : window.innerWidth < 801 ? 450 : 505;
+    for (const c of state.cards) {
+      const node = board.querySelector('[data-id="' + c.id + '"]');
+      c.x = Math.max(12, Math.min(c.x, w - cw - 12)); c.y = Math.max(34, c.y);
+      if (node) { node.style.left = c.x + 'px'; node.style.top = c.y + 'px'; bottom = Math.max(bottom, c.y + node.offsetHeight + 88); }
+    }
+    board.style.height = bottom + 'px';
+  }
+  function arrange(order = state.cards, gap = 24, keepCopies = true) {
+    const { w, cw, cols } = dimensions();
+    state.layoutWidth = w;
+    equalizeCards();
+    let y = 53;
+    for (let start = 0; start < order.length;) {
+      let end = Math.min(start + cols, order.length);
+      if (keepCopies && cols > 1 && end < order.length && order[end].copyOf === order[end - 1].id) end--;
+      const row = order.slice(start, end), width = row.length * cw + (row.length - 1) * gap;
+      let height = 0;
+      row.forEach((c, i) => { c.x = Math.max(12, (w - width) / 2) + i * (cw + gap); c.y = y; const node = board.querySelector('[data-id="' + c.id + '"]'); if (node) { node.style.left = c.x + 'px'; node.style.top = c.y + 'px'; height = Math.max(height, node.offsetHeight); } });
+      y += height + 42; start = end;
+    }
+    fitBoard();
+  }
+  const constantText = n => n ? (n < 0 ? ' − ' : ' + ') + Math.abs(n) : '';
+  function renderFill() {
+    const q = currentLevel(), key = state.level + ':' + state.example, form = $('fill-form');
+    if (form.dataset.question !== key) {
+      const area = $('fill-rows'), fields = E.fillFields(q); area.replaceChildren();
+      let index = 0;
+      const inputGroup = description => {
+        const wrap = make('span', 'fill-factor'), input = make('input', 'fill-input'), field = fields[index];
+        input.type = 'text'; input.inputMode = 'text'; input.maxLength = 16; input.autocomplete = 'off'; input.spellcheck = false;
+        input.dataset.fillIndex = index; input.dataset.fillRole = field.role;
+        input.setAttribute('aria-label', description + '，第' + (index++ + 1) + '空'); input.setAttribute('aria-describedby', 'fill-instructions fill-feedback');
+        wrap.append(input); return wrap;
+      };
+      const numericInput = description => {
+        const wrap = make('span', 'fill-number'); wrap.append(make('span', '', '('), inputGroup(description), make('span', '', ')')); return wrap;
+      };
+      const chainLine = (chain, css, description) => {
+        const line = make('div', 'fill-row chain-line ' + css), content = make('div', 'chain-content');
+        line.setAttribute('aria-label', description); line.append(make('span', 'chain-equals', '='), content); chain.append(line); return content;
+      };
+      q.rows.forEach((row, rowIndex) => {
+        const chain = make('section', 'fill-chain'); chain.setAttribute('aria-label', '第' + (rowIndex + 1) + '个整体的求值过程');
+        chain.append(make('div', 'fill-target chain-target', (row.targetDisplay || E.format(row.target)) + constantText(row.offset)));
+        const structure = chainLine(chain, 'chain-structure', '先凑出已知整体');
+        row.groups.forEach((g, j) => {
+          if (j || row.signs[j] < 0) structure.append(make('span', '', row.signs[j] < 0 ? '−' : '+'));
+          const group = inputGroup('(' + E.format(g) + ') 的乘法系数');
+          group.append(make('span', 'fill-times', '×'), make('span', '', '(' + E.format(g) + ')')); structure.append(group);
+        });
+        if (row.offset) structure.append(make('span', 'chain-constant', constantText(row.offset)));
+        const substitution = chainLine(chain, 'chain-substitution', '把每个整体替换成数值');
+        row.groups.forEach((g, j) => {
+          if (j || row.signs[j] < 0) substitution.append(make('span', '', row.signs[j] < 0 ? '−' : '+'));
+          const product = make('span', 'fill-product');
+          product.append(numericInput('抄写上行 (' + E.format(g) + ') 的系数'), make('span', 'fill-times', '×'), numericInput('题干中 (' + E.format(g) + ') 的值')); substitution.append(product);
+        });
+        if (row.offset) substitution.append(make('span', 'chain-constant', constantText(row.offset)));
+        chainLine(chain, 'chain-result', '计算结果').append(inputGroup('这个整体的计算结果'));
+        area.append(chain);
+      });
+      if (q.valuation.finalRefs) {
+        const chain = make('section', 'fill-chain final-chain');
+        chain.append(make('div', 'fill-target chain-target', q.final.label.replace(/ 的值$/, '')));
+        const substitution = chainLine(chain, 'chain-final-substitution', '用前面三个整体的结果继续代入');
+        q.valuation.finalRefs.forEach((r, i) => {
+          if (i) substitution.append(make('span', '', ['×', '+', '÷'][i - 1]));
+          substitution.append(numericInput('前面 (' + E.format(q.rows[r].target) + ') 的结果' + (i === 3 ? '，分母不能为0' : '')));
+        });
+        chainLine(chain, 'chain-final-result', '最终答案').append(inputGroup('原题最终答案')); area.append(chain);
+      }
+      form.dataset.question = key;
+    }
+    for (const input of form.querySelectorAll('input')) {
+      const index = Number(input.dataset.fillIndex);
+      if (input.value !== state.fillValues[index]) input.value = state.fillValues[index];
+      input.setAttribute('aria-invalid', String(state.fillResult?.status === 'invalid' && state.fillResult.index === index));
+    }
+    const result = state.fillResult;
+    $('fill-feedback').textContent = result?.message || '';
+    $('fill-feedback').dataset.status = result?.status || '';
+    $('fill-source').textContent = '结构来源：' + q.source + ' 数值来源：' + q.valuation.origin;
+    $('fill-warning').hidden = !q.warning; $('fill-warning').textContent = q.warning || '';
+    const proof = $('fill-proof'); proof.replaceChildren(); proof.hidden = result?.status !== 'correct';
+    if (!proof.hidden) {
+      proof.append(make('strong', '', '展开核验'));
+      q.rows.forEach((row, i) => {
+        const expanded = row.groups.map((g, j) => '(' + E.format(Object.fromEntries(Object.entries(g).map(([term, n]) => [term, n * result.rows[i].factors[j]]))) + ')').join(' + ');
+        proof.append(make('p', '', expanded + constantText(row.offset) + ' = ' + E.format(row.target) + constantText(row.offset)));
+        const terms = [...new Set([...Object.keys(row.target), ...row.groups.flatMap(g => Object.keys(g))])];
+        proof.append(make('p', '', terms.map(term => E.label(term) + '：' + row.groups.map((g, j) => bracket((g[term] || 0) * result.rows[i].factors[j])).join(' + ') + ' = ' + scoreText(row.target[term] || 0)).join('；')));
+        proof.append(make('p', '', '数值替换：' + row.groups.map((g, j) => bracket(result.rows[i].factors[j]) + ' × ' + bracket(q.valuation.groups[i][j])).join(' + ') + constantText(row.offset) + ' = ' + scoreText(q.valuation.rowAnswers[i])));
+      });
+      proof.append(make('p', '', '最终答案：' + scoreText(q.valuation.answer)));
+      if (q.final) proof.append(make('p', '', q.final.explanation));
+      if (q.explanation) proof.append(make('p', '', q.explanation));
+      if (q.extraction) proof.append(make('p', '', '结构提炼说明：' + q.extraction));
+    }
+  }
+  function editFill(index, value) {
+    if (!isFill() || busy || !Number.isInteger(index) || index < 0 || index >= state.fillValues.length || state.fillValues[index] === value) return;
+    snapshot(); state.fillValues[index] = value; state.fillResult = null; clearVictory();
+    renderFill(); renderChallenge(); controls();
+  }
+  function submitFill(event) {
+    event.preventDefault(); if (!isFill() || busy) return;
+    const wasSolved = isSolved(), result = E.checkFill(currentLevel(), state.fillValues);
+    if (JSON.stringify(result) !== JSON.stringify(state.fillResult)) {
+      snapshot(); state.fillResult = result;
+      addLog({ title: result.status === 'correct' ? '填写正确：结构已核验' : '检查填写：继续调整', note: result.message });
+    }
+    render(); celebrateVictory(wasSolved);
+    if (result.status === 'invalid' && result.index !== undefined) $('fill-form').querySelector('[data-fill-index="' + result.index + '"]').focus();
+  }
+  function renderBoard() {
+    const fill = isFill();
+    document.querySelector('.app').classList.toggle('is-fill-mode', fill);
+    $('board-scroll').hidden = fill; $('fill-work').hidden = !fill;
+    document.querySelector('.worktop h2').textContent = fill ? '独立作答' : '实验桌面';
+    if (fill) { board.replaceChildren(); renderFill(); return; }
+    dimensions();
+    board.replaceChildren(...state.cards.map(cardNode));
+    if (!state.cards.length) {
+      const empty = make('div', 'empty-board');
+      empty.append(make('div', 'empty-symbol', 'a + b'), make('h3', '', '从一张卡片开始'), make('p', '', '点击右上角“自定义卡片”，\n把你的数学条件放到桌面上。'));
+      board.append(empty);
+    }
+    const note = make('div', 'board-note');
+    note.append(make('span', '', '轻点卡面 = 整体取反'), make('span', '', '拖到一起 = 相加抵消'));
+    board.append(note);
+    if (currentEntry()?.bridge && state.layoutWidth !== board.clientWidth) arrange();
+    else fitBoard();
+  }
+  function renderChallenge() {
+    const level = currentLevel(), entry = currentEntry();
+    $('challenge').classList.toggle('fill-challenge', isFill());
+    $('example-nav').hidden = !level;
+    $('fill-bank-bar').hidden = !isFill();
+    $('card-bank-bar').hidden = !level || isFill();
+    $('open-card-game').hidden = !isFill();
+    if (level) {
+      const parent = E.LEVELS[state.level], questions = [parent, ...(parent.examples || [])];
+      if (isFill()) $('fill-bank').value = level.bank;
+      else $('card-bank').value = entry.bridge ? 'linked' : 'original';
+      const indices = questions.map((_, i) => i).filter(i => isFill() ? questions[i].bank === level.bank : Boolean(questions[i].bridge) === Boolean(entry.bridge));
+      const nav = $('example-nav'), key = state.level + ':' + indices.join(',');
+      if (nav.dataset.questions !== key) {
+        nav.replaceChildren(...indices.map(i => {
+          const b = make('button', 'btn small'); b.type = 'button'; b.dataset.example = i; return b;
+        }));
+        nav.dataset.questions = key;
+      }
+      nav.setAttribute('aria-label', '第' + (state.level + 1) + '关题目切换');
+      for (const b of nav.children) {
+        const index = Number(b.dataset.example), q = questions[index];
+        b.textContent = '第' + (index + 1) + '题 · ' + (index === 0 ? '原题' : q.name);
+        b.setAttribute('aria-pressed', String(index === state.example));
+      }
+    }
+    $('target-label').textContent = isFill() ? '直接填写' : level ? '合成一张' : '自由实验室';
+    $('target-expression').textContent = isFill() ? (level.pdfNumber ? level.name : '整体系数') : level ? (level.targetDisplay || E.format(level.target)) : '';
+    $('target-suffix').textContent = level && !isFill() ? '卡片' : '';
+    $('challenge-eyebrow').textContent = isFill() ? '第7关 · 本关 ' + (state.example + 1) + ' / ' + (1 + E.LEVELS[state.level].examples.length) + ' · 直接填数'
+      : entry?.bridge ? '第' + (state.level + 1) + '关 · 第7关第' + (entry.bridge.fillExample + 1) + '题的卡片游戏 · 子目标 ' + ((state.bridgeStep || 0) + 1) + ' / ' + entry.stages.length
+      : level ? '第' + (state.level + 1) + '关 · 原有练习 ' + (state.example + 1) + ' / 5 · 原有总题号 ' + (state.level * 5 + state.example + 1) + ' / 30' : 'YOUR OWN DISCOVERY';
+    $('challenge-description').textContent = level ? level.caption : usesGameScores() ? '多项式按独立图案记录游戏积分，只检查图案线性组合是否冲突，不验证同一组字母的实数解。相同单项式才能抵消，平方和立方不能混消。' : '制作自己的卡片，尝试翻面、复制和多张叠合。没有固定答案。';
+    $('fill-question').hidden = !isFill();
+    $('fill-question').textContent = isFill() ? level.questionText : '';
+    $('facts').replaceChildren(...state.facts.map(f => make('span', 'fact-chip', E.format(f.terms) + (f.score === null ? '' : usesGameScores() ? ' · 游戏积分 ' + scoreText(f.score) + '分' : ' = ' + scoreText(f.score)))));
+    const winner = targetCard();
+    renderBridge(winner);
+    if (!isSolved()) clearVictory();
+    $('example-equation').hidden = !level?.structureOnly;
+    $('example-equation').textContent = level?.structureOnly ? '8a² + ab + 3b² = ' + (winner ? winner.weights.k1 : '（□）') + '(2a² + ab) − ' + (winner ? -winner.weights.k2 : '（□）') + '(ab − b²)' : '';
+    $('challenge').classList.toggle('solved', isSolved());
+    $('target-status').replaceChildren();
+    if (isFill()) {
+      if (isSolved()) $('target-status').append(make('strong', 'victory-label', 'Victory 🎉'), make('strong', '', '全部填写正确'), document.createTextNode('展开核验已在答题区显示'));
+      else $('target-status').append(make('strong', '', '不拖卡，自己填'), document.createTextNode('每项系数都要匹配，再检查答案'));
+    }
+    else if (winner) { $('target-status').append(make('strong', 'victory-label', 'Victory 🎉'), make('strong', '', winner.score === null ? '已合成目标 · 结构匹配' : '已合成目标 · ' + scoreText(winner.score) + ' 分'), document.createTextNode('试着解释：哪些整体组合在了一起？')); }
+    else $('target-status').append(make('strong', '', level?.structureOnly ? '两空由你发现' : level ? '积分由你发现' : '可以大胆试一试'), document.createTextNode(level ? '不用分别求出每个字母' : '出错了，也可以撤销'));
+    $('challenge').querySelector('.challenge-proof')?.remove();
+    if (winner && (level.witness || level.structureOnly)) $('challenge').querySelector('.challenge-text').append(make('p', 'challenge-proof', '整体组合：' + provenanceText(winner) + ' = ' + (level.targetDisplay || E.format(winner.terms)) + (level.verification ? '。' + level.verification : '')));
+    for (const b of $('lesson-nav').children) b.setAttribute('aria-pressed', String(String(state.level) === b.dataset.level));
+  }
+  function renderBridge(winner) {
+    const entry = currentEntry(), bridge = currentLevel()?.bridge;
+    $('bridge-panel').hidden = !bridge;
+    $('bridge-result').hidden = !bridge || !winner;
+    $('bridge-result').textContent = '';
+    if (!bridge) return;
+    $('bridge-origin').textContent = '对应第7关第' + (bridge.fillExample + 1) + '题 · 卡片积分采用原题已知值 · 返回不会清空填写内容';
+    const nav = $('bridge-steps'), key = bridge.fillId;
+    nav.hidden = entry.stages.length === 1;
+    if (nav.dataset.source !== key) {
+      nav.replaceChildren(...entry.stages.map((s, i) => {
+        const b = make('button', 'btn small', '子目标' + (i + 1) + '：' + E.format(s.target)); b.type = 'button'; b.dataset.bridgeStep = i; return b;
+      })); nav.dataset.source = key;
+    }
+    for (const b of nav.children) b.setAttribute('aria-pressed', String(Number(b.dataset.bridgeStep) === (state.bridgeStep || 0)));
+    if (winner) {
+      const value = winner.score / bridge.scale + bridge.offset;
+      $('bridge-result').textContent = '合成卡片的值：' + scoreText(winner.score) + '。'
+        + (entry.stages.length > 1 ? '这个中间整体的值：' : '原题结果：')
+        + scoreText(winner.score) + (bridge.scale === 2 ? ' ÷ 2' : '')
+        + (bridge.offset ? (bridge.offset < 0 ? ' − ' : ' + ') + Math.abs(bridge.offset) : '') + ' = ' + scoreText(value)
+        + '。请返回原题，自己把这个过程写进连等式。';
+    }
+  }
+  function provenanceText(card) {
+    const entries = Object.entries(card.weights || {}).filter(([, n]) => n);
+    if (!entries.length) return '0';
+    return entries.map(([id, n], i) => {
+      const fact = state.facts.find(f => f.id === id);
+      const text = fact ? E.format(fact.terms) : '?';
+      return (n < 0 ? (i ? ' − ' : '−') : (i ? ' + ' : '')) + (Math.abs(n) === 1 ? '' : Math.abs(n) + '×') + '(' + text + ')';
+    }).join('');
+  }
+  function renderRecord(animate = false) {
+    const record = $('record'); record.replaceChildren();
+    const log = state.logs[state.logs.length - 1];
+    if (!log) { const empty = make('div', 'record-empty'); empty.append(make('span', '', '+  −'), document.createTextNode(isFill() ? '先独立填写，再检查答案。\n答对后查看完整核验过程。' : '先选一个动作。\n我们一起看看整个式子怎样变化。')); record.append(empty); }
+    else {
+      record.append(make('p', 'record-title', log.title));
+      if (log.cancelled && Object.keys(log.cancelled).length) {
+        const pairs = make('div', 'cancel-row' + (animate ? ' animate' : ''));
+        for (const [k, n] of Object.entries(log.cancelled)) {
+          const row = make('div', 'cancel-pair'); row.append(token(k, 1, 1), token(k, -1, 1), make('span', 'cancel-text', n + ' 对抵消 → 0')); pairs.append(row);
+        }
+        record.append(pairs);
+      }
+      if ($('show-math').checked && log.expression) record.append(make('p', 'equation', log.expression));
+      if (log.scores) record.append(make('p', 'equation', (usesGameScores() ? '游戏积分：' : '') + log.scores));
+      if (log.result) record.append(make('small', '', '按原始整卡组合：' + provenanceText(log.result)));
+      if (log.note) record.append(make('small', '', log.note));
+    }
+    const activity = $('activity'); activity.replaceChildren();
+    if (!state.logs.length) activity.append(make('li', '', '每一步都会留在这里。先试一试，再说说为什么。'));
+    state.logs.slice(-10).reverse().forEach((entry, i) => {
+      const row = make('li'); row.append(make('span', 'log-no', String(state.logs.length - i).padStart(2, '0')), document.createTextNode(entry.title));
+      if (entry.result) row.append(make('div', 'log-result', E.format(entry.result.terms) + (entry.result.score === null ? '' : usesGameScores() ? ' · 游戏积分 ' + scoreText(entry.result.score) + '分' : ' = ' + scoreText(entry.result.score))));
+      activity.append(row);
+    });
+    $('log-count').textContent = state.logs.length + ' STEPS';
+  }
+  function controls() {
+    for (const id of ['undo-btn', 'reset-btn', 'arrange-btn', 'custom-btn']) $(id).disabled = busy || (id === 'undo-btn' && !undoStack.length) || (isFill() && ['arrange-btn', 'custom-btn'].includes(id));
+    $('merge-btn').disabled = busy || isFill() || selected.size < 2;
+    $('fill-submit').disabled = busy;
+    $('selected-count').textContent = selected.size;
+    $('card-count').textContent = isFill() ? state.fillValues.length + ' 个空' : state.cards.length + ' 张卡';
+    $('step-count').textContent = state.logs.length + ' 次操作';
+    for (const b of [...$('lesson-nav').children, ...$('example-nav').children, ...$('bridge-steps').children, $('open-card-game'), $('return-fill-btn'), $('card-bank'), $('fill-bank')]) b.disabled = busy;
+    for (const b of board.querySelectorAll('button')) b.disabled = busy;
+  }
+  function render(animate = false) { renderBoard(); renderChallenge(); renderRecord(animate); controls(); }
+  function addLog(log) { state.logs.push(log); }
+  function restoreFocus(id) { const face = board.querySelector('[data-id="' + id + '"] .card-face'); if (face) face.focus({ preventScroll: true }); }
+  async function animateElement(el, frames, duration) {
+    if (!el || reduced.matches || !el.animate) return;
+    await el.animate(frames, { duration, easing: 'ease-in-out', fill: 'none' }).finished.catch(() => {});
+  }
+  async function flipCard(id) {
+    if (busy) return;
+    const card = state.cards.find(c => c.id === id); if (!card) return;
+    const next = E.flip(card); const before = clone(card), wasSolved = Boolean(targetCard());
+    GameAudio.play('flip');
+    busy = true; controls(); snapshot();
+    try {
+      await animateElement(board.querySelector('[data-id="' + id + '"] .card-face'), [{ transform: 'rotateY(0deg)' }, { transform: 'rotateY(90deg)' }], 140);
+      Object.assign(card, next, { back: !card.back });
+      addLog({ title: '翻面：整张卡一起取反', expression: '−(' + E.format(before.terms) + ') = ' + E.format(card.terms), scores: card.score === null ? null : '−(' + scoreText(before.score) + ') = ' + scoreText(card.score), result: clone(card), note: '每个图案都换色，不能只改其中一个。' });
+      render();
+      await animateElement(board.querySelector('[data-id="' + id + '"] .card-face'), [{ transform: 'rotateY(-90deg)' }, { transform: 'rotateY(0deg)' }], 140);
+      announce(E.format(card.terms) + scoreSuffix(card));
+      celebrateVictory(wasSolved);
+    } finally { busy = false; controls(); restoreFocus(id); }
+  }
+  function toggleSelect(id) {
+    if (busy) return;
+    if (selected.has(id)) selected.delete(id); else selected.add(id);
+    const node = board.querySelector('[data-id="' + id + '"]'), b = node.querySelector('[data-action="select"]');
+    node.classList.toggle('selected', selected.has(id));
+    b.textContent = selected.has(id) ? '已选中' : '选中'; b.setAttribute('aria-pressed', String(selected.has(id)));
+    fitBoard(); controls(); b.focus({ preventScroll: true });
+  }
+  function copyCard(id) {
+    if (busy) return;
+    if (state.cards.length >= MAX_CARDS) return notify('桌面最多放 24 张卡，请先叠合或移除一些。');
+    const original = state.cards.find(c => c.id === id); if (!original) return;
+    snapshot();
+    const copy = { ...clone(original), id: 'c' + state.nextId++, copyOf: id, title: original.title.replace(/ · 副本$/, '') + ' · 副本', x: original.x + 26, y: original.y + 30 };
+    state.cards.splice(state.cards.indexOf(original) + 1, 0, copy);
+    addLog({ title: '复制：多了一份完整的卡片', expression: '新增一份 ' + E.format(copy.terms), scores: copy.score === null ? null : '新卡积分 ' + scoreText(copy.score), note: '复制不是修改原卡的积分；叠合两份后才得到两倍。' });
+    render(); arrange(); restoreFocus(copy.id);
+    board.querySelector('[data-id="' + copy.id + '"]').scrollIntoView({ block: 'nearest', behavior: 'auto' });
+    notify('已复制一份。两份叠合，才是原来整体的 2 倍。');
+  }
+  function removeCard(id) {
+    if (busy || !state.cards.some(c => c.id === id)) return;
+    snapshot(); state.cards = state.cards.filter(c => c.id !== id); selected.delete(id);
+    addLog({ title: '移除一张卡片', note: '只是移出桌面，不改变其他卡片或原始条件。可以撤销。' });
+    render();
+  }
+  async function showCancellation(cards, result) {
+    const plan = E.planCancellation(cards), stage = make('section', 'inline-cancellation');
+    stage.setAttribute('aria-label', '原卡逐对抵消控制');
+    stage.dataset.completed = '0'; stage.dataset.total = String(plan.totalPairs); stage.dataset.phase = 'joining';
+    const heading = make('div', 'cancel-heading');
+    const counter = make('span', 'cancel-counter', '已抵消 0 / ' + plan.totalPairs + ' 对'); counter.setAttribute('aria-live', 'polite');
+    heading.append(make('h2', '', '原卡拼接 · 逐对抵消'), counter);
+    const current = make('p', 'cancel-current', '保持原卡顺序，让同类红黑方块原位消失。');
+    const total = make('p', 'cancel-score', result.card.score === null ? '结构核验：同类项红黑抵消，保留目标图案。' : '积分相加：' + cards.map(c => bracket(c.score)).join(' + ') + ' = ' + scoreText(result.card.score));
+    const bottom = make('div', 'cancel-controls');
+    const pause = make('button', 'btn small', '暂停观察'); pause.type = 'button'; pause.id = 'cancel-pause'; pause.setAttribute('aria-pressed', 'false');
+    const skipButton = make('button', 'btn small ghost', '直接看结果'); skipButton.type = 'button'; skipButton.id = 'cancel-skip';
+    const soundButton = make('button', 'btn small ghost'); soundButton.type = 'button'; soundButton.dataset.soundToggle = '';
+    bottom.append(soundButton, pause, skipButton); stage.append(heading, current, total, bottom);
+    const panels = [...cards].sort((a, b) => a.y - b.y || a.x - b.x).map(c => board.querySelector('[data-id="' + c.id + '"]'));
+    const nodes = panels.flatMap(panel => [...panel.querySelectorAll('.token')]);
+    const calm = reduced.matches || !board.animate;
+    const slow = calm || matchMedia('(pointer: coarse), (max-width: 800px)').matches;
+    const timing = slow ? { intro: 900, focus: 900, effect: 1400, gap: 700, fuse: 900 } : { intro: 450, focus: 240, effect: 650, gap: 340, fuse: 650 };
+    let paused = false, skipped = false, resume = null, wake = null, completed = 0, activePair = null, arc = null;
+    const animations = new Set(), effects = new Set();
+    const checkpoint = async () => { while (paused && !skipped) await new Promise(resolve => { resume = resolve; }); };
+    const wait = async ms => {
+      let remaining = ms;
+      while (remaining > 0 && !skipped) {
+        await checkpoint(); if (skipped) break;
+        const start = performance.now();
+        await new Promise(resolve => {
+          const finish = () => { clearTimeout(timer); wake = null; resolve(); };
+          const timer = setTimeout(finish, remaining); wake = finish;
+        });
+        remaining -= performance.now() - start;
+      }
+      await checkpoint();
+    };
+    const animate = async (node, frames, duration, fill = 'none') => {
+      if (skipped || reduced.matches || !node.animate) return;
+      const animation = node.animate(frames, { duration, easing: 'ease-in-out', fill });
+      animations.add(animation); effects.add(animation); if (paused) animation.pause();
+      await animation.finished.catch(() => {}); animations.delete(animation);
+    };
+    const skip = () => {
+      skipped = true; paused = false; GameAudio.stop();
+      for (const animation of animations) animation.cancel();
+      if (wake) wake(); if (resume) { resume(); resume = null; }
+    };
+    pause.addEventListener('click', () => {
+      paused = !paused; pause.textContent = paused ? '继续演示' : '暂停观察'; pause.setAttribute('aria-pressed', String(paused));
+      if (paused) { GameAudio.stop(); if (wake) wake(); }
+      for (const animation of animations) paused ? animation.pause() : animation.play();
+      if (!paused && resume) { resume(); resume = null; }
+    });
+    skipButton.addEventListener('click', skip);
+    const onKey = event => { if (event.key === 'Escape' && !document.querySelector('dialog[open]')) { event.preventDefault(); skip(); } };
+    const updateArc = () => {
+      if (!arc || !activePair) return;
+      const rect = board.getBoundingClientRect(), scale = rect.width / board.clientWidth;
+      const [a, b] = activePair.map(node => { const box = node.getBoundingClientRect(); return { x: (box.x + box.width / 2 - rect.x) / scale, y: (box.y + box.height / 2 - rect.y) / scale }; });
+      const dx = b.x - a.x, dy = b.y - a.y, length = Math.hypot(dx, dy) || 1;
+      arc.setAttribute('viewBox', '0 0 ' + board.clientWidth + ' ' + board.clientHeight);
+      arc.setAttribute('width', board.clientWidth); arc.setAttribute('height', board.clientHeight);
+      const points = Array.from({ length: 13 }, (_, i) => {
+        const t = i / 12, bend = i === 0 || i === 12 ? 0 : (i % 2 ? 1 : -1) * Math.min(9, length / 16);
+        return (i ? 'L' : 'M') + (a.x + dx * t - dy / length * bend) + ' ' + (a.y + dy * t + dx / length * bend);
+      }).join(' ');
+      for (const path of arc.children) path.setAttribute('d', points);
+    };
+    const scroll = $('board-scroll'), previousMaxHeight = scroll.style.maxHeight, layoutWidth = board.clientWidth;
+    const previousView = { width: board.style.width, zoom: board.style.zoom, marginInline: board.style.marginInline };
+    let viewScale = 1;
+    const reflow = () => {
+      viewScale = Math.min(viewScale, scroll.clientWidth / layoutWidth); board.style.zoom = String(viewScale);
+      reveal(activePair || panels.slice(0, 2)); updateArc();
+    };
+    const reveal = pair => {
+      const room = Math.max(100, stage.getBoundingClientRect().top - 12), available = Math.min(740, room - 8);
+      scroll.style.maxHeight = available + 'px';
+      const bounds = pair.map(n => {
+        let top = 0;
+        for (let parent = n; parent && parent !== board; parent = parent.offsetParent) top += parent.offsetTop;
+        return { top, bottom: top + n.offsetHeight };
+      });
+      const span = Math.max(...bounds.map(r => r.bottom)) - Math.min(...bounds.map(r => r.top));
+      viewScale = Math.min(viewScale, (available - 40) / Math.max(1, span)); board.style.zoom = String(viewScale);
+      const boxes = pair.map(n => n.getBoundingClientRect()), rect = scroll.getBoundingClientRect();
+      const top = Math.min(...boxes.map(r => r.top)) - rect.top - 20;
+      const bottom = Math.max(...boxes.map(r => r.bottom)) - rect.top + 20;
+      if (top < 0 || bottom > scroll.clientHeight) scroll.scrollTop += (top + bottom - scroll.clientHeight) / 2;
+      const visible = scroll.getBoundingClientRect();
+      const targetTop = Math.max(8, Math.min(visible.top, room - scroll.clientHeight));
+      if (Math.abs(visible.top - targetTop) > 1) window.scrollBy({ top: visible.top - targetTop, behavior: 'instant' });
+    };
+    const consume = node => {
+      const remaining = Number(node.dataset.remaining) - 1; node.dataset.remaining = String(remaining);
+      const badge = node.querySelector('.token-multiple');
+      if (badge) { badge.textContent = '×' + remaining; badge.style.visibility = remaining > 1 ? 'visible' : 'hidden'; }
+      node.classList.remove('active-pair'); node.setAttribute('aria-hidden', String(remaining === 0));
+      node.setAttribute('aria-label', (node.classList.contains('positive') ? '红色加' : '黑色减') + E.label(node.dataset.term) + '，剩余' + remaining + '个');
+    };
+    document.body.append(stage); GameAudio.setEnabled(GameAudio.enabled);
+    board.classList.add('is-cancelling'); panels.forEach(n => n.classList.add('joining-card'));
+    document.addEventListener('keydown', onKey); window.addEventListener('resize', reflow);
+    const observer = new ResizeObserver(reflow); observer.observe($('board-scroll'));
+    try {
+      board.style.width = layoutWidth + 'px'; board.style.marginInline = 'auto';
+      reflow(); pause.focus({ preventScroll: true });
+      await wait(timing.intro);
+      for (const group of plan.groups) {
+        for (let i = 0; i < group.pairs && !skipped; i++) {
+          await checkpoint(); if (skipped) break;
+          stage.dataset.phase = 'pairing';
+          const red = nodes.find(n => n.dataset.term === group.term && n.classList.contains('positive') && Number(n.dataset.remaining) > 0);
+          const black = nodes.find(n => n.dataset.term === group.term && n.classList.contains('negative') && Number(n.dataset.remaining) > 0);
+          activePair = [red, black];
+          for (const n of activePair) { n.classList.add('active-pair'); n.closest('.card').classList.add('supplying'); }
+          arc = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          arc.classList.add('board-arc', 'board-energy'); arc.dataset.from = red.closest('.card').dataset.id; arc.setAttribute('aria-hidden', 'true');
+          for (let j = 0; j < 2; j++) arc.append(document.createElementNS(arc.namespaceURI, 'path'));
+          current.textContent = '第 ' + (completed + 1) + ' 对：原卡上的 +' + E.label(group.term) + ' 与 −' + E.label(group.term) + ' 相加为 0';
+          if (calm) arc.style.opacity = '1';
+          board.append(arc); reveal(activePair); updateArc();
+          await wait(timing.focus); if (skipped) break;
+          GameAudio.play('zap');
+          if (calm) await wait(timing.effect);
+          else await Promise.all([
+            animate(arc, [{ opacity: 0 }, { opacity: 1, offset: .22 }, { opacity: .55, offset: .48 }, { opacity: 1, offset: .72 }, { opacity: 0 }], timing.effect - 50),
+            ...activePair.map(n => animate(n, [{ opacity: 1, transform: 'scale(1)' }, { opacity: .8, transform: 'scale(1.08)', offset: .55 }, { opacity: 0, transform: 'scale(.2)' }], timing.effect, 'forwards'))
+          ]);
+          await checkpoint(); if (skipped) break;
+          for (const n of activePair) { consume(n); n.closest('.card').classList.remove('supplying'); for (const a of n.getAnimations()) a.cancel(); }
+          arc.remove(); arc = null; activePair = null;
+          completed++; stage.dataset.completed = String(completed); counter.textContent = '已抵消 ' + completed + ' / ' + plan.totalPairs + ' 对';
+          await wait(timing.gap);
+        }
+      }
+      await checkpoint();
+      if (!skipped) {
+        stage.dataset.phase = 'fusing'; current.textContent = result.card.score === null ? '配对已全部消失，剩余图案合体，检查目标结构。' : '配对已全部消失，剩余图案合体，整卡积分相加。'; GameAudio.play('fuse');
+        reveal([panels[0]]);
+        if (calm) await wait(timing.fuse);
+        else await Promise.all(panels.map(panel => animate(panel, [{ transform: 'translate(0,0) scale(1)', opacity: 1 }, { transform: 'translate(' + (panels[0].offsetLeft - panel.offsetLeft) + 'px,' + (panels[0].offsetTop - panel.offsetTop) + 'px) scale(.45)', opacity: 0 }], timing.fuse, 'forwards')));
+        await checkpoint();
+      }
+      return { x: cards[0].x, y: cards[0].y };
+    } finally {
+      skip(); observer.disconnect(); window.removeEventListener('resize', reflow); document.removeEventListener('keydown', onKey);
+      for (const effect of effects) effect.cancel();
+      arc?.remove(); stage.remove(); scroll.style.maxHeight = previousMaxHeight; Object.assign(board.style, previousView); board.classList.remove('is-cancelling');
+      panels.forEach(n => n.classList.remove('joining-card', 'supplying')); nodes.forEach(n => n.classList.remove('active-pair'));
+    }
+  }
+  async function mergeCards(ids) {
+    if (busy) return;
+    const unique = [...new Set(ids)]; const cards = state.cards.filter(c => unique.includes(c.id)).sort((a, b) => a.y - b.y || a.x - b.x);
+    let result; try { result = E.merge(cards); } catch (err) { notify(err.message); return; }
+    snapshot(); busy = true; controls();
+    const base = cards[0], wasSolved = Boolean(targetCard());
+    const newCard = { ...result.card, id: 'c' + state.nextId++, title: '组合卡 ' + state.nextGroup++, x: base.x, y: base.y, back: false, merged: true };
+    try {
+      Object.assign(newCard, await showCancellation(cards, result));
+      state.cards = state.cards.flatMap(c => c.id === base.id ? [newCard] : unique.includes(c.id) ? [] : [c]); selected.clear();
+      const pairs = Object.values(result.cancelled).reduce((a, b) => a + b, 0);
+      addLog({ title: '叠合 ' + cards.length + ' 张卡 · ' + (pairs ? '抵消 ' + pairs + ' 对图案' : '没有相反图案，全部保留'), expression: cards.map(c => '(' + E.format(c.terms) + ')').join(' + ') + ' = ' + E.format(newCard.terms), scores: newCard.score === null ? null : cards.map(c => bracket(c.score)).join(' + ') + ' = ' + scoreText(newCard.score), cancelled: result.cancelled, result: clone(newCard), note: '相同字母才能红黑抵消；总积分始终相加。' });
+      render();
+      await animateElement(board.querySelector('[data-id="' + newCard.id + '"]'), [{ transform: 'scale(.93)', opacity: .4 }, { transform: 'scale(1)', opacity: 1 }], 180);
+      announce('叠合完成，' + E.format(newCard.terms) + scoreSuffix(newCard));
+      celebrateVictory(wasSolved);
+      if (!Object.keys(newCard.terms).length) notify('全部图案已抵消，结果为零式。');
+    } finally { busy = false; controls(); restoreFocus(newCard.id); }
+  }
+  function loadLevel(level, example = 0, { resume = false, step = 0 } = {}) {
+    if (busy) return;
+    savePractice(); clearVictory();
+    const cached = resume && practiceSessions.get(sessionKey(level, example, step));
+    if (cached) {
+      state = clone(cached.state); undoStack.length = 0; undoStack.push(...clone(cached.undo)); selected.clear();
+      render(); if (!isFill()) fitBoard(); $('board-scroll').scrollTop = 0; return;
+    }
+    state = { level, example, bridgeStep: step, cards: [], facts: [], logs: [], nextId: 1, nextFact: 1, nextGroup: 1 };
+    const spec = currentLevel();
+    if (isFill()) { state.fillValues = Array(E.fillFields(spec).length).fill(''); state.fillResult = null; }
+    for (const c of spec ? spec.cards : []) {
+      const id = 'k' + state.nextFact++; state.facts.push({ ...clone(c), id });
+      state.cards.push({ ...clone(c), weights: { [id]: 1 }, id: 'c' + state.nextId++, title: '卡片 ' + state.cards.length, x: 0, y: 40, back: false, merged: false });
+      state.cards[state.cards.length - 1].title = '卡片 ' + state.cards.length;
+    }
+    selected.clear(); undoStack.length = 0; render(); if (!isFill()) arrange(); $('board-scroll').scrollTop = 0;
+  }
+  function undo() { if (busy || !undoStack.length) return; clearVictory(); state = undoStack.pop(); selected.clear(); render(); notify('已撤销上一步。'); }
+  function clearDrop() { board.querySelectorAll('.drop-target').forEach(n => n.classList.remove('drop-target')); }
+  function findDrop(node) {
+    const rect = node.getBoundingClientRect(); let winner = null, best = 0;
+    for (const other of board.querySelectorAll('.card')) {
+      if (other === node) continue;
+      const r = other.getBoundingClientRect();
+      const area = Math.max(0, Math.min(rect.right, r.right) - Math.max(rect.left, r.left)) * Math.max(0, Math.min(rect.bottom, r.bottom) - Math.max(rect.top, r.top));
+      const ratio = area / Math.min(rect.width * rect.height, r.width * r.height);
+      if (ratio > .36 && ratio > best) { winner = other; best = ratio; }
+    }
+    return winner;
+  }
+  board.addEventListener('pointerdown', event => {
+    if (!drag) suppressedClick = null;
+    const face = event.target.closest('.card-face');
+    if (!face || drag || busy || event.button !== 0 || (event.pointerType === 'touch' && !event.isPrimary)) return;
+    const node = face.closest('.card'), card = state.cards.find(c => c.id === node.dataset.id);
+    if (!card) return;
+    drag = { node, face, card, pointer: event.pointerId, startX: event.clientX, startY: event.clientY, x: card.x, y: card.y, moved: false };
+    face.setPointerCapture(event.pointerId);
+  });
+  board.addEventListener('pointermove', event => {
+    if (!drag || drag.pointer !== event.pointerId) return;
+    const dx = event.clientX - drag.startX, dy = event.clientY - drag.startY;
+    if (!drag.moved && Math.hypot(dx, dy) < 7) return;
+    drag.moved = true; event.preventDefault();
+    drag.node.classList.add('dragging'); drag.node.style.zIndex = ++zIndex;
+    const x = Math.max(12, Math.min(drag.x + dx, board.clientWidth - drag.node.offsetWidth - 12));
+    const y = Math.max(34, Math.min(drag.y + dy, board.offsetHeight - drag.node.offsetHeight - 45));
+    drag.node.style.left = x + 'px'; drag.node.style.top = y + 'px';
+    clearDrop(); const target = findDrop(drag.node); if (target) target.classList.add('drop-target');
+  });
+  function finishDrag(event, cancelled = false) {
+    if (!drag || drag.pointer !== event.pointerId) return;
+    const current = drag; drag = null;
+    current.node.classList.remove('dragging');
+    if (current.face.hasPointerCapture(event.pointerId)) current.face.releasePointerCapture(event.pointerId);
+    const target = current.moved && !cancelled ? findDrop(current.node) : null;
+    clearDrop();
+    if (cancelled || current.moved) suppressedClick = current.card.id;
+    if (!current.moved) return;
+    if (cancelled || target) { current.node.style.left = current.x + 'px'; current.node.style.top = current.y + 'px'; }
+    if (target) mergeCards([current.card.id, target.dataset.id]);
+    else if (!cancelled) {
+      const x = parseFloat(current.node.style.left), y = parseFloat(current.node.style.top);
+      if (x !== current.x || y !== current.y) {
+        snapshot(); current.card.x = x; current.card.y = y;
+        addLog({ title: '移动卡片位置', note: '只改变位置，图案和积分都没有变化。可以撤销。' });
+        renderRecord(); controls();
+      }
+      fitBoard();
+    }
+  }
+  board.addEventListener('pointerup', event => finishDrag(event));
+  board.addEventListener('pointercancel', event => finishDrag(event, true));
+  board.addEventListener('click', event => {
+    const action = event.target.closest('[data-action]'), node = event.target.closest('.card');
+    if (!action || !node || busy) return;
+    const id = node.dataset.id;
+    if (suppressedClick && event.detail > 0) { suppressedClick = null; return; }
+    if (action.dataset.action === 'flip') flipCard(id);
+    if (action.dataset.action === 'select') toggleSelect(id);
+    if (action.dataset.action === 'copy') copyCard(id);
+    if (action.dataset.action === 'remove') removeCard(id);
+  });
+  board.addEventListener('keydown', event => {
+    if (event.target.classList.contains('card-face') && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); flipCard(event.target.closest('.card').dataset.id); }
+  });
+  $('example-nav').addEventListener('click', event => {
+    const b = event.target.closest('[data-example]');
+    if (b && !b.disabled && state.level !== 'free' && state.example !== Number(b.dataset.example)) loadLevel(state.level, Number(b.dataset.example));
+  });
+  $('fill-bank').addEventListener('change', event => {
+    if (!isFill() || busy) return;
+    const parent = E.LEVELS[state.level];
+    const index = [parent, ...parent.examples].findIndex(q => q.bank === event.target.value);
+    if (index >= 0) loadLevel(state.level, index);
+  });
+  $('open-card-game').addEventListener('click', () => {
+    if (busy || !isFill()) return;
+    const link = currentLevel().cardLink;
+    loadLevel(link.level, link.example, { resume: true });
+    $('return-fill-btn').focus({ preventScroll: true }); $('challenge').scrollIntoView({ block: 'start' });
+  });
+  $('return-fill-btn').addEventListener('click', () => {
+    const bridge = currentLevel()?.bridge; if (busy || !bridge) return;
+    loadLevel(6, bridge.fillExample, { resume: true });
+    $('open-card-game').focus({ preventScroll: true }); $('challenge').scrollIntoView({ block: 'start' });
+  });
+  $('bridge-steps').addEventListener('click', event => {
+    const b = event.target.closest('[data-bridge-step]');
+    if (!b || busy || !currentEntry()?.bridge) return;
+    const step = Number(b.dataset.bridgeStep);
+    if (step >= 0 && step < currentEntry().stages.length && step !== (state.bridgeStep || 0)) loadLevel(state.level, state.example, { resume: true, step });
+  });
+  $('card-bank').addEventListener('change', event => {
+    if (busy || isFill() || state.level === 'free') return;
+    const parent = E.LEVELS[state.level], linked = event.target.value === 'linked';
+    const index = [parent, ...parent.examples].findIndex(q => Boolean(q.bridge) === linked);
+    if (index >= 0) loadLevel(state.level, index, { resume: linked });
+  });
+  $('fill-form').addEventListener('submit', submitFill);
+  $('fill-form').addEventListener('input', event => { if (event.target.matches('[data-fill-index]')) editFill(Number(event.target.dataset.fillIndex), event.target.value); });
+  $('merge-btn').addEventListener('click', () => mergeCards([...selected]));
+  $('undo-btn').addEventListener('click', undo);
+  $('reset-btn').addEventListener('click', () => {
+    if (busy) return;
+    snapshot();
+    if (state.level === 'free') { state.cards = []; state.facts = []; state.logs = []; selected.clear(); render(); }
+    else { const old = clone(state), history = undoStack.slice(); loadLevel(state.level, state.example, { step: state.bridgeStep || 0 }); undoStack.push(...history); if (!undoStack.length) undoStack.push(old); controls(); }
+    notify('已重新开始；如需恢复，点击撤销。');
+  });
+  $('arrange-btn').addEventListener('click', () => { if (!busy) { arrange(); notify('卡片已整齐排开。'); } });
+  $('show-math').addEventListener('change', () => { if (busy) { $('show-math').checked = !$('show-math').checked; return; } renderBoard(); renderRecord(); arrange(); });
+  document.addEventListener('click', event => {
+    const button = event.target.closest('button');
+    if (!button || button.disabled || !event.isTrusted) return;
+    if (button.hasAttribute('data-sound-toggle')) {
+      GameAudio.setEnabled(!GameAudio.enabled); if (GameAudio.enabled) GameAudio.play('click');
+    } else if (button.id !== 'cancel-pause' && button.id !== 'cancel-skip') GameAudio.play('click');
+  });
+  document.addEventListener('keydown', event => {
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'z' && !event.shiftKey && !event.target.closest('input,textarea,dialog')) { event.preventDefault(); undo(); }
+    if (event.key === 'Escape' && drag) finishDrag({ pointerId: drag.pointer }, true);
+  });
+  E.LEVELS.forEach((level, i) => {
+    const b = make('button', 'lesson-tab'); b.type = 'button'; b.dataset.level = String(i);
+    b.append(make('span', 'number', String(i + 1).padStart(2, '0')), document.createTextNode(level.name));
+    b.addEventListener('click', () => loadLevel(i)); $('lesson-nav').append(b);
+  });
+  const free = make('button', 'lesson-tab free-tab', '自由实验'); free.type = 'button'; free.dataset.level = 'free'; free.addEventListener('click', () => loadLevel('free')); $('lesson-nav').append(free);
+  for (const b of document.querySelectorAll('[data-close]')) b.addEventListener('click', () => $(b.dataset.close).close());
+  $('help-btn').addEventListener('click', () => $('help-dialog').showModal());
+  $('custom-btn').addEventListener('click', () => {
+    if (busy || isFill()) return;
+    $('custom-form').reset(); $('form-error').textContent = ''; $('form-preview').textContent = '图案会出现在这里';
+    $('custom-dialog').showModal(); $('expression-input').focus();
+  });
+  $('expression-input').addEventListener('input', () => {
+    $('form-error').textContent = '';
+    try { fillTokens($('form-preview'), E.parse($('expression-input').value)); } catch (err) { $('form-preview').textContent = $('expression-input').value.trim() ? err.message : '例如：a^2 + ab 或 x^3 + x^2 + y'; }
+  });
+  $('custom-form').addEventListener('submit', event => {
+    event.preventDefault(); if (busy || isFill()) return;
+    try {
+      if (state.cards.length >= MAX_CARDS) throw new Error('桌面最多放 24 张卡，请先叠合或移除一些。');
+      if (state.facts.length >= MAX_FACTS) throw new Error('最多保留 16 条原始条件。可在自由实验中重新开始。');
+      const terms = E.parse($('expression-input').value), score = E.parseScore($('score-input').value);
+      if (!E.consistentScores([...state.facts, { terms, score }])) throw new Error('这张卡与已有积分条件矛盾：相同图案的线性组合得出了不同积分。请修改积分或组合。');
+      snapshot(); state.level = 'free';
+      const factId = 'k' + state.nextFact++;
+      state.facts.push({ id: factId, terms: clone(terms), score });
+      const card = { terms, score, weights: { [factId]: 1 }, id: 'c' + state.nextId++, title: '自定义卡 ' + (state.nextFact - 1), x: 0, y: 40, back: false, merged: false };
+      state.cards.push(card); selected.clear();
+      addLog({ title: '加入新条件：' + E.format(terms) + (usesGameScores() ? ' · 游戏积分 ' + scoreText(score) + '分' : ' = ' + scoreText(score)), note: usesGameScores() ? '仅检查图案线性组合的积分一致性，不验证同一组字母的实数解。' : '已检查与已有条件不矛盾；字母可取负数。' });
+      $('custom-dialog').close(); render(); arrange(); restoreFocus(card.id);
+      board.querySelector('[data-id="' + card.id + '"]').scrollIntoView({ block: 'nearest', behavior: 'auto' });
+    } catch (err) { $('form-error').textContent = err.message; }
+  });
+  let resizeTimer;
+  window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { if (!busy && !drag) { renderBoard(); arrange(); } }, 100); });
+  loadLevel(0);
+})();
+</script>
+</body>
+</html>
