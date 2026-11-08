@@ -16,6 +16,7 @@
     if(work?.type==='divide')return grouped('left')&&grouped('right')?'左右盘已各自分好 '+work.n+' 组，总量不变。点“两边各留一组”，才是两边同时除以 '+work.n+'。':'分组尚未均匀。再点“分'+work.n+'组”即可同时重新均分两盘，也可手动调整同盘组内方块。';
     if(work?.type==='expand')return '先点展开后的x项，再点“x项”空位；常数项同样操作。也可以拖进去。';
     if(b.pending?.kind==='add')return (b.pending.side==='left'?'左':'右')+'盘已放入 '+B.label(b.pending.token)+'。请在'+(b.pending.side==='left'?'右':'左')+'盘也加上同样的量，让天平恢复水平。≟ 表示操作还未同步；倾斜仅提示操作方向，不判断 x 的正负。';
+    if(b.pending?.kind==='multiply'){const v=pretty(b.pending.value),f=v.startsWith('−')?'('+v+')':v;return (b.pending.side==='left'?'左':'右')+'盘每一块、每个盒子都已乘 '+f+'。请在'+(b.pending.side==='left'?'右':'左')+'盘也乘 '+f+'，让天平恢复水平。≟ 表示操作还未同步；倾斜仅提示操作方向，不判断 x 的正负。';}
     if(b.pending)return '请在'+(b.pending.side==='left'?'右':'左')+'盘做相同操作，才会一起改变等式。';
     if(B.finishable(b))return 'x已经单独留下。到下面把你的答案代回原方程，检查两边是否相等。';
     if([...b.left,...b.right].some(t=>t.kind==='group'))return '先点“拆盒”，再点紫色的括号盒子，看看每一项怎样展开。';
