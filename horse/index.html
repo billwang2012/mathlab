@@ -41,7 +41,7 @@
   <aside class="sidebar" aria-label="教具场景">
     <div class="sidebar-heading"><span>教具收藏</span><span class="count">10</span></div>
     <nav id="scene-list" aria-label="选择几何模型"></nav>
-    <div class="sidebar-note"><span class="note-line"></span><strong>先动手，再发现。</strong><p>拖一拖点，观察长度。<br>猜到规律后，再展开辅助线。</p><small>交互教具 / v1.3.0</small></div>
+    <div class="sidebar-note"><span class="note-line"></span><strong>先动手，再发现。</strong><p>拖一拖点，观察长度。<br>猜到规律后，再展开辅助线。</p><small>交互教具 / v1.3.1</small></div>
   </aside>
   <main class="main">
     <section class="stage-head"><div><p class="eyebrow" id="scene-eyebrow">01 / 反射与最短路径</p><h1 id="stage-title">将军饮马</h1><p id="scene-description"></p></div><span class="model-badge" id="model-badge">反射模型</span></section>
@@ -92,7 +92,7 @@
     {id:'difference',title:'两段之差',subtitle:'一动两定 · 三角不等式',tag:'作差',formula:'|AM − MB|',goal:'最大值',maximize:true,description:'M 在有限河岸上移动，比较到 A、B 两点的距离差，而不是距离和。',steps:['拖动 M，观察 |AM − MB|。目标已改为最大值，不能照搬最短路。','连接 AB，由三角不等式得到 |AM − MB| ≤ AB。','只有 A、B、M 共线，且 M 在 AB 线段外，才能达到 AB。','若取等点不在滑轨内，本页比较可行端点；“理论上界”不一定是可达最大值。']},
     {id:'wedge',title:'两岸两动点',subtitle:'两动两定 · 连续反射',tag:'双反射',formula:'AM + MN + NB',goal:'最小值',description:'M、N 分别在两条相交滑轨上移动。两次反射，把三段路程在展开平面中连接起来。',steps:['拖动 M、N，改变三段折线；夹角滑块用来改变两条河岸的位置关系。','作 A 关于 ℓ₁ 的对称点 A′、B 关于 ℓ₂ 的对称点 B′，则 AM = A′M、NB = NB′，虚线 A′M + MN + NB′ 与原路线逐段等长（同色即等长）。下方长度尺把三段首尾拼成直线，便于看总长变化。','两点之间线段最短：AM + MN + NB ≥ A′B′。A′B′ 依次与 ℓ₁、ℓ₂ 的交点落在有效滑轨上时取等，交点就是最优的 M、N；否则最优在滑轨端点。','本页使用凸目标的区间数值优化，给出有限轨道内参考解；反射与线段最短是证明线索。']},
     {id:'return',title:'一点两岸往返',subtitle:'两动一定 · 闭合路线',tag:'往返',formula:'AM + MN + NA',goal:'最小值',description:'从 A 出发，依次到两岸 M、N，再回到 A。起点与终点相同，展开后却是两个不同的像。',steps:['M、N 在各自滑轨上独立移动，A 是固定出发点。','作 A 关于 ℓ₁ 的对称点 A′、关于 ℓ₂ 的对称点 A″，则 AM = A′M、NA = NA″，虚线 A′M + MN + NA″ 就是完整往返路程（同色即等长）。下方长度尺把三段首尾拼成直线。','两点之间线段最短：AM + MN + NA ≥ A′A″。A′A″ 与 ℓ₁、ℓ₂ 的交点落在有效滑轨上时取等，交点就是最优的 M、N；否则最优在滑轨端点。','参考位置由有限轨道上的凸优化求得；边界也参与比较，不把不可达直线当成答案。']},
-    {id:'fixed',title:'两动点 · 定长段',subtitle:'两动两定 · 平移再反射',tag:'定长',formula:'AM + MN + NB',goal:'最小值',description:'M、N 在同一直线上，N 在 M 右侧且 MN = d。拖动其中一点，另一点由刚性连杆带动。',steps:['金色木杆 MN 长度锁定为 d，拖动 M 或 N，两个点会同步平移。','将 A 向右平移 d 得 A′，则 AM = A′N。目标变为 A′N + NB + d。','再将 A′ 关于河岸反射为 A″。A″、N、B 共线时，两段变一段；最后别忘记加回 d。','若直线交点超出有效滑轨，最近端点才是可达最优。d 滑块改变的是题目条件，不是拖动时的杆长。']},
+    {id:'fixed',title:'两动点 · 定长段',subtitle:'两动两定 · 平移再反射',tag:'定长',formula:'AM + MN + NB',goal:'最小值',description:'M、N 在同一直线上，N 在 M 右侧且 MN = d。拖动其中一点，另一点由刚性连杆带动。',steps:['金色木杆 MN 长度锁定为 d，拖动 M 或 N，两个点会同步平移。','将 A 向右平移 d 得 A′，AMNA′ 是平行四边形，所以 AM = A′N（虚线 A′N 与 AM 同色）。目标变为 A′N + NB + d。','再将 A′ 关于河岸反射为 A″，A′N = A″N。A″、N、B 共线时，两段变一段；最后别忘记加回 d。打开“显示最佳路线”可对比 A′N* = AM*。','若直线交点超出有效滑轨，最近端点才是可达最优。d 滑块改变的是题目条件，不是拖动时的杆长。']},
     {id:'bridge',title:'架桥选址',subtitle:'平行两岸 · 平移消去桥宽',tag:'架桥',formula:'AM + MN + NB',goal:'最小值',description:'两岸平行，桥 MN 垂直河岸且长度等于河宽 d。移动桥的位置，让两侧道路与桥的总长最短。',steps:['桥两端始终竖直对齐，MN = d。拖动任一桥头只能让桥整体平移。','将下岸的 B 向上平移 d 得 B′，把下岸道路 NB 平移到上岸，长度不变。','于是 AM + MN + NB = AM + MB′ + d。只需让 A、M、B′ 共线。','桥长 d 是常数，不参与位置优化，但必须计入总路程；有限滑轨仍需检查边界。']},
     {id:'perpendicular',title:'垂线最短',subtitle:'两动一定 · 反射后作垂线',tag:'垂线',formula:'AM + MN',goal:'最小值',description:'A 为定点，M 沿斜岸 ℓ₁、N 沿水平岸 ℓ₂ 各自滑动（对应教具照片中的 B、C）。M、N 在何处时 AM + MN 最短？',steps:['分别拖动 M、N，观察 AM + MN。两点互不牵连；夹角滑块改变两岸的位置关系。','作 A 关于 ℓ₁ 的对称点 A′，则 AM = A′M，红线 A′M + MN 与黄线 AM + MN 等长。终点 N 不固定，所以还不能直接连两点。','A′M + MN ≥ A′N（两点之间线段最短），A′N ≥ A′H（点到直线，垂线段最短），H 是 A′ 到 ℓ₂ 的垂足。A′H 与 ℓ₁ 的交点就是最优 M，H 就是最优 N。','两次取等同时成立需要 A′H 与 ℓ₁ 的交点落在有效滑轨上；否则最小值在滑轨端点处取得。本页按解析公式给出最优位置，并检查端点。']},
     {id:'triangle',title:'三动点 · 最小周长',subtitle:'锐角三角形 · 垂足三角形',tag:'三动点',formula:'MN + NP + PM',goal:'最小值',description:'M、N、P 分别在锐角三角形 ABC 的三边上移动，寻找内接三角形的最小周长。',steps:['拖动三个滑点，观察内接三角形的周长。外部 ABC 始终保持锐角，避免跨出定理适用范围。','先固定 M：作 M 关于 BC 的对称点 M′、关于 CA 的对称点 M″，则 MN = M′N、PM = PM″，周长 = 虚线 M′N + NP + PM″ ≥ M′M″（同色即等长）。','M 固定时，N、P 取在 M′M″ 与两边的交点最优；再移动 M 让 M′M″ 最短。Fagnano 定理：锐角三角形中，结果就是垂足三角形。点击“显示最佳路线”，冷色虚线即为垂足三角形对照。','点击“演示最优”使 M、N、P 到达垂足。数值和动态画面用于核验与观察，不替代定理证明。']},
@@ -161,7 +161,7 @@
   function setParam(s,key,value){if(!controls(s).some(c=>c.key===key)||!Number.isFinite(value))return;s.params[key]=value;normalize(s);}
   function evaluate(s) {
     const t=tracks(s),p=s.params,id=s.id;
-    const points={A:{...s.anchors.A},B:{...s.anchors.B}}, handles=[], ghosts=[],guides=[],links=[],rightAngles=[],frame=[];
+    const points={A:{...s.anchors.A},B:{...s.anchors.B}}, handles=[], ghosts=[],guides=[],links=[],rightAngles=[],frame=[],twins=[];
     let path=[],red=[],extra=0,formula=byId(id).formula;
     const slide=(key,track)=>{points[key.toUpperCase()]=mix(track.a,track.b,p[key]);handles.push({id:key.toUpperCase(),type:'slider',param:key});};
     if(id==='triangle'){
@@ -174,7 +174,7 @@
       points.M=pt(t[0].a.x+p.m*(t[0].b.x-t[0].a.x-p.d),4.8);points.N=add(points.M,pt(p.d,0));
       handles.push({id:'M',type:'slider',param:'m'},{id:'N',type:'linked',param:'m'});links.push([points.M,points.N]);
       const ap=add(points.A,pt(p.d,0)),app=reflect(ap,t[0].a,t[0].b);ghosts.push({id:'A′',p:ap},{id:'A″',p:app});guides.push([points.A,ap],[ap,app]);
-      path=[points.A,points.M,points.N,points.B];red=[app,points.N,points.B];extra=p.d;
+      path=[points.A,points.M,points.N,points.B];red=[app,points.N,points.B];extra=p.d;twins.push({a:ap,b:points.N,seg:0});
     }else if(id==='bridge'){
       slide('m',t[0]);points.N=add(points.M,pt(0,p.d));handles.push({id:'N',type:'linked',param:'m'});links.push([points.M,points.N]);
       const bp=sub(points.B,pt(0,p.d));ghosts.push({id:'B′',p:bp});guides.push([points.B,bp]);path=[points.A,points.M,points.N,points.B];red=[points.A,points.M,bp];extra=p.d;
@@ -204,7 +204,7 @@
     const parts=path.slice(1).map((v,i)=>({label:id==='triangle'?['MN','NP','PM'][i]:['AM',path.length===3?'MB':'MN',path.length===4?'NB':'NP','PB'][i],length:dist(path[i],v),weight:id==='weighted'&&i===0?p.weight:1}));
     if(id==='return')parts[2].label='NA';
     if(id==='perpendicular')parts[1].label='MN';
-    return {points,tracks:t,handles,ghosts,guides,links,rightAngles,frame,path,red,parts,formula,value,transformedValue:red.length?length(red)+extra:null,extra};
+    return {points,tracks:t,handles,ghosts,guides,links,rightAngles,frame,twins,path,red,parts,formula,value,transformedValue:red.length?length(red)+extra:null,extra};
   }
   function move(s,id,pos) {
     if(!Number.isFinite(pos.x)||!Number.isFinite(pos.y))return;
@@ -444,6 +444,7 @@
       const overlay=create('g',{id:'best-route-overlay','pointer-events':'none','data-value':bestModel.value,'aria-label':reference.kind==='numeric'?'最佳路线，数值参考':'最佳路线'});
       segments(bestModel.path,segColors(bestModel.path.length-1,BEST),7,'10 9',overlay,{'data-route':'best'});
       if(showHelpers&&RED_MAP[state.id])segments(bestModel.red,mapped(bestModel.red,BEST),3,'8 6',overlay,{id:'best-route-straight'});
+      if(showHelpers)bestModel.twins.forEach(({a,b,seg})=>{const l=line(a,b,BEST[seg],3,'8 6',overlay);l.setAttribute('data-twin','best');l.setAttribute('data-seg',seg);});
       for(const h of bestModel.handles.filter(h=>h.type!=='anchor')){
         const q=p(bestModel.points[h.id]);create('circle',{cx:q.x,cy:q.y,r:15,fill:'none',stroke:'#91e3be','stroke-width':2,'stroke-dasharray':'4 3','data-best-point':h.id},overlay);
       }
@@ -451,6 +452,7 @@
     segments(model.path,segColors(model.path.length-1,CUR),4.2,'',layer,{'data-route':'current'});
     if(showHelpers){
       if(model.red.length)segments(model.red,mapped(model.red,CUR),3,'8 6',layer,{'data-route':'helper'});
+      model.twins.forEach(({a,b,seg})=>{const l=line(a,b,CUR[seg],3,'8 6');l.setAttribute('data-twin','current');l.setAttribute('data-seg',seg);});
       for(const ghost of model.ghosts){const q=p(ghost.p);create('circle',{cx:q.x,cy:q.y,r:7,fill:'#29483d',stroke:'#d9d3c0','stroke-width':2,'stroke-dasharray':'3 2'});if(showLabels)label(ghost.p,ghost.id,'#e3dccb','below');}
       if(state.id==='bounces')for(const id of ['M','N','P'])line(add(model.points[id],{x:0,y:-.6}),add(model.points[id],{x:0,y:.6}),'#a3c3b4',1.6,'4 5');
     }
