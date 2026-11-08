@@ -41,14 +41,14 @@
   <aside class="sidebar" aria-label="教具场景">
     <div class="sidebar-heading"><span>教具收藏</span><span class="count">10</span></div>
     <nav id="scene-list" aria-label="选择几何模型"></nav>
-    <div class="sidebar-note"><span class="note-line"></span><strong>先动手，再发现。</strong><p>拖一拖点，观察长度。<br>猜到规律后，再展开辅助线。</p><small>交互教具 / v1.3.1</small></div>
+    <div class="sidebar-note"><span class="note-line"></span><strong>先动手，再发现。</strong><p>拖一拖点，观察长度。<br>猜到规律后，再展开辅助线。</p><small>交互教具 / v1.3.2</small></div>
   </aside>
   <main class="main">
     <section class="stage-head"><div><p class="eyebrow" id="scene-eyebrow">01 / 反射与最短路径</p><h1 id="stage-title">将军饮马</h1><p id="scene-description"></p></div><span class="model-badge" id="model-badge">反射模型</span></section>
     <div class="lab-grid">
       <section class="canvas-card" aria-label="互动教具">
         <div class="canvas-toolbar"><span class="canvas-label"><span class="live-dot"></span> 动态磁性黑板</span><div class="canvas-options"><label><input id="show-grid" type="checkbox" checked> 网格</label><label><input id="show-helpers" type="checkbox"> 辅助线</label><label><input id="show-labels" type="checkbox" checked> 点名</label></div></div>
-        <div class="board-wrap"><svg id="board" viewBox="0 0 1000 700" role="group" aria-label="几何教具。金色滑点可拖动，方向键可微调；蓝色点用于布置题目。"><defs><pattern id="board-grid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="#a3c2b8" stroke-opacity=".075" stroke-width="1"/></pattern><filter id="rope-shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="1.3" flood-color="#000" flood-opacity=".25"/></filter></defs><rect id="grid-layer" width="1000" height="700" fill="url(#board-grid)"/><g id="drawing-layer"></g></svg><div class="board-corner">DRAG · OBSERVE · DISCOVER</div></div>
+        <div class="board-wrap"><svg id="board" viewBox="0 0 1000 700" role="group" aria-label="几何教具。金色滑点可拖动，方向键可微调；蓝色点用于布置题目。"><defs><pattern id="board-grid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="#a3c2b8" stroke-opacity=".075" stroke-width="1"/></pattern><filter id="rope-shadow" filterUnits="userSpaceOnUse" x="-100" y="-100" width="1200" height="900"><feDropShadow dx="0" dy="2" stdDeviation="1.3" flood-color="#000" flood-opacity=".25"/></filter></defs><rect id="grid-layer" width="1000" height="700" fill="url(#board-grid)"/><g id="drawing-layer"></g></svg><div class="board-corner">DRAG · OBSERVE · DISCOVER</div></div>
         <div class="canvas-legend"><span><i class="legend-rope multi"></i> 当前路径 · 每段一色</span><span><i class="legend-rope multi dashed"></i><span id="red-legend">对称点虚线 · 同色即等长</span></span><span id="best-route-legend-item" hidden><i class="legend-rope best"></i><span id="best-route-legend">最佳路线 · 冷色粗虚线</span></span><span><i class="legend-pin"></i> 可拖动滑点</span></div>
         <div class="transport" role="region" aria-label="教具操作与讲解工具栏"><div class="transport-actions"><button id="best-route-button" class="secondary-button route-toggle" type="button" aria-pressed="false" aria-controls="drawing-layer" title="仅显示或隐藏对比路线，不移动当前滑点">显示最佳路线</button><button id="play-button" class="secondary-button"><span aria-hidden="true">▷</span> 自动探索</button><button id="optimal-button" class="primary-button">演示最优位置 <span aria-hidden="true">→</span></button><button id="reset-button" class="icon-button" aria-label="重置当前场景" title="重置当前场景">↺</button></div><div id="step-tabs" class="step-tabs" role="tablist" aria-label="讲解步骤"></div><div class="speed-control"><label for="speed">速度</label><input id="speed" type="range" min="0.3" max="1.5" value="0.7" step="0.1"></div></div>
         <p class="drag-tip" id="drag-tip">拖动金色 M 沿轨道滑行；蓝色 A、B 可调整题目布局。</p>
@@ -285,6 +285,7 @@
   const NS='http://www.w3.org/2000/svg';
   // 颜色规则：同一长度（同一段或由反射/平移得到的等长像）同色，不同长度不同色；最佳路线用另一组冷色。
   const CUR=['#f1cd6f','#f2917c','#e98bd0','#b9d77a'],BEST=['#91e3be','#7cc4f5','#b7a3f5','#6fe0e0'],OTHER='#efeadb',GUIDE='#a4c6b1';
+  const SEG_W=4,DASH='9 7';// 所有彩色线段同一粗细：实线=当前路径，虚线=等长像与最佳路线
   const RED_MAP={classic:[0,1],fixed:[0,2],bridge:[0,2],perpendicular:[0,1],wedge:[0,1,2],return:[0,1,2],bounces:[0,1,2,3],triangle:[0,1,2]},GUIDE_MAP={fixed:[1],bridge:[1]};
   let state=G.initial(),reference=G.optimal(state),step=0,frame=0,playing=false,drag=null,lastMap=null;
   let showHelpers=false,showGrid=true,showLabels=true,showBestRoute=false;
@@ -442,17 +443,17 @@
     if(showBestRoute){
       bestModel=G.evaluate({...state,params:{...state.params,...reference.params}});
       const overlay=create('g',{id:'best-route-overlay','pointer-events':'none','data-value':bestModel.value,'aria-label':reference.kind==='numeric'?'最佳路线，数值参考':'最佳路线'});
-      segments(bestModel.path,segColors(bestModel.path.length-1,BEST),7,'10 9',overlay,{'data-route':'best'});
-      if(showHelpers&&RED_MAP[state.id])segments(bestModel.red,mapped(bestModel.red,BEST),3,'8 6',overlay,{id:'best-route-straight'});
-      if(showHelpers)bestModel.twins.forEach(({a,b,seg})=>{const l=line(a,b,BEST[seg],3,'8 6',overlay);l.setAttribute('data-twin','best');l.setAttribute('data-seg',seg);});
+      segments(bestModel.path,segColors(bestModel.path.length-1,BEST),SEG_W,DASH,overlay,{'data-route':'best'});
+      if(showHelpers&&RED_MAP[state.id])segments(bestModel.red,mapped(bestModel.red,BEST),SEG_W,DASH,overlay,{id:'best-route-straight'});
+      if(showHelpers)bestModel.twins.forEach(({a,b,seg})=>{const l=line(a,b,BEST[seg],SEG_W,DASH,overlay);l.setAttribute('data-twin','best');l.setAttribute('data-seg',seg);});
       for(const h of bestModel.handles.filter(h=>h.type!=='anchor')){
         const q=p(bestModel.points[h.id]);create('circle',{cx:q.x,cy:q.y,r:15,fill:'none',stroke:'#91e3be','stroke-width':2,'stroke-dasharray':'4 3','data-best-point':h.id},overlay);
       }
     }
-    segments(model.path,segColors(model.path.length-1,CUR),4.2,'',layer,{'data-route':'current'});
+    segments(model.path,segColors(model.path.length-1,CUR),SEG_W,'',layer,{'data-route':'current'});
     if(showHelpers){
-      if(model.red.length)segments(model.red,mapped(model.red,CUR),3,'8 6',layer,{'data-route':'helper'});
-      model.twins.forEach(({a,b,seg})=>{const l=line(a,b,CUR[seg],3,'8 6');l.setAttribute('data-twin','current');l.setAttribute('data-seg',seg);});
+      if(model.red.length)segments(model.red,mapped(model.red,CUR),SEG_W,DASH,layer,{'data-route':'helper'});
+      model.twins.forEach(({a,b,seg})=>{const l=line(a,b,CUR[seg],SEG_W,DASH);l.setAttribute('data-twin','current');l.setAttribute('data-seg',seg);});
       for(const ghost of model.ghosts){const q=p(ghost.p);create('circle',{cx:q.x,cy:q.y,r:7,fill:'#29483d',stroke:'#d9d3c0','stroke-width':2,'stroke-dasharray':'3 2'});if(showLabels)label(ghost.p,ghost.id,'#e3dccb','below');}
       if(state.id==='bounces')for(const id of ['M','N','P'])line(add(model.points[id],{x:0,y:-.6}),add(model.points[id],{x:0,y:.6}),'#a3c3b4',1.6,'4 5');
     }
