@@ -11,6 +11,7 @@
 .transport #step-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0;max-width:100%}
 .transport .step-tab{min-height:38px;padding:8px 10px;background:#1e4035;border-color:#416454;color:#bfd0b8;white-space:nowrap;font-size:10px;flex:0 0 auto}
 .transport .step-tab.active{background:#405d41;border-color:#9eb783;color:#f0f3d9}
+.transport #optimal-button.is-current{box-shadow:0 0 0 2px #183c34,0 0 0 4px #9eb783}
 .transport .speed-control{margin-left:0}
 .lesson-card .step-text{margin-top:18px}
 @media(min-width:1600px){.main{padding:38px 42px}.lab-grid{grid-template-columns:minmax(0,1fr) 300px;gap:26px}.sidebar{width:247px}.scene-button{padding:15px 12px}.scene-name{font-size:13px}.canvas-card{align-self:start}}@media(max-width:1200px){.sidebar{width:195px;padding:25px 10px}.main{padding:25px 20px}.lab-grid{grid-template-columns:minmax(0,1fr) 243px;gap:15px}.canvas-toolbar{padding:0 15px}.canvas-options{gap:8px}.canvas-label{font-size:10px}.canvas-legend{gap:14px}.transport{padding:14px 14px 7px}.speed-control{display:none}.measure-card,.control-card{padding:18px}.scene-name{font-size:11px}.scene-meta{font-size:8px}.stage-head h1{font-size:26px}.stage-head p:last-child{font-size:11px}}@media(max-width:980px){.sidebar{width:170px}.main{padding:24px 17px}.lab-grid{grid-template-columns:minmax(0,1fr)}.inspector{display:grid;grid-template-columns:1fr 1fr;align-items:start}.discovery-card{display:none}.lesson-card{grid-column:auto}.header-actions{gap:12px}.offline-indicator{display:none}.stage-head{align-items:flex-start}.scene-button{gap:8px;padding:13px 8px}#board{max-height:none}.speed-control{display:flex}.stage-head p:last-child{max-width:none}.big-value output{font-size:35px}.model-badge{display:none}}@media(max-width:680px){.masthead{height:73px;padding:0 17px}.brand-mark{height:36px;width:36px;border-radius:10px}.brand{gap:9px}.brand strong{font-size:16px}.brand small{font-size:7px;letter-spacing:2px}.brand-light{margin-left:3px}.header-actions{gap:9px}.header-actions button{font-size:10px}#fullscreen-button{display:none}.workspace{display:block;min-height:calc(100vh - 73px)}.sidebar{width:100%;padding:12px 0;border-right:0;border-bottom:1px solid var(--line)}.sidebar-heading,.sidebar-note{display:none}#scene-list{flex-direction:row;overflow-x:auto;padding:0 15px 3px;gap:7px;scrollbar-width:thin}.scene-button{width:auto;flex-shrink:0;padding:9px 12px;gap:7px;border:1px solid #dfe5d6;border-radius:7px}.scene-name{font-size:11px}.scene-meta{display:none}.scene-number{font-size:8px}.main{padding:21px 13px}.stage-head{margin-bottom:17px}.stage-head h1{font-size:23px;margin-bottom:8px}.stage-head p:last-child{font-size:11px}.eyebrow{font-size:9px}.canvas-toolbar{height:46px;padding:0 12px}.canvas-options{gap:10px}.canvas-options label{font-size:9px}.canvas-label{font-size:9px;gap:5px}.canvas-label .live-dot{width:4px;height:4px}#board{min-height:0;aspect-ratio:10/7}.canvas-legend{font-size:8px;gap:13px;padding:8px 8px 12px}.transport{padding:12px 11px 7px;gap:7px}.primary-button,.secondary-button{font-size:10px;padding:9px 10px;min-height:37px}.icon-button{min-height:37px}.speed-control{display:none}.drag-tip{font-size:9px;padding:4px 12px 12px}.board-corner{font-size:6px;letter-spacing:1px;bottom:9px;right:12px}.inspector{gap:12px}.measure-card,.control-card{padding:16px 13px}.section-label{font-size:9px;margin-bottom:14px}.formula{font-size:17px}.big-value{margin-bottom:12px;gap:5px}.big-value output{font-size:29px}.big-value span{font-size:8px}.parts{gap:4px;margin-bottom:13px}.part{font-size:8px;padding:4px}.reference-row,.gap-row{font-size:9px}.reference-note,.control-note{font-size:8px}.slider-heading{font-size:9px}.slider-heading output{font-size:8px}.constraint-status{font-size:9px}.lesson-card{padding:20px 16px}.lesson-top h2{font-size:16px}.step-tabs{gap:5px;margin:17px 0 14px}.step-tab{font-size:10px;padding:8px 9px;flex:1}.step-text{font-size:12px;line-height:2}.lesson-bottom{align-items:flex-start}.lesson-bottom>span{font-size:9px;max-width:50%}.lesson-bottom>div{gap:12px}.lesson-bottom button{font-size:11px;padding:4px}.main footer{display:block;font-size:8px}.main footer span{display:block;margin-top:3px}.board-wrap:fullscreen{height:100vh}dialog{padding:20px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;scroll-behavior:auto!important}}@media print{.sidebar,.header-actions,.transport,.canvas-options,.control-card,.discovery-card,.lesson-bottom,.drag-tip,footer{display:none}.workspace,.main{display:block;padding:0}.masthead{height:65px}.lab-grid{grid-template-columns:1fr 220px}.board-wrap,.canvas-card{-webkit-print-color-adjust:exact;print-color-adjust:exact}.lesson-card{break-inside:avoid}}
@@ -36,7 +37,7 @@
   <aside class="sidebar" aria-label="教具场景">
     <div class="sidebar-heading"><span>教具收藏</span><span class="count">10</span></div>
     <nav id="scene-list" aria-label="选择几何模型"></nav>
-    <div class="sidebar-note"><span class="note-line"></span><strong>先动手，再发现。</strong><p>拖一拖点，观察长度。<br>猜到规律后，再展开辅助线。</p><small>交互教具 / v1.0.0</small></div>
+    <div class="sidebar-note"><span class="note-line"></span><strong>先动手，再发现。</strong><p>拖一拖点，观察长度。<br>猜到规律后，再展开辅助线。</p><small>交互教具 / v1.1.0</small></div>
   </aside>
   <main class="main">
     <section class="stage-head"><div><p class="eyebrow" id="scene-eyebrow">01 / 反射与最短路径</p><h1 id="stage-title">将军饮马</h1><p id="scene-description"></p></div><span class="model-badge" id="model-badge">反射模型</span></section>
@@ -53,13 +54,13 @@
         <section class="control-card"><div class="section-label">教具调节</div><div id="controls"></div><div class="control-note" id="control-note">长度使用统一相对单位。布局调整后，参考解会重新计算。</div></section>
         <section class="discovery-card"><span class="discovery-index" id="discovery-index">观察 01</span><h2 id="discovery-title">什么时候，两段路变成一段？</h2><p id="discovery-text">先猜一猜最短的位置，再打开辅助线验证。</p></section>
       </aside>
-      <section class="lesson-card"><div class="lesson-top"><div><p class="eyebrow">从操作到理解</p><h2>把“为什么”也看见</h2></div><span id="step-counter">01 / 04</span></div><p id="step-text" class="step-text" role="tabpanel"></p><div class="lesson-bottom"><span>动态实验帮助发现规律，不替代数学证明。</span><div><button id="step-prev" class="plain-button">上一步</button><button id="step-next" class="plain-button emph">下一步 →</button></div></div></section>
+      <section class="lesson-card"><div class="lesson-top"><div><p class="eyebrow">从操作到理解</p><h2>把“为什么”也看见</h2></div><span id="step-counter">01 / 03</span></div><p id="step-text" class="step-text" role="tabpanel"></p><div class="lesson-bottom"><span>动态实验帮助发现规律，不替代数学证明。</span><div><button id="step-prev" class="plain-button">上一步</button><button id="step-next" class="plain-button emph">下一步 →</button></div></div></section>
     </div>
     <footer>一根滑轨，一次移动，一个新的发现。<span>原创网页实现 · 离线可用 · 鼠标 / 触屏 / 键盘</span></footer>
   </main>
 </div>
 <div id="announcement" class="sr-only" role="status" aria-live="polite"></div>
-<dialog id="help-dialog"><div class="dialog-head"><h2>把教具搬进浏览器</h2><button id="help-close" class="icon-button" aria-label="关闭说明">×</button></div><p>金色点像实体滑轨上的螺母：只能沿轨道滑动。蓝色点可在布置题目时移动，点击求最优时保持固定。木色连杆的长度会被严格锁定。</p><ul><li>拖动点，或使用右侧滑块；点获得焦点后可按方向键微调，Shift 加速。</li><li>操作按钮和四个讲解步骤都在黑板下方。初始、切换场景与“动手观察”均不显示辅助虚线；点击“构造辅助”或勾选“辅助线”后才显示。最优演示不再自动打开辅助线，最佳路线仍由独立按钮主动开启。</li><li>“自动探索”连续移动滑点；手动拖动或调参会暂停。最优演示可随时暂停。</li><li>A、B 的活动范围按题设决定：斜岸场景可在画布内自由布置；单岸场景保留同侧、架桥保留两岸外侧、连续反射保留两镜面之间。限制理由显示在黑板下方，不再使用统一的高度截断。</li><li>“辅助线”显示反射、平移、垂足或直线长度尺。两岸、往返和连续反射场景将各段长度首尾拼成直线，固定零点与比例，右端伸缩直接表示总长变化；绿色竖线是最佳长度数值参考，不表示原反射像始终共线。</li><li>“显示最佳路线”叠加薄荷绿色虚线和 M*、N* 等参考点，当前滑点不变；再次点击即可隐藏。改动题目条件时参考路线自动更新。</li><li>“演示最优”区分解析构造与数值参考。有限轨道和定长杆都是真实约束；垂线最短场景在垂线交点超出滑轨时取端点。</li></ul><h3>与照片的对应范围</h3><p>实现了将军饮马、两动点往返、定长段、架桥、斜岸连杆、三动点、加权胡不归等机制。照片部分缩略图只给标题，没有完整题设；本页以明确条件的标准模型补齐十个场景。“连续反射·等角观察”不冒充原商品“一线三等角”的唯一构造。</p><p class="muted">网页不使用外部脚本、字体、图片、账号或数据上传。可直接打开同目录的单文件 HTML。桌面全屏需浏览器支持；未支持时可使用浏览器自带全屏。</p></dialog>
+<dialog id="help-dialog"><div class="dialog-head"><h2>把教具搬进浏览器</h2><button id="help-close" class="icon-button" aria-label="关闭说明">×</button></div><p>金色点像实体滑轨上的螺母：只能沿轨道滑动。蓝色点可在布置题目时移动，点击求最优时保持固定。木色连杆的长度会被严格锁定。</p><ul><li>拖动点，或使用右侧滑块；点获得焦点后可按方向键微调，Shift 加速。</li><li>操作按钮和讲解步骤都在黑板下方：“1 动手观察”“2 构造辅助”之后，用“演示最优位置”完成取等与边界检验。初始、切换场景与“动手观察”均不显示辅助虚线；点击“构造辅助”或勾选“辅助线”后才显示。最优演示不再自动打开辅助线，最佳路线仍由独立按钮主动开启。</li><li>“自动探索”连续移动滑点；手动拖动或调参会暂停。最优演示可随时暂停。</li><li>A、B 的活动范围按题设决定：斜岸场景可在画布内自由布置；单岸场景保留同侧、架桥保留两岸外侧、连续反射保留两镜面之间。限制理由显示在黑板下方，不再使用统一的高度截断。</li><li>“辅助线”显示反射、平移、垂足或直线长度尺。两岸、往返和连续反射场景将各段长度首尾拼成直线，固定零点与比例，右端伸缩直接表示总长变化；绿色竖线是最佳长度数值参考，不表示原反射像始终共线。</li><li>“显示最佳路线”叠加薄荷绿色虚线和 M*、N* 等参考点，当前滑点不变；打开辅助线时，还会把最佳点与反射/平移像（如 B′）用细绿虚线连成直线，与红色辅助线直接对比。再次点击即可隐藏。改动题目条件时参考路线自动更新。</li><li>“演示最优”区分解析构造与数值参考。有限轨道和定长杆都是真实约束；垂线最短场景在垂线交点超出滑轨时取端点。</li></ul><h3>与照片的对应范围</h3><p>实现了将军饮马、两动点往返、定长段、架桥、斜岸连杆、三动点、加权胡不归等机制。照片部分缩略图只给标题，没有完整题设；本页以明确条件的标准模型补齐十个场景。“连续反射·等角观察”不冒充原商品“一线三等角”的唯一构造。</p><p class="muted">网页不使用外部脚本、字体、图片、账号或数据上传。可直接打开同目录的单文件 HTML。桌面全屏需浏览器支持；未支持时可使用浏览器自带全屏。</p></dialog>
 <script>(function (root, factory) {
   const api = factory();
   if (typeof module === 'object' && module.exports) module.exports = api;
@@ -312,14 +313,16 @@
       top.append(label,out);row.append(top,input);$('controls').append(row);
     }
   }
+  const LAST_STEP=2;
   function renderSteps(){
-    $('step-tabs').replaceChildren();const names=['动手观察','构造辅助','寻找取等','验证与边界'];
+    $('step-tabs').replaceChildren();const names=['动手观察','构造辅助'],steps=meta().steps;
     names.forEach((name,i)=>{const b=document.createElement('button');b.className=`step-tab${step===i?' active':''}`;b.textContent=`${i+1} ${name}`;b.id=`step-tab-${i}`;b.setAttribute('role','tab');b.setAttribute('aria-selected',String(i===step));b.setAttribute('aria-controls','step-text');b.addEventListener('click',()=>setStep(i));$('step-tabs').append(b);});
-    $('step-counter').textContent=`0${step+1} / 04`;$('step-text').textContent=meta().steps[step];$('step-text').setAttribute('aria-labelledby',`step-tab-${step}`);
-    $('step-prev').disabled=step===0;$('step-next').disabled=step===3;
+    $('step-counter').textContent=`0${step+1} / 0${LAST_STEP+1}`;$('step-text').textContent=step<LAST_STEP?steps[step]:`${steps[2]} ${steps[3]}`;$('step-text').setAttribute('aria-labelledby',step<LAST_STEP?`step-tab-${step}`:'optimal-button');
+    $('optimal-button').classList.toggle('is-current',step===LAST_STEP);
+    $('step-prev').disabled=step===0;$('step-next').disabled=step===LAST_STEP;$('step-next').textContent=step===LAST_STEP-1?'演示最优位置 →':'下一步 →';
   }
   function setStep(value){
-    step=G.clamp(value,0,3);
+    step=G.clamp(value,0,LAST_STEP);
     if(step===0){showHelpers=false;showBestRoute=false;}
     else if(step===1)showHelpers=true;
     $('show-helpers').checked=showHelpers;renderSteps();render();
@@ -427,6 +430,7 @@
       bestModel=G.evaluate({...state,params:{...state.params,...reference.params}});
       const overlay=create('g',{id:'best-route-overlay','pointer-events':'none','data-value':bestModel.value,'aria-label':reference.kind==='numeric'?'最佳路线，数值参考':'最佳路线'});
       const route=rope(bestModel.path,'#91e3be',7,'10 9');overlay.appendChild(route);
+      if(showHelpers&&!split&&bestModel.red.length>2&&state.id!=='triangle'){const straight=rope(bestModel.red,'#91e3be',3,'8 6');straight.id='best-route-straight';overlay.appendChild(straight);}
       for(const h of bestModel.handles.filter(h=>h.type!=='anchor')){
         const q=p(bestModel.points[h.id]);create('circle',{cx:q.x,cy:q.y,r:15,fill:'none',stroke:'#91e3be','stroke-width':2,'stroke-dasharray':'4 3','data-best-point':h.id},overlay);
       }
@@ -473,7 +477,7 @@
     const tick=now=>{if(!playing)return;const t=(now-start)/1000*Number($('speed').value);keys.forEach((key,i)=>G.setParam(state,key,.5+.46*Math.sin(t*(1+i*.19)+i*1.7)));render();frame=requestAnimationFrame(tick);};frame=requestAnimationFrame(tick);
   });
   $('optimal-button').addEventListener('click',()=>{
-    if(playing&&$('optimal-button').textContent.includes('暂停')){stop();return;}stop();updateReference();const initial={...state.params},target={...reference.params};
+    if(playing&&$('optimal-button').textContent.includes('暂停')){stop();return;}stop();updateReference();if(step!==LAST_STEP){step=LAST_STEP;renderSteps();}const initial={...state.params},target={...reference.params};
     const finish=()=>{Object.assign(state.params,target);stop();render();announce(`已到${reference.kind==='numeric'?'数值参考':'解析最优'}位置，目标值 ${fmt(reference.value)}`);};
     if(reduced.matches){finish();return;}
     playing=true;$('optimal-button').textContent='Ⅱ 暂停演示';const start=performance.now();
@@ -486,8 +490,8 @@
   $('show-helpers').addEventListener('change',event=>{showHelpers=event.target.checked;render();});
   $('show-grid').addEventListener('change',event=>{showGrid=event.target.checked;render();});
   $('show-labels').addEventListener('change',event=>{showLabels=event.target.checked;render();});
-  $('step-prev').addEventListener('click',()=>setStep(step-1));$('step-next').addEventListener('click',()=>setStep(step+1));
-  $('step-tabs').addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight'].includes(event.key))return;event.preventDefault();setStep(G.clamp(step+(event.key==='ArrowRight'?1:-1),0,3));$(`step-tab-${step}`).focus();});
+  $('step-prev').addEventListener('click',()=>setStep(step-1));$('step-next').addEventListener('click',()=>{if(step===LAST_STEP-1)$('optimal-button').click();else setStep(step+1);});
+  $('step-tabs').addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight'].includes(event.key))return;event.preventDefault();setStep(G.clamp(step+(event.key==='ArrowRight'?1:-1),0,LAST_STEP-1));$(`step-tab-${step}`).focus();});
   $('help-button').addEventListener('click',()=>{$('help-dialog').showModal();stop();});$('help-close').addEventListener('click',()=>$('help-dialog').close());
   $('help-dialog').addEventListener('click',event=>{if(event.target===$('help-dialog')){const r=event.target.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)event.target.close();}});
   $('fullscreen-button').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else announce('浏览器不支持网页全屏，请使用浏览器自带的全屏功能。');}catch{announce('全屏请求未获允许，请使用浏览器自带的全屏功能。');}});
