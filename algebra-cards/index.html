@@ -55,6 +55,16 @@ dialog{border:1px solid var(--line);border-radius:20px;width:min(500px,calc(100%
 </style>
 </head>
 <body>
+<style id="mathlab-home-style">
+#mathlab-home-bar{all:initial;display:flex;align-items:center;gap:10px;box-sizing:border-box;width:100%;min-height:36px;padding:2px max(16px,env(safe-area-inset-right)) 2px max(16px,env(safe-area-inset-left));background:#0f241e;color:#a9c1b0;font:13px/1.3 system-ui,-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;position:relative;z-index:2147483000}
+#mathlab-home{all:unset;display:inline-flex;align-items:center;gap:6px;margin-left:-8px;padding:6px 10px;border-radius:8px;color:#f1cd6f;font-weight:600;cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+#mathlab-home:hover{background:rgba(255,255,255,.08)}
+#mathlab-home:focus-visible{outline:2px solid #f1cd6f;outline-offset:1px}
+#mathlab-home-bar .mathlab-here{all:unset;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#a9c1b0}
+@media print{#mathlab-home-bar{display:none}}
+</style>
+<nav id="mathlab-home-bar" aria-label="数学实验站"><a id="mathlab-home" href="../" title="返回数学实验站首页"><span aria-hidden="true">←</span>数学实验站</a><span class="mathlab-here" aria-hidden="true">/ 代数叠叠卡</span></nav>
+
 <div class="app">
   <header class="header">
     <div class="brand"><div class="brand-mark" aria-hidden="true"></div><div><h1>代数叠叠卡</h1><p>FLIP · STACK · DISCOVER</p></div></div>

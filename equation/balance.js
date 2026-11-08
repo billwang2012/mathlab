@@ -33,6 +33,18 @@
     b[p.side]=b[p.side].filter(x=>x.id!==p.id);b[side]=b[side].filter(x=>x.id!==id);b.pending=null;b.last='两边同时减去 '+label(t)+'；等式保持不变。';return b;
   }
   function removeMatched(board,side,id){const p=board.pending;need(p?.kind==='remove'&&p.side!==side,'先在另一盘暂存要拿走的块。');const b=copy(board),t=get(b,side,id);need(t.kind!=='group'&&t.kind===p.token.kind,'两边必须拿走同种方块，盒子要先拆开。');const value=R(t.value),amount=R(p.token.value),ratio=E.div(amount,value);need(ratio.n>0n&&ratio.n<=ratio.d,'这块必须符号相同，并且有足够的量。');if(E.eq(value,amount))return remove(board,side,id);const staged=get(b,p.side,p.id);need(staged.kind===p.token.kind&&staged.value===p.token.value,'暂存块不一致。');t.value=E.str(E.sub(value,amount));b[p.side]=b[p.side].filter(x=>x.id!==p.id);b.pending=null;b.last='两边同时拿走 '+label(p.token)+'；这块还剩 '+label(t)+'。';return b;}
+  function removePlan(board,leftIds,rightIds){ready(board);need(Array.isArray(leftIds)&&Array.isArray(rightIds)&&leftIds.length&&rightIds.length,'两边都要选中要拿走的块。');need(leftIds.length+rightIds.length<=192,'选中的块太多。');
+    const picked={left:leftIds,right:rightIds},items={};for(const side of sides){need(new Set(picked[side]).size===picked[side].length,'同一块不能重复选。');items[side]=picked[side].map(id=>get(board,side,id));need(items[side].every(t=>t.kind!=='group'),'先拆开整体盒子，再选取其中方块。');}
+    const l=total(items.left),r=total(items.right);if(same(l,r))return {mode:'all',picked,amount:l};
+    const a=items.left[0],c=items.right[0];
+    if(items.left.length===1&&items.right.length===1&&a.kind===c.kind){const av=R(a.value),cv=R(c.value);if(av.n!==0n&&(av.n<0n)===(cv.n<0n)){const mag=v=>v.n<0n?E.neg(v):v,big=E.sub(mag(cv),mag(av)).n>0n?'right':'left',small=big==='left'?'right':'left',bt=items[big][0],st=items[small][0];return {mode:'part',picked,amount:st,big,bigToken:bt,rest:{kind:bt.kind,value:E.str(E.sub(R(bt.value),R(st.value)))}};}}
+    fail('两边拿走的量必须相同：左边 '+E.format(l)+'，右边 '+E.format(r)+'。');
+  }
+  function removePreview(board,leftIds,rightIds){try{const p=removePlan(board,leftIds,rightIds);return p.mode==='all'?{ok:true,text:'两边一起拿走 '+E.format(p.amount),note:''}:{ok:true,text:'两边各拿走 '+label(p.amount),note:(p.big==='left'?'左边 ':'右边 ')+label(p.bigToken)+' 留下 '+label(p.rest)};}catch(e){return {ok:false,text:e.message,note:''};}}
+  function removeBoth(board,leftIds,rightIds){const p=removePlan(board,leftIds,rightIds),b=copy(board);
+    if(p.mode==='all'){for(const side of sides){const drop=new Set(p.picked[side]);b[side]=b[side].filter(t=>!drop.has(t.id));}b.last='两边同时减去 '+E.format(p.amount)+'；等式保持不变。';return b;}
+    const small=p.big==='left'?'right':'left';b[small]=b[small].filter(t=>t.id!==p.amount.id);get(b,p.big,p.bigToken.id).value=p.rest.value;b.last='两边同时拿走 '+label(p.amount)+'；'+(p.big==='left'?'左':'右')+'边这块还剩 '+label(p.rest)+'。';return b;
+  }
   function addAmount(value){const r=R(value);need(r.n>0n,'数量必须大于0；正负号由方块决定。');need(r.n<=10000n*r.d,'每块数量不能超过10000。');const text=E.str(r);need(text.length<=32,'数量太精细，请使用更简单的分数。');return text;}
   function addValue(value){const r=R(value);addAmount(E.str(r.n<0n?E.neg(r):r));return E.str(r);}
   function adjustPendingAdd(board,side,amount){validSide(side);need(board.pending?.kind==='add'&&board.pending.side===side,'只能调节刚放上、尚未配对的加块。');const magnitude=R(addAmount(amount)),b=copy(board);b.pending.token.value=E.str(R(b.pending.token.value).n<0n?E.neg(magnitude):magnitude);b.last='已将新放入的块调为 '+label(b.pending.token)+'；另一盘也需要加上相同的量。';return b;}
@@ -84,5 +96,5 @@
   }
   function partitionBoth(board,n){let p={board,work:{type:'divide',n,assign:{}}};for(const side of sides)p=partition(p.board,p.work,side);p.board.last='左右两盘各自平均分成 '+n+' 组，总量不变；两边各留一组后才是同时除以 '+n+'。';return p;}
   function upgradeTerms(board,preservePieces=false){if(board.representation==='terms')return board;const b=copy(board);b.representation='terms';if(preservePieces||b.pending?.kind==='remove')return b;for(const side of sides){const out=[];for(const t of b[side]){const last=out.at(-1);if(t.kind!=='group'&&t.term&&last?.term===t.term&&last.kind===t.kind&&(R(last.value).n<0n)===(R(t.value).n<0n))last.value=E.str(E.add(R(last.value),R(t.value)));else out.push(t);}b[side]=out;}return b;}
-  globalThis.BalanceMath=Object.freeze({create,upgradeTerms,equation,notation,notationEquation,displayEquation,operationView,sceneEquation,restoreNotation,remove,removeMatched,add,addAmount,adjustPendingAdd,cancel,merge,mergeInWork,swap,flipBoth,multiply,expand,split,divide,partition,partitionBoth,abandon,finishable,label,restore,restoreWork,total});
+  globalThis.BalanceMath=Object.freeze({create,upgradeTerms,equation,notation,notationEquation,displayEquation,operationView,sceneEquation,restoreNotation,remove,removeMatched,removePreview,removeBoth,add,addAmount,adjustPendingAdd,cancel,merge,mergeInWork,swap,flipBoth,multiply,expand,split,divide,partition,partitionBoth,abandon,finishable,label,restore,restoreWork,total});
 })();
