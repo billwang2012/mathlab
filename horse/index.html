@@ -61,7 +61,7 @@
   <aside class="sidebar" aria-label="教具场景">
     <div class="sidebar-heading"><span>教具收藏</span><span class="count">10</span></div>
     <nav id="scene-list" aria-label="选择几何模型"></nav>
-    <div class="sidebar-note"><span class="note-line"></span><strong>先动手，再发现。</strong><p>拖一拖点，观察长度。<br>猜到规律后，再展开辅助线。</p><small>交互教具 / v1.5.0</small></div>
+    <div class="sidebar-note"><span class="note-line"></span><strong>先动手，再发现。</strong><p>拖一拖点，观察长度。<br>猜到规律后，再展开辅助线。</p><small>交互教具 / v1.5.1</small></div>
   </aside>
   <main class="main">
     <section class="stage-head"><div><p class="eyebrow" id="scene-eyebrow">01 / 反射与最短路径</p><h1 id="stage-title">将军饮马</h1><p id="scene-description"></p></div><span class="model-badge" id="model-badge">反射模型</span></section>
@@ -116,7 +116,7 @@
     {id:'difference',title:'两段之差',subtitle:'一动两定 · 三角不等式',tag:'作差',formula:'|AM − MB|',goal:'最大值',maximize:true,description:'M 在有限河岸上移动，比较到 A、B 两点的距离差，而不是距离和。',steps:['拖动 M，观察 |AM − MB|。目标已改为最大值，不能照搬最短路。','连接 AB，由三角不等式得到 |AM − MB| ≤ AB。','只有 A、B、M 共线，且 M 在 AB 线段外，才能达到 AB。','若取等点不在滑轨内，本页比较可行端点；“理论上界”不一定是可达最大值。']},
     {id:'wedge',title:'两岸两动点',subtitle:'两动两定 · 连续反射',tag:'双反射',formula:'AM + MN + NB',goal:'最小值',description:'M、N 分别在两条相交滑轨上移动。两次反射，把三段路程在展开平面中连接起来。',steps:['拖动 M、N，改变三段折线；夹角滑块用来改变两条河岸的位置关系。','作 A 关于 ℓ₁ 的对称点 A′、B 关于 ℓ₂ 的对称点 B′，则 AM = A′M、NB = NB′，虚线 A′M + MN + NB′ 与原路线逐段等长（同色即等长）。','两点之间线段最短：AM + MN + NB ≥ A′B′。A′B′ 依次与 ℓ₁、ℓ₂ 的交点落在有效滑轨上时取等，交点就是最优的 M、N；否则最优在滑轨端点。','本页使用凸目标的区间数值优化，给出有限轨道内参考解；反射与线段最短是证明线索。']},
     {id:'return',title:'一点两岸往返',subtitle:'两动一定 · 闭合路线',tag:'往返',formula:'AM + MN + NA',goal:'最小值',description:'从 A 出发，依次到两岸 M、N，再回到 A。起点与终点相同，展开后却是两个不同的像。',steps:['M、N 在各自滑轨上独立移动，A 是固定出发点。','作 A 关于 ℓ₁ 的对称点 A′、关于 ℓ₂ 的对称点 A″，则 AM = A′M、NA = NA″，虚线 A′M + MN + NA″ 就是完整往返路程（同色即等长）。','两点之间线段最短：AM + MN + NA ≥ A′A″。A′A″ 与 ℓ₁、ℓ₂ 的交点落在有效滑轨上时取等，交点就是最优的 M、N；否则最优在滑轨端点。','参考位置由有限轨道上的凸优化求得；边界也参与比较，不把不可达直线当成答案。']},
-    {id:'fixed',title:'两动点 · 定长段',subtitle:'两动两定 · 平移再反射',tag:'定长',formula:'AM + MN + NB',goal:'最小值',description:'M、N 在同一直线上，N 在 M 右侧且 MN = d。拖动其中一点，另一点由刚性连杆带动。',steps:['金色木杆 MN 长度锁定为 d，拖动 M 或 N，两个点会同步平移。','将 A 向右平移 d 得 A′，AMNA′ 是平行四边形，所以 AM = A′N（虚线 A′N 与 AM 同色）。目标变为 A′N + NB + d。','再将 A′ 关于河岸反射为 A″，A′N = A″N。A″、N、B 共线时，两段变一段；最后别忘记加回 d。打开“显示最佳路线”可对比 A′N* = AM*。','若直线交点超出有效滑轨，最近端点才是可达最优。d 滑块改变的是题目条件，不是拖动时的杆长。']},
+    {id:'fixed',title:'两动点 · 定长段',subtitle:'两动两定 · 平移再反射',tag:'定长',formula:'AM + MN + NB',goal:'最小值',description:'M、N 在同一直线上，N 在 M 右侧且 MN = d。拖动其中一点，另一点由刚性连杆带动。',steps:['金色木杆 MN 长度锁定为 d，拖动 M 或 N，两个点会同步平移。','将 A 向右平移 d 得 A′，AMNA′ 是平行四边形，所以 AM = A′N（虚线 A′N 与 AM 同色）。目标变为 A′N + NB + d。','再作 B 关于河岸的对称点 B′，NB = NB′（虚线 NB′ 与 NB 同色）。A′N + NB′ ≥ A′B′，A′、N、B′ 共线时取等：连接 A′B′ 交河岸于 N，再向左量 d 得 M；最后别忘记加回 d。打开“显示最佳路线”可对比 A′N* = AM*、N*B′ = N*B。','若直线交点超出有效滑轨，最近端点才是可达最优。d 滑块改变的是题目条件，不是拖动时的杆长。']},
     {id:'bridge',title:'架桥选址',subtitle:'平行两岸 · 平移消去桥宽',tag:'架桥',formula:'AM + MN + NB',goal:'最小值',description:'两岸平行，桥 MN 垂直河岸且长度等于河宽 d。移动桥的位置，让两侧道路与桥的总长最短。',steps:['桥两端始终竖直对齐，MN = d。拖动任一桥头只能让桥整体平移。','将下岸的 B 向上平移 d 得 B′，把下岸道路 NB 平移到上岸，长度不变。','于是 AM + MN + NB = AM + MB′ + d。只需让 A、M、B′ 共线。','桥长 d 是常数，不参与位置优化，但必须计入总路程；有限滑轨仍需检查边界。']},
     {id:'perpendicular',title:'垂线最短',subtitle:'两动一定 · 反射后作垂线',tag:'垂线',formula:'AM + MN',goal:'最小值',description:'A 为定点，M 沿斜岸 ℓ₁、N 沿水平岸 ℓ₂ 各自滑动（对应教具照片中的 B、C）。M、N 在何处时 AM + MN 最短？',steps:['分别拖动 M、N，观察 AM + MN。两点互不牵连；夹角滑块改变两岸的位置关系。','作 A 关于 ℓ₁ 的对称点 A′，则 AM = A′M，红线 A′M + MN 与黄线 AM + MN 等长。终点 N 不固定，所以还不能直接连两点。','A′M + MN ≥ A′N（两点之间线段最短），A′N ≥ A′H（点到直线，垂线段最短），H 是 A′ 到 ℓ₂ 的垂足。A′H 与 ℓ₁ 的交点就是最优 M，H 就是最优 N。','两次取等同时成立需要 A′H 与 ℓ₁ 的交点落在有效滑轨上；否则最小值在滑轨端点处取得。本页按解析公式给出最优位置，并检查端点。']},
     {id:'triangle',title:'三动点 · 最小周长',subtitle:'锐角三角形 · 垂足三角形',tag:'三动点',formula:'MN + NP + PM',goal:'最小值',description:'M、N、P 分别在锐角三角形 ABC 的三边上移动，寻找内接三角形的最小周长。',steps:['拖动三个滑点，观察内接三角形的周长。外部 ABC 始终保持锐角，避免跨出定理适用范围。','第一步（先固定 M）：作 M 关于 BC 的对称点 M′、关于 CA 的对称点 M″，则 MN = M′N、PM = PM″，周长 = M′N + NP + PM″ ≥ M′M″。但 M′、M″ 会随 M 移动，所以还要第二步：BC、CA 都过 C，反射保持到 C 的距离，CM′ = CM = CM″（绿色虚线同色等长）；∠M′CM = 2∠BCM、∠MCM″ = 2∠MCA，合起来 ∠M′CM″ = 2∠C，与 M 无关。等腰三角形 CM′M″ 的底边 M′M″ = 2·CM·sin∠C，只随 CM 变化。','要让 M′M″ 最短，只需 CM 最短：CM ≥ CH（垂线段最短），H 是 C 到 AB 的垂足，所以最优 M 就是 H；此时 N、P 取 M′M″ 与 BC、CA 的交点。若最小周长三角形的 M 不在 H，把 M 移到 H 并重取 N、P，周长会严格变小，矛盾。对 N（以 A 为顶点、关于 AB 与 CA 反射）、P（以 B 为顶点）同样论证，三个点都必须是垂足：最小周长三角形就是垂足三角形（Fagnano）。','锐角条件保证 2∠C < 180°，且 M′M″ 与 BC、CA 的交点落在边上，取等可达。点击“显示最佳路线”可对照 CM* ⊥ AB；“演示最优位置”让 M、N、P 到达三个垂足。']},
@@ -218,8 +218,9 @@
     }else if(id==='fixed'){
       points.M=pt(t[0].a.x+p.m*(t[0].b.x-t[0].a.x-p.d),4.8);points.N=add(points.M,pt(p.d,0));
       handles.push({id:'M',type:'slider',param:'m'},{id:'N',type:'linked',param:'m'});links.push([points.M,points.N]);
-      const ap=add(points.A,pt(p.d,0)),app=reflect(ap,t[0].a,t[0].b);ghosts.push({id:'A′',p:ap},{id:'A″',p:app});guides.push([points.A,ap],[ap,app]);
-      path=[points.A,points.M,points.N,points.B];red=[app,points.N,points.B];extra=p.d;twins.push({a:ap,b:points.N,seg:0});
+      // A 向右平移 d 得 A′（AM = A′N），B 关于河岸的对称点 B′（NB = NB′）：A′N + NB′ ≥ A′B′。
+      const ap=add(points.A,pt(p.d,0)),bp=reflect(points.B,t[0].a,t[0].b);ghosts.push({id:'A′',p:ap},{id:'B′',p:bp});guides.push([points.A,ap],[points.B,bp]);
+      path=[points.A,points.M,points.N,points.B];red=[ap,points.N,bp];extra=p.d;
     }else if(id==='bridge'){
       slide('m',t[0]);points.N=add(points.M,pt(0,p.d));handles.push({id:'N',type:'linked',param:'m'});links.push([points.M,points.N]);
       const bp=sub(points.B,pt(0,p.d));ghosts.push({id:'B′',p:bp});guides.push([points.B,bp]);path=[points.A,points.M,points.N,points.B];red=[points.A,points.M,bp];extra=p.d;
@@ -291,7 +292,7 @@
     if(s.id==='classic'||s.id==='fixed'||s.id==='bridge'){
       let x;
       if(s.id==='classic')x=horizontalHit(m.points.A,m.ghosts[0].p,t[0].a.y);
-      if(s.id==='fixed')x=horizontalHit(m.ghosts[1].p,m.points.B,4.8)-s.params.d;
+      if(s.id==='fixed')x=horizontalHit(m.ghosts[0].p,m.ghosts[1].p,4.8)-s.params.d;
       if(s.id==='bridge')x=horizontalHit(m.points.A,m.ghosts[0].p,4);
       const span=t[0].b.x-t[0].a.x-(s.id==='fixed'?s.params.d:0);c.params.m=clamp((x-t[0].a.x)/span,0,1);
     }else if(s.id==='triangle'){
